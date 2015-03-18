@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+	<title></title>
+	<link rel="stylesheet" href="css/animate.css">
+	<style>
+	       .per{position:absolute;top:-3rem;left:-3rem;-webkit-transform: scale(.5,.5);transform: scale(.5,.5);}
+	       .per{display:block;overflow:hidden;width:16rem;height:16rem;-webkit-border-radius:100%;border-radius:100%;}
+	       .per canvas{position:absolute;z-index:-1;width:16rem;height:16rem;}
+	       .per .val{position:absolute;z-index:10;top:1rem;left:1rem;width:14rem;height:14rem;color:#ff5f5f;-webkit-border-radius:100%;border-radius:100%;background-color:#fff;font-size:5rem;line-height:14rem;text-align:center; display: none;}
+		.demo1 {width: 200px; height: 200px; background-color: #F5C078;}
+		/*.ctr {position: absolute; left:50%; top:50%; -webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);}*/
+		.ctr {position: absolute; left:50%; top:50%; margin-left: -100px; margin-top: -100px;}
+	</style>
+</head>
+<body>
+
+<!-- 	<div class="per">
+		<canvas width="300" height="300"></canvas>
+		<span class="val"><em>80</em>%</span>
+	</div> -->
+
+<!-- 	<div class="per">
+	    <canvas id="canvas" height="256" width="256"></canvas>
+	    <div class="val">
+	        <span>80</span>%
+	    </div>
+	</div> -->
+
+	<div class="demo1 ctr animated zoomIn"></div>
+
+	<!-- // <script src="lib/require.js"></script> -->
+    <script>
+      // requirejs.config({
+      //   baseUrl: "./"
+      // })
+      // requirejs(["modules/canvas-ring"],function(Ring){
+      // 	var oRing=new Ring({
+      // 	            size:document.getElementsByClassName('per')[0].clientWidth, //画布大小（正方形）
+      // 	            step:10,                 //动画步长
+      // 	            delay:0,                //动画延迟开始
+      // 	            before:'',              //前置的回调接口
+      // 	            after:''                //后置的回调接口
+      // 	        });
+      // 	        oRing.run({
+      // 	            obj:document.getElementById('canvas'),  //画布对象
+      // 	            percent:0.8,         //进度条占比
+      // 	            perColor:'#ffd6d6',  //进度的颜色
+      // 	            bgColor:'#ff5f5f',   //背景的颜色
+      // 	            isAnimation:true   //是否动画
+      // 	        })
+      // });
+      
+	// 文件上传 组件测试
+	// 功能：预览，实时进度条
+	// 无依赖
+	// 可拖动上传 (判断是否支持，不支持则不显示)
+	// 大小和类型限制
+	// 回调函数
+	// 中止和删除操作
+	// 数据缓存
+	// 同张图片多次上传处理
+	// 地址配置
+
+
+	// 弹窗动画优化
+	// 链式调用，销毁处理
+	
+
+	//进度条组件，canvas封装
+	
+
+	///*事件名称*/
+	///(function (root, factory) {
+	//     if (typeof define === 'function' && (define.amd || define.cmd)) {
+	//         define(function (exports) {
+	//             return factory(root, exports);
+	//         });
+	//     } else {
+	//         root.Slider = factory(root, {});
+	//     }
+	// })(this, function (root, pop) {});
+	// 
+        // this.touch = {
+        //     tap: $ && $.fn && $.fn.tap ? 'tap' : 'click'
+        // };
+        // 
+        //  hasTouch = (function () {
+        //     return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
+        // })();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery 单张播放插件</title>
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->		
+    <style>
+        .wrap,.box{
+        	margin-bottom:10px;
+	        border:1px solid red;
+	        overflow:hidden;
+	        width: 110px;
+	        height: 440px;
+        }
+        .wrap ul,.wrap .ul{
+        	margin: 0;
+        	padding: 0;
+        	overflow:hidden;
+        	clear:both;
+        	*zoom:1;
+    	}
+        .wrap li,.wrap .li{
+        	list-style:none;
+        	width:100px;
+        	height:100px;
+        	padding:5px;
+        	background:#ccc;
+        	margin:2px 5px 10px 5px;
+        	font:700 30px/80px Arial;
+        	text-align:center;
+    	}
+    	#wrap4{
+    		width: 450px;
+    		height: 110px;
+    	}
+    	#wrap4 ul {
+    		/*border:1px solid black;*/
+    		width:800px;
+    	}
+    	#wrap4 ul li {
+    		float: left;
+    	}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>jQuery 单张播放插件</h1>
+	
+		<div id="wrap1" class="wrap" >
+		    <ul>
+		        <li>1</li>
+		        <li>2</li>
+		        <li>3</li>
+		        <li>4</li>
+		    </ul>
+		</div>
+		<input type="button" value="向上" id="prev4">
+		<input type="button" value="向下" id="next4">
+
+		<div id="wrap4" class="wrap">
+		    <ul>
+		        <li>1</li>
+		        <li>2</li>
+		        <li>3</li>
+		        <li>4</li>
+		        <li>5</li>
+		        <li>6</li>
+		        <li>7</li>
+		        <li>8</li>
+		        <li>9</li>
+		    </ul>
+		</div>
+		<input type="button" value="向左" id="prev44">
+		<input type="button" value="向右" id="next44">
+
+    </div> <!-- /container -->
+
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    
+    /**
+     * 单张播放插件
+     * DOM 结构：div>ul>li*n
+     * div:大小固定,overflow:hidden
+     * 横向或纵向的样式要先写好,ul的长度或高度可以设置为999px;
+     */
+    ;(function($,window,document,undefined){'use strct';
+
+	//SingleScroll CLASS DIFINITION
+	//=============================
+	var SingleScroll=function(element,options){
+		this.$element=$(element);
+		this.options=options;
+		this.$element.timer=null;
+		this.init();
+	};
+	SingleScroll.prototype={
+		constructor:SingleScroll,
+		init:function(){
+			var $divBox = this.$element,
+				$ulBox = $divBox.find('ul'),
+				$liItems = $ulBox.find('li'),
+				$itemWidth = $liItems.outerWidth(true),
+				$itemHeight = $liItems.outerHeight(true),
+				othis=this;
+			
+			var $ulBox=$ulBox,
+				distance=0,		//移动的距离
+				moveDirec=null;	//移动的方向 上：-9 、下：9、左：-8、右：8
+			
+			if(this.options.position.toUpperCase()=='X'){
+					distance=$itemWidth;
+					moveDirec=this.options.direction===1?8:-8;
+//				this.moveDirec=this.options.direction===1?'right':'left';
+			}else{
+					distance=$itemHeight;
+					moveDirec=this.options.direction===1?9:-9;
+//				this.moveDirec=this.options.direction===1?'down':'up';
+			}
+			
+			//自动播放
+			if(this.options.auto){
+				othis.play($ulBox,distance,moveDirec)
+			}
+			
+			//注册上一张和下一张的按钮点击事件
+			var $prevDom=$(this.options.prevSelector);
+			var $nextDom=$(this.options.nextSelector);
+			if($prevDom){
+				$prevDom.off('click').on('click',function(){
+					moveDirec=-Math.abs(moveDirec);
+					othis.play($ulBox,distance,moveDirec);
+				});
+			}
+			if($nextDom){
+				$nextDom.off('click').on('click',function(){
+					moveDirec=Math.abs(moveDirec);
+					othis.play($ulBox,distance,moveDirec);
+				});
+			}
+		},
+		hoverFn:function($ulBox,distance,moveDirec){
+			var $this=this.$element,othis=this;
+			$ulBox.hover(function(){
+				clearInterval($this.timer);
+			},function(){
+				othis.play($ulBox,distance,moveDirec);
+			});
+		},
+		prev:function($ulBox,distance,moveDirec){
+			this.distance=-distance;
+			this.play($ulBox,distance,moveDirec);
+		},
+		next:function(){
+			this.distance=-distance;
+			this.play($ulBox,distance,moveDirec);
+		},
+		move:function($ulBox,distance,direc,marginStr,isLast){
+			this.$element.timer=setInterval(function(){
+				var data={};
+				data[marginStr]=distance*direc+'px';
+				$ulBox.animate(data,500,function(){
+			    	$ulBox.css(marginStr,0);
+			    	if(isLast){
+			    		$ulBox.find('li:last').hide().prependTo($ulBox).fadeIn();
+			    	}else{
+			    		$ulBox.find('li:first').hide().appendTo($ulBox).fadeIn();
+			    	}
+			    });
+			},this.options.speed*1000);
+		},
+		play:function($ulBox,distance,moveDirec){
+			clearInterval(this.$element.timer);
+	
+			switch(moveDirec){//运动方向
+				case -9: 	//上
+					this.move($ulBox,distance,-1,'margin-top',false);
+				break;
+				case 9:		//下
+					this.move($ulBox,distance,1,'margin-top',true);
+				break;
+				case -8:	//左
+					this.move($ulBox,distance,-1,'margin-left',false);
+				break;
+				case 8:		//右
+					this.move($ulBox,distance,1,'margin-left',true);
+				break;
+			}
+			this.hoverFn($ulBox,distance,moveDirec);
+		}
+	};
+	
+	//SingleScroll PLUGIN DIFINITION
+	//=============================
+	var old = $.fn.singleScroll;
+	
+	$.fn.singleScroll=function(option){
+		return this.each(function(){
+			var $this=$(this);
+			var data = $this.data('singleScroll');
+			var options = $.extend({},$.fn.singleScroll.defaults,option);
+			if(!data) $this.data('singleScroll',(data=new SingleScroll(this,options)));
+			if(typeof option == 'string') data[option]();
+		});
+	};
+	$.fn.singleScroll.defaults={
+		auto:true,		//自动播放，默认为 true 自动
+		position:'X',	//X: 水平	  Y: 垂直
+		direction:1,	//1: 正向运动 -1: 反向运动
+		speed:2,		//播放的速度 1-3(秒)
+		prevSelector:'.prev',	//上一张按钮的选择器
+		nextSelector:'.next'	//下一张探钮的选择器
+	};
+	$.fn.singleScroll.Constructor=SingleScroll;
+	
+	
+	//SingleScroll NO CONFICT
+	//=======================
+	$.fn.singleScroll.noConflict=function(){
+		$.fn.singleScroll=old;
+		return this;
+	}
+	
+	//SingleScroll DATA-API
+	//=====================
+	$(window).on('load', function () {
+	    $('[data-toggle="singleScroll"]').each(function () {
+	       $.fn.singleScroll.call($(this));
+	    })
+	 })
+	
+	
+})(jQuery,window,document);
+    
+   
+$(function() {
+	
+	$('#wrap1').singleScroll({
+			auto:true,		//自动播放，默认为 true 自动
+			position:'Y',	//X: 水平	  Y: 垂直
+			direction:1,	//1: 正向运动 -1: 反向运动
+			speed:1,		//播放的速度 1-3(秒)
+			prevSelector:'#prev4',	//上一张按钮的选择器
+			nextSelector:'#next4'	//下一张探钮的选择器
+	});
+	
+	$('#wrap4').singleScroll({
+			auto:true,		//自动播放，默认为 true 自动
+			position:'X',	//X: 水平	  Y: 垂直
+			direction:1,	//1: 正向运动 -1: 反向运动
+			speed:1,		//播放的速度 1-3(秒)
+			prevSelector:'#prev44',	//上一张按钮的选择器
+			nextSelector:'#next44'	//下一张探钮的选择器
+	});
+
+
+
+});
+
+    </script>
+    
+  </body>
+</html>

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+	<title>Msg组件 的测试</title>
+	<link rel="stylesheet" href="css/animate.css">
+<style>
+	* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;-webkit-tap-highlight-color: transparent; outline: 0; margin: 0; padding: 0;}
+	body{ background:#eee; line-height: 26px; font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",sans-serif; padding: 10px; }
+
+	button {width:120px; padding: 8px 0; margin: 5px;}
+	
+	/*ui-mask*/
+	.ui-mask {position: absolute;top: 0;right: 0;bottom: 0;left: 0;display: none;width: 100%;height: 100%;background-color: rgba(0,0,0,.6);z-index: 1100;opacity: 0; -webkit-transition: opacity .15s;transition: opacity .15s; z-index: 1100; }
+	.ui-mask.active {opacity: 1;}
+	.no-scroll {overflow: hidden;}
+
+	/*ui-msg*/
+	.ui-msg {position: absolute; min-width: 220px; border-radius: 3px; box-shadow:0 0 8px rgba(0,0,0,.2); z-index: 9999; background: #f8f8f8; display: none; -webkit-animation-duration: .35s; animation-duration: .35s; -webkit-animation-fill-mode: both; animation-fill-mode: both;}
+	.ui-msg>.inner {}
+	.ui-msg-hd { height: 40px; line-height: 40px; text-align: center; padding: 0 20px; font-size: 18px;}
+	.ui-msg-hd>.title{ color:#333;}
+	.ui-msg-hd>.close{ display:block; position: absolute; top:2px; right: 3px; width: 26px; height: 26px; font-size: 26px; color:rgba(0,0,0,.6); line-height: 26px; font-style: normal; cursor: pointer;}
+	.ui-msg-bd {padding:0 10px 10px 10px; color:#333;}
+	.ui-msg-ft {display: table; width: 100%; height: 40px; line-height: 40px; text-align: center; color:#0e90d2; font-size: 16px; border-top: 1px solid #dedede;}
+	.ui-msg-ft>.msg-btn{display: table-cell;border-left:1px solid #dedede; cursor: pointer;}
+	.ui-msg-ft>.msg-btn:first-child {border-left:none;}
+	
+	/*ui-msg-loading*/
+	.ui-msg-loading { text-align: center; position: absolute; z-index: 9998; display: inline-block; width: 100px;-webkit-animation-duration: .35s; animation-duration: .35s; -webkit-animation-fill-mode: both; animation-fill-mode: both;}
+	.ui-msg-loading .ui-msg-bd {padding: 0;}
+	.ui-msg-loading>.inner{ margin:10px 15px;}
+
+	@-webkit-keyframes loading {
+	    0% { -webkit-transform: rotate(0deg); }
+		12% { -webkit-transform: rotate(45deg); }
+		25% { -webkit-transform: rotate(90deg); }
+		37% { -webkit-transform: rotate(135deg); }
+		50% { -webkit-transform: rotate(180deg); }
+		63% { -webkit-transform: rotate(225deg); }
+		75% { -webkit-transform: rotate(270deg); }
+		87% { -webkit-transform: rotate(315deg); }
+	   90% { -webkit-transform: rotate(360deg); }
+	}
+	@keyframes loading {
+	    0% { transform: rotate(0deg); }
+		12% { transform: rotate(45deg); }
+		25% { transform: rotate(90deg); }
+		37% { transform: rotate(135deg); }
+		50% { transform: rotate(180deg); }
+		63% { transform: rotate(225deg); }
+		75% { transform: rotate(270deg); }
+		87% { transform: rotate(315deg); }
+	   90% { transform: rotate(360deg); }
+	}
+	.msg-loading-icon {	display:inline-block; font-size: 24px;-webkit-animation: loading .85s step-start infinite;animation: loading .85s step-start infinite;}
+	/*ui-msg-prompt*/
+	.msg-prompt-ipt {  
+		display: inline-block;
+		width:180px;
+		padding:5px 8px;
+		font-size: 16px;
+		line-height: 16px;
+		color: #555555;
+		vertical-align: middle;
+		background-color: #ffffff;
+		border: 1px solid #cccccc;
+		border-radius: 2px;
+		-webkit-transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+		transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	}
+	.msg-prompt-ipt:focus {
+		background-color: #fafffe;
+		border-color: #3bb4f2;
+		outline: 0;
+		-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 5px rgba(59, 180, 242, 0.3);
+		box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 5px rgba(59, 180, 242, 0.3);
+	}
+	
+	/*ui-msg-popup*/
+	.ui-msg.msg-popup {top:0; left:0; width: 100%; height: 100%; background: #f8f8f8; overflow: hidden; box-shadow:none; border-radius: 0;}
+	.msg-popup .ui-msg-hd {background-color:#fff; box-shadow: inset 0 -1px 0 0 rgba(255,255,255,1),inset 0 -2px 0 0 rgba(221, 221, 221, 1);}
+	.msg-popup .ui-msg-hd>.close {top:6px;}
+	
+	/*ui-msg-actions*/
+	.ui-msg.msg-actions {top:0; left:0; width: 100%; min-height: 60px; border-radius: 0;}
+	.msg-actions .ui-msg-bd {padding: 15px; overflow: hidden;}
+
+</style>
+</head>
+
+<body>
+	<div class="content">
+			<h4 class="tc">Msg组件 的测试和用例</h4>
+			<hr>
+		  <p>You know some birds are not meant to be caged, their feathers are just too bright. 你知道，有些鸟儿是注定不会被关在牢笼里的，它们的每一片羽毛都闪耀着自由的光辉。</p><br>
+		  <button id="btn-alert">alert</button>
+		  <button id="btn-loading">loading</button>
+		  <button id="btn-confirm">confirm</button>
+		  <button id="btn-prompt">prompt</button>
+		  <button id="btn-popup">popup</button>
+		  <button id="btn-actions-top">actions</button>
+	</div>
+
+	<div> <br><a href="/TEST/testModules/index.html">返回</a> </div>
+<script src="lib/require.js"></script>
+<!-- <script src="lib/sea.js"></script> -->
+<script>
+
+// requireJs 调用方式：
+// ===================
+require(['lib/jquery','modules/ui.msg'],function(){
+		
+		$('#btn-alert').click(function(){
+			$.msg.alert('这里是标题','这里是内容');
+		});
+
+		$('#btn-loading').click(function(){
+			$.msg.loading('加载中...', 200);
+		});
+
+		$('#btn-confirm').click(function(){
+			$.msg.confirm('警告', '是否确认删除！？',function(oThis, val){ alert('确定');});
+		});
+
+	  	$('#btn-prompt').click(function(){
+			$.msg.prompt('标题', '请输入：',  function(oThis, val){ alert(val || '内容不能为空');});
+		});
+
+	  	$('#btn-popup').click(function(){
+			$.msg.popup('popup标题','这里是内容区域');
+		});
+
+	  	$('#btn-actions-top').click(function(){
+			$.msg.actions('这里是actions的内容区域');
+		});
+});
+
+
+// seaJs 调用方式
+// ==============
+// seajs.config({
+//   base: "../testModules/"
+// })
+// seajs.use(['lib/jquery','modules/ui.msg'],function(msg){
+
+// 		$('#btn-alert').click(function(){
+// 			$.msg.alert('这里是标题','这里是内容');
+// 		});
+
+// 		$('#btn-loading').click(function(){
+// 			$.msg.loading('加载中...', 200);
+// 		});
+
+// 		$('#btn-confirm').click(function(){
+// 			$.msg.confirm('警告','是否确认删除！？');
+// 		});
+
+// 	  	$('#btn-prompt').click(function(){
+// 			$.msg.prompt('旺旺名称');
+// 		});
+
+// 	  	$('#btn-popup').click(function(){
+// 			$.msg.popup('popup标题','这里是内容区域');
+// 		});
+
+// 	  	$('#btn-actions-top').click(function(){
+// 			$.msg.actions('这里是actions的内容区域');
+// 		});
+
+// });	
+
+</script>
+</body>
+</html>

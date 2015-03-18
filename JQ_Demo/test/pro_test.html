@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script src="promise.js"></script>
+	<script>
+		function f1(){
+			var p1 = new Promise();
+			setTimeout(function(){
+				console.log('f1 执行了');
+				p1.resolve();
+			},2000);
+
+			return p1;
+		}
+		function f2(){
+			var p2 = new Promise();
+			setTimeout(function(){
+				console.log('f2 执行了');
+				p2.resolve();
+			},2000);
+
+			return p2;
+		}
+		function f3(){
+			var p3 = new Promise();
+			setTimeout(function(){
+				console.log('f3 执行了');
+				p3.resolve();
+			},2000);
+
+			return p3;
+		}
+		function f4(){
+			var p4 = new Promise();
+			setTimeout(function(){
+				console.log('f4 执行了');
+				p4.resolve();
+			},2000);
+
+			return p4;
+		}
+		console.log('调用开始');
+		f2().then(f3).then(f1).then(f4);
+		console.log('后面的方法 ');
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

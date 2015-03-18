@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		 <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.css" rel="stylesheet">
+		 <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+		<style>
+		.scrollItem-box {border:1px solid #eee; margin: 50px 0; width:660px; overflow:hidden; height: 220px; }
+		.scrollItem-box .wrap { padding: 5px;}
+		.scrollItem-box .wrap .item {border:1px solid #ccc; float:left; width:150px; height: 200px;margin: 5px;}
+		.clearfix {clear:both;}
+		</style>
+		<script>
+			$(function(){
+				//获取滚动Item的个数
+				//计算长度
+				//复制Item添加，再计算长度
+				//使用margin变化模拟滚动效果
+				//设置Interval定时器
+				//添加鼠标经过暂停，离开继续的事件
+				
+				var $scrollBox = $('.scrollItem-box'),
+					$wrap = $scrollBox.find('.wrap'),
+					$items = $wrap.find('.item');
+				var itemW = $items.outerWidth(true),
+					wrapW = $wrap.outerWidth(),
+					itemC = $items.length,
+					itmesW = itemW*itemC*2;
+
+				var scrollTimer = null;
+
+				console.log('itemW：'+itemW+' wrapW：'+wrapW+' itemC：'+itemC+' itmesW：'+itmesW);
+
+				$items.clone().appendTo($wrap);
+				$wrap.css('width',itmesW+20);
+
+				// console.log($wrap.find('.item').length);
+
+				function scrollPlay(){
+					scrollTimer = setInterval(function(){
+						var marginVal = parseInt($wrap.css('margin-left'),10);
+
+						if(marginVal==-itemW*itemC){
+							$wrap.css('margin-left',0);
+						}else{
+							$wrap.css('margin-left',(marginVal-1)+'px');
+						}
+					},30);
+				}
+				
+				scrollPlay();
+
+				$scrollBox.hover(function(){
+					clearInterval(scrollTimer);
+				},function(){
+					scrollPlay();
+				});
+		
+			});
+		</script>
+	</head>
+	<body>
+		
+		<div class="container">
+			<div class="scrollItem-box">
+				<div class="wrap clearfix">
+					<div class="item">itme1 <br /><br /><br /></div>
+					<div class="item">itme2 <br /><br /><br /></div>
+					<div class="item">itme3 <br /><br /><br /></div>
+					<div class="item">itme4 <br /><br /><br /></div>
+					<div class="item">itme5 <br /><br /><br /></div>				
+					<div class="item">itme6 <br /><br /><br /></div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+	</body>
+</html>

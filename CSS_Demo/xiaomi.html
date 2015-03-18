@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.css" rel="stylesheet">
+	    <link rel="stylesheet" href="animate.css">
+	    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+	    <style>
+			.floor{ width: 100%; height: 800px;  font-size: 30px; color:#fff; position: relative; overflow: hidden;}
+			.floor.one {background: #E64642}
+			.floor.two {background: #EFA663}
+			.floor.three {background: #6CAD1D}
+			.floor.four {background: #3886DC}
+			.floor.five {background: #B046F0}
+			.floor.six {background: #EBEBEB}
+			.floor.six .list {height: 700px; width: 300px; position: absolute; opacity: 0; transform:translateY(400px);}
+			.floor.six .list:nth-child(1) {top:180px; left: 400px; background: #889AC8; z-index:140;}
+			.floor.six .list:nth-child(2) {top:240px; left: 520px; background: #D598EF; z-index:130;}
+			.floor.six .list:nth-child(3) {top:280px; left: 640px; background: #EE5797; z-index:120;}
+			.floor.six .list:nth-child(4) {top:320px; left: 760px; background: #F8B152; z-index:110;}
+
+
+			.floor .item { background: #E3E3E3; width: 200px; height: 100px;  position: absolute; top:200px; left: 300px; opacity: 0;}
+			.item.scale { transform:scale(.2);}
+			.item.right { transform:translateX(400px);}
+			.item.left { transform:translateX(-400px);}
+			.item.top { transform:translateY(-400px);}
+			.item.bottom { transform:translateY(400px);}
+
+			.item.visible { opacity: 1; transition:all 2s ease-in-out;}
+			.item.scale.visible { transform:scale(1);}
+			.item.right.visible,.item.left.visible,.item.top.visible,.item.bottom.visible { transform:translateX(0);}
+
+			.floor.six .list.visible { opacity: 1; transform:translateY(0); }
+			.floor.six .list:nth-child(1).visible { transition:all 1s cubic-bezier(.15, .73, .37, 1.2) 0s;}
+			.floor.six .list:nth-child(2).visible { transition:all 1s cubic-bezier(.15, .73, .37, 1.2) .4s;}
+			.floor.six .list:nth-child(3).visible { transition:all 1s cubic-bezier(.15, .73, .37, 1.2) .8s;}
+			.floor.six .list:nth-child(4).visible { transition:all 1s cubic-bezier(.15, .73, .37, 1.2) 1.2s;}
+
+
+			@-webkit-keyframes ani-circle-scale {
+			    0% {
+			        -webkit-transform: scale(0);
+			    }
+			    45% {
+			        -webkit-transform: scale(1);
+			        opacity: 1
+			    }
+			    80% {
+			        opacity: 1
+			    }
+			    100% {
+			        opacity: 0
+			    }
+			}
+			
+			/*transform: rotate(-45deg) skew(15deg, 15deg);*/
+			.div_test1 {width: 100px; height: 100px; border:1px solid #fff; box-shadow:inset 0 0 10px rgba(255,255,255,.8); border-radius: 50%; position: absolute; left:800px; top:300px; -webkit-animation:ani-circle-scale 8s ease-out .8s forwards infinite;
+			}
+			.div_test2 {width: 180px; height: 180px; border:1px solid #fff; box-shadow:inset 0 0 15px rgba(255,255,255,.8); border-radius: 50%; position: absolute; left:760px; top:260px; -webkit-animation:ani-circle-scale 8s ease-out .4s forwards infinite;
+			}
+			.div_test3 {width: 260px; height: 260px; border:1px solid #fff; box-shadow:inset 0 0 20px rgba(255,255,255,.8); border-radius: 50%; position: absolute; left:720px; top:220px;-webkit-animation:ani-circle-scale 8s ease-out 0s forwards infinite;
+			}
+			.ani {-webkit-animation:ani-circle-scale 5s ease-out forwards infinite;}
+
+			.imgs-box { -webkit-perspective: 1000; -webkit-transform-style: preserve-3d;}
+			.imgs-box img{width: 200px; height: auto;}
+			.imgs-box img:nth-child(1) { -webkit-animation-delay:0s;}
+			.imgs-box img:nth-child(2) { -webkit-animation-delay:0.2s;}
+			.imgs-box img:nth-child(3) { -webkit-animation-delay:0.4s;}
+			.imgs-box img:nth-child(4) { -webkit-animation-delay:0.8s;}
+
+			.imgs-box2 { -webkit-perspective: 1000; -webkit-transform-style: preserve-3d;}
+			.imgs-box2 img{width: 200px; height: auto; opacity: 0; -webkit-transform:rotateY(90deg); -webkit-transition:all 0.3s ease;}
+			.imgs-box2 img:nth-child(1) { -webkit-transition-delay:0s;}
+			.imgs-box2 img:nth-child(2) { -webkit-transition-delay:0.2s;}
+			.imgs-box2 img:nth-child(3) { -webkit-transition-delay:0.4s;}
+			.imgs-box2 img:nth-child(4) { -webkit-transition-delay:0.6s;}
+			.imgs-box2 img:nth-child(5) { -webkit-transition-delay:0.8s;}
+			.imgs-box2 img:nth-child(6) { -webkit-transition-delay:1s;}
+
+			.imgs-box2.flipin img { opacity: 1; -webkit-transform:rotateY(0);}
+			.imgs-box2.flipout img { opacity: 0; -webkit-transform:rotateY(90deg);}
+
+	    </style>
+	    <script>
+	    $(function(){
+	    	var $win = $(window), eleArr =[];
+
+	    	var top = $win.height() + $win.scrollTop();
+
+	    	$('.item.visible,.list').each(function(){
+	    		var $this = $(this), eleT=$this.offset().top;
+	    		$this.data('ot',eleT);
+	    		eleArr.push(this);
+	    		eleT >= top && $this.removeClass('visible');
+	    	});
+	    	
+	    	var showItem = function(){
+	    		top = $win.height() + $win.scrollTop();
+	    		var i=0, len = eleArr.length, $el;
+	    		for(; i<len; i+=1){
+	    			$el = $(eleArr[i]);
+	    			if($el.data('ot') <= top){
+	    				$el.addClass('visible');
+	    				eleArr.splice(i,1);
+	    				--i;
+	    			}
+	    		}
+	    	}
+
+			$win.on('scroll', showItem);
+
+			$('#btnshowImg').click(function(){
+				$('.imgs-box2').removeClass('flipout').addClass('flipin');
+			});
+			$('#btnhideImg').click(function(){
+				$('.imgs-box2').removeClass('flipin').addClass('flipout')
+			});
+	    });
+	    </script>
+	</head>
+	<body>
+		<div class="floor one" > 
+			<div class="item scale visible"></div>
+			<div class="div_test1"></div>
+			<div class="div_test2"></div>
+			<div class="div_test3"></div>
+		</div>
+		<div class="floor two" >
+			<div class="item right visible"></div>
+		</div>
+		<div class="floor three" >
+			<div class="item bottom visible"></div>
+		</div>
+		<div class="floor four" >
+			<div class="item left visible"></div>
+			<button class="btn btn-default" id="btnshowImg">显示</button>
+			<button class="btn btn-default" id="btnhideImg">隐藏</button>
+			<ul class="list-inline imgs-box2">
+				<li>
+					<img src="../images/img500x281_1.jpg" class="img-rounded" height="281" width="500" alt="">
+					<img src="../images/img500x281_2.jpg" class="img-rounded" height="281" width="500" alt="">
+					<img src="../images/img500x281_3.jpg" class="img-rounded" height="281" width="500" alt="">
+					<img src="../images/img500x281_4.jpg" class="img-rounded" height="281" width="500" alt="">
+					<img src="../images/img500x281_3.jpg" class="img-rounded" height="281" width="500" alt="">
+					<img src="../images/img500x281_4.jpg" class="img-rounded" height="281" width="500" alt="">
+				</li>
+			</ul>
+		</div>
+		<div class="floor five" >
+			<div class="item top visible"></div>
+			<ul class="list-inline imgs-box">
+				<li>
+					<img src="../images/img500x281_1.jpg" class="img-rounded animated flipInY" height="281" width="500" alt="">
+					<img src="../images/img500x281_2.jpg" class="img-rounded animated flipInY" height="281" width="500" alt="">
+					<img src="../images/img500x281_3.jpg" class="img-rounded animated flipInY" height="281" width="500" alt="">
+					<img src="../images/img500x281_4.jpg" class="img-rounded animated flipInY" height="281" width="500" alt="">
+				</li>
+			</ul>
+		</div>
+		<div class="floor six" >
+			<div class="list visible"></div>
+			<div class="list visible"></div>
+			<div class="list visible"></div>
+			<div class="list visible"></div>
+			<div class="list visible"></div>
+		</div>
+	</body>
+</html>

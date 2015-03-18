@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+	<title>对弹窗的测试</title>
+	<link rel="stylesheet" href="css/animate.css">
+	<script src="lib/jquery.js"></script>
+<style>
+	* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;-webkit-tap-highlight-color: transparent; outline: 0; margin: 0; padding: 0;}
+	body{ background:#eee; line-height: 26px; font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",sans-serif; padding: 10px; }
+
+	button {width:120px; padding: 8px 0; margin: 5px;}
+	@font-face {
+	  font-family: 'iconfont';
+	  src: url('http://at.alicdn.com/t/font_1420426473_8682983.eot'); /* IE9*/
+	  src: url('http://at.alicdn.com/t/font_1420426473_8682983.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	  url('http://at.alicdn.com/t/font_1420426473_8682983.woff') format('woff'), /* chrome、firefox */
+	  url('http://at.alicdn.com/t/font_1420426473_8682983.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+	  url('http://at.alicdn.com/t/font_1420426473_8682983.svg#iconfont') format('svg'); /* iOS 4.1- */
+	}
+	.iconfont{font-family:"iconfont" !important;font-style:normal;-webkit-font-smoothing: antialiased;-webkit-text-stroke-width: 0.2px;-moz-osx-font-smoothing: grayscale;}
+
+	.ui-mask {position: absolute;top: 0;right: 0;bottom: 0;left: 0;display: none;width: 100%;height: 100%;background-color: rgba(0,0,0,.6);z-index: 1100;opacity: 0; -webkit-transition: opacity .15s;transition: opacity .15s; z-index: 1100; }
+	.ui-mask.active {opacity: 1;}
+	.no-scroll {overflow: hidden;}
+	
+	.ui-msg {position: absolute; min-width: 220px; border-radius: 3px; box-shadow:0 0 8px rgba(0,0,0,.2); z-index: 9999; background: #f8f8f8; display: none; -webkit-animation-duration: .35s; animation-duration: .35s; -webkit-animation-fill-mode: both; animation-fill-mode: both;}
+	.ui-msg>.inner {}
+	.ui-msg-hd { height: 40px; line-height: 40px; text-align: center; padding: 0 20px; font-size: 18px;}
+	.ui-msg-hd>.title{ color:#333;}
+	.ui-msg-hd>.close{ display:block; position: absolute; top:2px; right: 3px; width: 26px; height: 26px; font-size: 26px; color:rgba(0,0,0,.6); line-height: 26px; font-style: normal; cursor: pointer;}
+	.ui-msg-bd {padding:0 10px 10px 10px; color:#333;}
+	.ui-msg-ft {display: table; width: 100%; height: 40px; line-height: 40px; text-align: center; color:#0e90d2; font-size: 16px; border-top: 1px solid #dedede;}
+	.ui-msg-ft>.msg-btn{display: table-cell;border-left:1px solid #dedede; cursor: pointer;}
+	.ui-msg-ft>.msg-btn:first-child {border-left:none;}
+	
+	/*.ui-msg {display: block;}.ui-mask {display: block; opacity: 0.3}*/
+	
+	.ui-msg-loading { text-align: center; position: absolute; z-index: 9998; display: inline-block; width: 100px;}
+	.ui-msg-loading .ui-msg-bd {padding: 0;}
+	.ui-msg-loading>.inner{ margin:10px 15px;}
+	@-webkit-keyframes loading {
+	    0% { -webkit-transform: rotate(0deg); }
+		12% { -webkit-transform: rotate(45deg); }
+		25% { -webkit-transform: rotate(90deg); }
+		37% { -webkit-transform: rotate(135deg); }
+		50% { -webkit-transform: rotate(180deg); }
+		63% { -webkit-transform: rotate(225deg); }
+		75% { -webkit-transform: rotate(270deg); }
+		87% { -webkit-transform: rotate(315deg); }
+	   90% { -webkit-transform: rotate(360deg); }
+	}
+	@keyframes loading {
+	    0% { transform: rotate(0deg); }
+		12% { transform: rotate(45deg); }
+		25% { transform: rotate(90deg); }
+		37% { transform: rotate(135deg); }
+		50% { transform: rotate(180deg); }
+		63% { transform: rotate(225deg); }
+		75% { transform: rotate(270deg); }
+		87% { transform: rotate(315deg); }
+	   90% { transform: rotate(360deg); }
+	}
+	.msg-loading-icon {	
+		display:inline-block; font-size: 24px;
+		-webkit-animation: loading .85s step-start infinite;
+		animation: loading .85s step-start infinite;
+	}
+
+	.msg-prompt-ipt {  
+		display: inline-block;
+		width:180px;
+		padding:5px 8px;
+		font-size: 16px;
+		line-height: 16px;
+		color: #555555;
+		vertical-align: middle;
+		background-color: #ffffff;
+		border: 1px solid #cccccc;
+		border-radius: 2px;
+		-webkit-transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+		transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	}
+	.msg-prompt-ipt:focus {
+		background-color: #fafffe;
+		border-color: #3bb4f2;
+		outline: 0;
+		-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 5px rgba(59, 180, 242, 0.3);
+		box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 5px rgba(59, 180, 242, 0.3);
+	}
+
+
+
+	.ui-msg.msg-popup {top:0; left:0; width: 100%; height: 100%; background: #f8f8f8; overflow: hidden; box-shadow:none; border-radius: 0;}
+	.msg-popup .ui-msg-hd {background-color:#fff; box-shadow: inset 0 -1px 0 0 rgba(255,255,255,1),inset 0 -2px 0 0 rgba(221, 221, 221, 1);}
+	.msg-popup .ui-msg-hd>.close {top:6px;}
+
+	.ui-msg.msg-actions {top:0; left:0; width: 100%; min-height: 60px; border-radius: 0;}
+	.msg-actions .ui-msg-bd {padding: 15px; overflow: hidden;}
+
+</style>
+</head>
+
+<body>
+	<div class="content">
+			<h4 class="tc">对Msg组件的测试和用例</h4>
+			<hr>
+		  <p>You know some birds are not meant to be caged, their feathers are just too bright. 你知道，有些鸟儿是注定不会被关在牢笼里的，它们的每一片羽毛都闪耀着自由的光辉。</p><br>
+		  <button id="btn-alert">alert</button>
+		  <button id="btn-loading">loading</button>
+		  <button id="btn-confirm">confirm</button>
+		  <button id="btn-prompt">prompt</button>
+		  <button id="btn-popup">popup</button>
+		  <button id="btn-actions-top">actions</button>
+
+		<!-- <input type="text" id="test"> -->
+	</div>
+<script>
+// =========================================================
+// 	ui.mask.js
+// =========================================================
+
+	/**
+	 * [ ui.mask.js v1.0.0 ]
+	 * deps：jQuery2.0+, animate.css
+	 * 
+	 * $.mask.show(0.5, 'white'); //opacity:0.5, bg-color:white
+	 * $.mask.show(); 
+	 * $.mask.hide();
+	 * $.mask.hide(true); //destroy
+	 * $.mask.$el; // current mask $Dom
+	 */
+	
+	var Mask = function(){
+		this.inited = false;
+		this.isShow = false;
+		this.$el = $(Mask.DEFAUTS.tpl);
+
+		this.init();
+	};
+
+	Mask.DEFAUTS={
+		selector:'[data-ui-mask]',
+		tpl:'<div class="ui-mask" data-ui-mask></div>'
+	}
+
+	Mask.prototype={
+		constructor:Mask,
+		init:function(){
+			if(!this.inited && !this.isShow){
+				$('body').append(this.$el);
+				this.inited = true;
+			}
+		},
+		show:function(opacity, color){
+			var self = this;
+			if(!this.isShow){
+				var rgba = color==='white' ? 'rgba(255,255,255,'+(opacity||0.5)+')' : 'rgba(0,0,0,'+(opacity||0.5)+')';
+				$('body').addClass('no-scroll');
+				setTimeout(function(){self.$el.show();},0);
+				self.$el.css('background',rgba).addClass('active')
+				this.isShow = true;
+			}
+		},
+		hide:function(isDestroy){
+			if(this.isShow){
+				this.$el.removeClass('active').one('webkitTransitionEnd',function(){ 
+					$(this).hide(); 
+					$('body').removeClass('no-scroll'); 
+				});
+				this.$el.emulateTransitionEnd(150);
+				this.isShow = false;
+				isDestroy === true && this.$el.remove();
+			}
+		}
+	};
+
+	var mask = new Mask();
+	$.mask = mask;
+
+
+	// =========================================================
+	// 	ui.msg.js
+	// =========================================================
+
+	/**
+	 * [ ui.msg.js v1.0.0 ]
+	 * deps：jQuery2.0+, animate.css, ui.mask.js
+	 * 
+	 */
+	
+	
+
+	
+	// TOOLS:
+	var Utils={};
+	Utils.isJson = function(obj){
+	    var isjson = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
+	    return isjson;
+	}
+	$.fn.emulateTransitionEnd = function(duration) {
+	  var called = false;
+	  var $el = this;
+
+	  $(this).one('webkitTransitionEnd', function() {
+	    called = true;
+	  });
+
+	  var callback = function() {
+	    if (!called) {
+	      $($el).trigger('webkitTransitionEnd');
+	    }
+	    $el.transitionEndTimmer = undefined;
+	  };
+	  this.transitionEndTimmer = setTimeout(callback, duration);
+	  return this;
+	};
+
+	$.msg={};
+	var Msg = function($el, options){
+		this.o = $.extend({}, Msg.DEFAULTS, options || {});
+		this.$el = $el;
+		this.$header = this.$el.find('.ui-msg-hd');
+		this.$footer = this.$el.find('.ui-msg-ft');
+		this.$body = this.$el.find('.ui-msg-bd');
+		this.$close = this.$header.find('.close');
+		this.isShow = false;
+		this.open();
+		this.bindEvents();
+	}
+
+	Msg.DEFAULTS={
+		title:'',  			//标题
+		content:'',			//内容
+		isModal:true,		//是否模态显示
+		hasCloseBtn:true,	//是否有关闭按钮
+		width:270,			//宽度
+		cacheIns:false,		//是否缓存实例
+		position:'center',	//定位：center/top/left/right/bottom
+		closeByMask:false,	//是否可以点击遮罩层关闭
+		maskOpacity:0.4,	//遮罩的透明度
+		maskColor:'black',	//遮罩的颜色
+		afterOpen:$.noop, 	//对话框显示后的回调
+		clsIn:'zoomIn',		//进入的动画名称
+		clsOut:'zoomOut',	//关闭的动画名称
+		buttons:[] 			//对话框中的按钮：{text:'确定',id:'alertConfirm',handler:funciton(oThis,val){}}
+	};
+
+	Msg.prototype={
+		open:function(options){
+			if(options) this.o = $.extend({}, this.o, options); //更新配置项
+
+			var self = this, o = this.o;
+			this.addButtons();
+			this.setPosition();
+			o.isModal && $.mask.show(o.maskOpacity,o.maskColor);
+			this.$el.show().addClass(o.clsIn);
+			o.afterOpen(self);
+			this.isShow = true;
+		},
+		close:function(isDestroy){
+			var self = this, o = this.o;
+			this.$el.removeClass(o.clsIn).addClass(o.clsOut).one('webkitAnimationEnd', function(){
+				o.isModal && $.mask.hide();
+				self.$el.removeClass(o.clsOut).hide();
+				(isDestroy === true || o.cacheIns===false) && self.$el.remove();
+				self.isShow = false;
+			});
+		},
+		toggle:function(){
+			if(this.isShow) return this;
+			this.open();
+		},
+		bindEvents:function(){
+			var self = this, o = this.o, val=undefined;
+			o.hasCloseBtn && this.$close.on('click', function(){ self.close(); });
+			o.closeByMask && $.mask.$el.on('click', function(){ self.close(); });
+			//buttons events
+			for(var i in o.buttons){
+				(function(i){
+					$('#'+o.buttons[i].id).on('click',function(handler){
+						if(o.hasInput) val = self.$el.find('input').val();
+						o.buttons[i].handler(self, val);
+					});
+				})(i);
+			}
+		},
+		addButtons:function(){
+			var self = this, o = this.o;
+			var len = o.buttons.length, btnHtml='';
+			if(len){
+				for(var i=0; i<len; i+=1){
+					btnHtml += '<span class="msg-btn" id='+o.buttons[i].id+'>'+o.buttons[i].text+'</span>'
+				}
+				this.$footer.html(btnHtml);
+			}else{
+				this.$footer.remove()
+			}
+		},
+		setPosition:function(){
+			var self = this, o = this.o;
+			var w = o.width, h = this.$el.height();
+
+			if(!o.isPop){
+				switch(o.position){
+					case 'center':
+						this.$el.attr('style','width:'+w+'px; left:50%; top:50%; margin-left:-'+w/2+'px; margin-top:-'+h/2+'px;');
+						break;
+					case 'top':
+						this.$el.attr('style','width:'+w+'; left:0; top:0;');
+						break;
+					case 'left':
+						this.$el.attr('style','width:'+w+'; left:0; top:0;');
+						break;
+					case 'right':
+						this.$el.attr('style','width:'+w+'; top:0; right:0;');
+						break;
+					case 'bottom':
+						this.$el.attr('style','width:'+w+'; left:0; bottom:0;');
+						break;
+				}
+			}
+
+			//[SETUP:title & content & close]
+			if(o.title==='') {
+				this.$header.remove();
+			}else{
+				this.$header.find('.title').html(o.title);
+			}
+			
+			o.content && this.$body.append(o.content);
+
+			// this.$body.find(':text').focus();
+
+			!o.hasCloseBtn && this.$close.remove();
+		}
+	};
+
+
+	$.msg = (function(){
+		var alertIns = confIns = promIns = popIns = loadIns = actIns = undefined;
+		var tpls = {
+			common:'<div class="ui-msg" tabindex="-1"><div class="inner">'+
+						'<div class="ui-msg-hd">'+
+							'<h4 class="title"></h4><i class="close">&times;</i>'+
+						'</div>'+
+						'<div class="ui-msg-bd"></div><div class="ui-msg-ft"></div>'+
+					'</div></div>',
+			loading:'<div class="ui-msg-loading" data-ui-msg-loading><div class="inner">'+
+						'<i class="iconfont f30 msg-loading-icon">&#xe62a;</i> <span class="ui-msg-bd"></span>'+
+					'</div></div>'
+		};
+		return {
+			alert:function(title, content, width){ /*参数：标题，内容，宽度*/
+				var options = {
+					title: title || '',
+					content: content ||'',
+					width: width || 270,
+					cacheIns:true
+				};
+				if(Utils.isJson(arguments)) options = arguments;
+				if(!alertIns){
+					$(tpls.common).addClass('msg-alert').appendTo('body').attr('data-ui-msg-alert','');
+					var $el = $('[data-ui-msg-alert]');
+					alertIns = new Msg($el, options);
+				}else{
+					alertIns.toggle(options);
+				}
+				return alertIns;
+			},
+			loading:function(txt, width){ /*参数：提示文本，宽度*/
+				var options = {
+					content: txt || '',
+					width: width || 100,
+					cacheIns:true,
+					maskOpacity:0.4,
+					maskColor:'white'
+				}
+				if(Utils.isJson(arguments)) options = arguments;
+				if(!loadIns){
+					$('body').append(tpls.loading);
+					var $el = $('[data-ui-msg-loading]');
+					loadIns = new Msg($el, options);
+				}else{
+					loadIns.toggle();
+				}
+				return loadIns;
+			},
+			confirm:function(title, content, buttons, width){ /*参数：标题，内容，按钮，宽度*/
+				var options = {
+					title: title || '',
+					content: content ||'',
+					width: width || 270,
+					cacheIns:false,
+					hasCloseBtn:true,
+					closeByMask:true,
+					buttons: [
+						{text:'取消',id:'confBtnCancel',handler:function(oThis){alert('点击了取消'); oThis.close(true);}},
+						{text:'确定',id:'confBtnConfirm',handler:function(oThis){alert('点击了确定');}}
+					]
+				};
+				if(buttons && buttons.length) options.buttons = buttons;
+
+				if(Utils.isJson(arguments)) options = arguments;
+
+				$(tpls.common).addClass('msg-confirm').appendTo('body').attr({ 'data-ui-msg-confirm':''});
+				var $el = $('[data-ui-msg-confirm]');
+				confIns = new Msg($el, options);
+
+				return confIns;
+			},
+			prompt:function(title, labelTxt, defaultVal, buttons, width){ /*参数：标题，提示文本，默认值，按钮，宽度*/
+				var options = {
+					title: title || '',
+					content: '<label class="msg-prompt-lbl">'+(labelTxt||'请输入：')+'</label>'+
+							 '<input type="text" tabindex=1 class="msg-prompt-ipt" value="'+(defaultVal||'')+'"/>',
+					width: width || 270,
+					cacheIns:false,
+					hasCloseBtn:true,
+					hasInput:true,
+					buttons: [
+						{text:'取消',id:'propBtnCancel',handler:function(oThis,val){
+							alert('点击了取消,输入的是：'+val); oThis.close(true);
+						}},
+						{text:'确定',id:'propBtnConfirm',handler:function(oThis,val){
+							alert('点击了确定,输入的是：'+val);
+						}}
+					]
+				};
+				if(buttons && buttons.length) options.buttons = buttons;
+				if(Utils.isJson(arguments)) options = arguments;
+
+				$(tpls.common).addClass('msg-prompt').appendTo('body').attr({ 'data-ui-msg-prompt':''});
+				var $el = $('[data-ui-msg-prompt]');
+				promIns = new Msg($el, options);
+
+				return promIns;
+			},
+			popup:function(title, content){ /*参数：标题，内容*/
+				var options = {
+					title: title || '',
+					content: content || '',
+					cacheIns:false,
+					hasCloseBtn:true,
+					clsIn:'fadeInUp',
+					clsOut:'fadeOutDown',
+					isPop:true
+				};
+
+				if(Utils.isJson(arguments)) options = arguments;
+
+				$(tpls.common).addClass('msg-popup').appendTo('body').attr({ 'data-ui-msg-popup':''});
+				var $el = $('[data-ui-msg-popup]');
+				popIns = new Msg($el, options);
+
+				return popIns;
+			},
+			actions:function(content, afterOpenfn, position, clsIn, clsOut){ /*参数：内容，显示后的回调，位置，进入动画，关闭动画*/
+				var options = {
+					content: content ||'',
+					width: '100%', // 100%/auto
+					position: position || 'top',
+					hasCloseBtn: false,
+					cacheIns: false,
+					closeByMask: true,
+					afterOpen: afterOpenfn || $.noop, //这里可以对actions box中元素进行的事件注册 参数：oThis 当前实例
+					clsIn: clsIn || 'fadeInDown',
+					clsOut: clsOut || 'fadeOutUp'
+				};
+				if(Utils.isJson(arguments)) options = arguments;
+
+				$(tpls.common).addClass('msg-actions').appendTo('body').attr({ 'data-ui-msg-actions':''});
+				var $el = $('[data-ui-msg-actions]');
+				actIns = new Msg($el, options);
+
+				return actIns;
+			},
+		};
+	})();
+
+
+//TEST:
+
+	$('#btn-alert').click(function(){
+		$.msg.alert('这里是标题','这里是内容');
+	});
+
+	$('#btn-loading').click(function(){
+		$.msg.loading('加载中...', 200);
+	});
+
+	$('#btn-confirm').click(function(){
+		$.msg.confirm('警告','是否确认删除！？');
+	});
+
+  	$('#btn-prompt').click(function(){
+		$.msg.prompt('旺旺名称');
+	});
+
+  	$('#btn-popup').click(function(){
+		$.msg.popup('popup标题','这里是内容区域');
+	});
+
+  	$('#btn-actions-top').click(function(){
+		$.msg.actions('这里是actions的内容区域');
+	});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en" data-framework="backbonejs">
+  <head>
+    <meta charset="utf-8">
+    <title>Backbone.js • TodoMVC</title>
+    <link rel="stylesheet" href="todomvc-common/base.css">
+  </head>
+  <body>
+
+    <section id="todoapp">
+    
+      <header id="header">
+        <h1>今日事今日毕</h1>
+        <input id="new-todo" placeholder="请输入你的计划？" autofocus>
+      </header>
+
+      <section id="main">
+        <input id="toggle-all" type="checkbox">
+        <label for="toggle-all">全选</label>
+        <ul id="todo-list"></ul>
+      </section>
+
+      <footer id="footer"></footer>
+
+    </section>
+
+    <footer id="info">
+      <p>双击可进行编辑</p>
+      <p>Written by <a href="https://github.com/addyosmani">LT</a></p>
+      <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+    </footer>
+
+<!-- Templates -->
+
+<!-- li 中的模板 -->
+    <script type="text/template" id="item-template">
+      <div class="view">
+        <input class="toggle" type="checkbox" <%= completed ? 'checked' : '' %>>
+        <label><%- title %></label>
+        <button class="destroy"></button>
+      </div>
+      <input class="edit" value="<%- title %>">
+    </script>
+
+<!-- 脚部信息模板 -->
+    <script type="text/template" id="stats-template">
+      <span id="todo-count"><strong><%= remaining %></strong> <%= remaining === 1 ? 'item' : 'items' %> 剩余</span>
+      <ul id="filters">
+        <li>
+          <a class="selected" href="#/">所有的</a>
+        </li>
+        <li>
+          <a href="#/active">待完成的</a>
+        </li>
+        <li>
+          <a href="#/completed">已完成的</a>
+        </li>
+      </ul>
+      <% if (completed) { %>
+      <button id="clear-completed">清除已完成的 (<%= completed %>)</button>
+      <% } %>
+    </script>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/json2.js"></script>
+    <script src="js/underscore.js"></script>
+    <script src="js/backbone.js"></script>
+    <script src="js/backbone.localStorage.js"></script>
+    <script>
+    $(function(){
+
+      // todoModel
+      // todoCollection
+      // todosView
+      // AppView
+
+      var app = {};
+
+// 【todoModel】
+      app.Todo = Backbone.Model.extend({
+
+        defaults:{
+          title:'',
+          completed:false
+        },
+
+        toggle:function(){
+          this.save({
+            completed: !this.get('completed');
+          });
+        }
+      });
+
+// 【todoCollection】
+      var Todos = Backbone.Collection.extend({
+        model:app.Todo,
+
+        // 存储器
+        localStorage: new Backbone.LocalStorage('todos-backbone');
+
+        // 获取 已完成的
+        completed: function(){
+          return this.where({completed:true});
+        },
+
+        // 获取 余下的
+        remaining: function(){
+          return this.where({completed:false});
+        },
+
+        // 获取最新的编号
+        nextOrder: function(){
+          return this.length ? this.last().get('order') + 1 : 1;
+        },
+
+        // 排序字段
+        comparator: 'order'
+      });
+
+      app.todos = new Todos();
+
+//【todoView】
+      app.TodoView = Backbone.View.extend({
+        // 装载视图的容器
+        tagName: 'li',
+
+        // 视图模板
+        template: _.template($('#item-template').html());
+
+        // 视图中的事件
+        events:{
+          'click .toggle': 'toggleCompleted',   //选择 切换
+          'dbclick label': 'edit',              //双击 编辑
+          'keypress .edit': 'updateOnEnter',    //回车 更新
+          'keydown .edit': 'revertOnEscape',    //按ESC 取消编辑
+          'blur .edit': 'close'                 //失去焦点时 更新
+        },
+
+        initialize:function(){
+        	this.listenTo(this.model, 'change', this.render);
+        	this.listenTo(this.model, 'destroy', this.remove);
+        	this.listenTo(this.model, 'visible', this.toggleVisible)
+        },
+        render: function(){
+        	if(this.model.changed.id !== undefined){
+        		return;
+        	}
+
+        	this.$el.html(this.template(this.model.toJSON()));
+
+        	this.$el.toggleClass('completed',this.model.get('completed'));
+        	this.toggleVisible();
+        	this.$input = this.$('.edit');
+        	return this;
+        },
+
+		isHidden: function(){
+			return this.model.get('completed')? app.TodoFilter === 'active' : app.TodoFilter === 'completed';
+		},
+        toggleVisible:function(){
+        	this.$el.toggleClass('hidden', this.isHidden());
+        },
+        toggleCompleted: function(){
+        	this.model.toggle();
+        },
+        edit: function(){
+        	this.$el.addClass('editing');
+        	this.$input.focus();
+        },
+        updateOnEnter: function(e){
+        	if(e.which === ENTER_KEY){
+        		this.close();
+        	}
+        },
+        revertOnEscape: function(e){
+        	if(e.which === ESC_KEY){
+        		this.$el.removeClass('editing');
+        		this.$input.val(this.model.get('title'));
+        	}
+        },
+        close: function(){
+        	var value = this.$input.val();
+        	var trimmedValue = value.trim();
+
+        	if(!this.$el.hasClass('editing')){
+        		return;
+        	}
+
+        	if(trimmedValue){
+        		this.model.save({
+        			title: trimmedValue
+        		});
+
+        		if(value !== trimmedValue){
+        			this.model.trigger('change');
+        		}
+        	}else{
+        		this.clear();
+        	}
+
+        	this.$el.removeClass('editing');
+        },
+        clear: function(){
+        	this.model.destroy();	
+        }
+        
+      });
+
+
+// 【appView】
+      app.AppView = Backbone.View.extend({
+        el: '#todoapp',
+
+        statsTemplate: _.template($('#stats-template').html()),
+
+        events: {
+          'keypress #new-todo': 'createOnEnter',
+          'click #clear-completed': 'clearCompleted',
+          'click #toggle-all': 'toggleAllCompleted'
+        },
+
+        initialize: function(){},
+        render:function(){},
+
+        createOnEnter: function(){},
+        clearCompleted: function(){},
+        toggleAllCompleted: function(){},
+        addOne: function(){},
+        addAll: function(){},
+        filterOne: function(){},
+        filterAll: function(){},
+        newAttributes: function(){}
+
+      });
+
+
+// 【TodoRouter】
+      var TodoRouter = Backbone.Router.extend({
+        router:{
+          '*filter' : 'setFilter'
+        },
+
+        setFilter: function(param){
+          app.TodoFilter = param || '';
+          app.todos.trigger('filter');
+        }
+      });
+
+      app.TodoRouter = new TodoRouter();
+
+      Backbone.history.start();
+
+    });
+
+
+    </script>
+  </body>
+</html>

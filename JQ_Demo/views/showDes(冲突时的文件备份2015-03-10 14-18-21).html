@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>tpl</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+	<link href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+	<style>
+		body{
+			font-family: Avenir, "Hiragino Sans GB", "Noto Sans S Chinese", "Microsoft Yahei", "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans-serif;
+		}
+		.theme ul li {
+			position: relative;
+			display: block; list-style: none;
+			width: 288px;margin: 20px; float:left;
+		}
+		.theme ul li i {
+			position: absolute; left:100px; width: 94px; height: 30px; font-style: normal;
+			line-height: 30px; font-size: 16px; color:#fff; text-align: center;
+			border-radius:  0 0 5px 5px; box-shadow: 0 1px 3px rgba(0,0,0,.2);
+		}
+		.theme ul li i.i1{ background: #ff99af; }
+		.theme ul li i.i2{ background: #43cdc2; }
+		.theme ul li i.i3{ background: #ffb130; }
+
+		.theme ul li img {
+			display: block; border-radius: 2px;
+		}
+		.theme .item-des{ 
+			width: 0; overflow: hidden; background: rgba(0,0,0,.5);
+			position: absolute;top:0;left:0; right: 0; bottom: 0;
+			transition:width .5s ease-out;
+		}
+		.theme .item-des p {
+			color:#fff; width: 240px; padding: 0 20px;
+			position: absolute; bottom: 150px;
+		}
+		.theme .item-des a {
+			display: block;
+			position: absolute; right: 20px; bottom: 20px;
+			width: 100px; height: 100px; padding: 30px; border-radius: 50%;
+			background: rgba(0,0,0,.5); color:#fff;
+		}
+		.theme ul li:hover .item-des{
+			width: 100%;
+			transition:width .5s linear;
+		}
+
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>HTML5模板文件</h2>
+		<hr>
+
+	
+	<div class="theme">
+		<ul class="clearfix">
+			<li> <i class="i1">家庭亲子</i>
+				<img src="../img/286x440_qinzi.jpg" width="286" height="440" alt="">	
+				<div class="item-des" >
+					<p>
+						今年的家庭旅行大不一样，欣欣旅游顾问贴心的服务为我们省去了不少麻烦。更重要的是，旅行方案中精心设计了不少亲子环节，我们也与孩子一起学会了去发现、欣赏和珍爱这个世界。
+					</p>
+					<a href="/public.php" onclick="cz_sta('2_1');" target="_blank" class="btn">
+						马上
+						<br>	
+						定制
+						<s></s>
+					</a>
+					<div class="bg"></div>
+				</div>
+			</li>
+			<li> <i class="i2">闺蜜旅行</i>
+				<img src="../img/286x440_qinglv.jpg" width="286" height="440" alt="">	
+				<div class="item-des" >
+					<p>
+						今年暑假，姐妹们在群里说，这个夏天天这么蓝，要不我们去一个海岛玩玩吧~但是去哪嘞？国内的嫌人多，国外的不会选，正在迷茫之际偶然遇到了一位欣欣顾问。顾问既专业又靠谱，对于我们几个小姑娘善变而又分裂的人格灰常有耐心，为我们定制的普吉岛之旅真的是好玩人不多，赞噢！
+					</p>
+					<a href="/public.php" onclick="cz_sta('2_2');" target="_blank" class="btn">
+						马上
+						<br>	
+						定制
+						<s></s>
+					</a>
+					<div class="bg"></div>
+				</div>
+			</li>
+			<li>
+				<i class="i3">公司旅游</i>
+				<img src="../img/286x440_gongsi.jpg" width="286" height="440" alt="">	
+				<div class="item-des" >
+					<p>
+						对于公司的年度旅行我一直是又爱又恨，往往是经理同意了老板不满意，老板拍板了同事们又有新意见。这次找了欣欣旅游顾问帮忙设计，根据我们的需求和预算，一口气给了好几份方案。方案沟通后，还特地上门把合同送过来签约，出游过程也是非常顺利，以后的年度旅游就交给你啦！
+					</p>
+					<a href="/public.php" onclick="cz_sta('2_3');" target="_blank" class="btn">
+						马上
+						<br>	
+						定制
+						<s></s>
+					</a>
+					<div class="bg"></div>
+				</div>
+			</li>
+		</ul>
+
+		<ul class="clearfix">
+			<li> <i class="i1">家庭亲子</i>
+				<img src="../img/286x440_qinzi.jpg" width="286" height="440" alt="">	
+				<div class="item-des" >
+					<p>
+						今年的家庭旅行大不一样，欣欣旅游顾问贴心的服务为我们省去了不少麻烦。更重要的是，旅行方案中精心设计了不少亲子环节，我们也与孩子一起学会了去发现、欣赏和珍爱这个世界。
+					</p>
+					<a href="/public.php" onclick="cz_sta('2_1');" target="_blank" class="btn">
+						马上
+						<br>	
+						定制
+						<s></s>
+					</a>
+					<div class="bg"></div>
+				</div>
+			</li>
+			<li> <i class="i2">闺蜜旅行</i>
+				<img src="../img/286x440_qinglv.jpg" width="286" height="440" alt="">	
+				<div class="item-des" >
+					<p>
+						今年暑假，姐妹们在群里说，这个夏天天这么蓝，要不我们去一个海岛玩玩吧~但是去哪嘞？国内的嫌人多，国外的不会选，正在迷茫之际偶然遇到了一位欣欣顾问。顾问既专业又靠谱，对于我们几个小姑娘善变而又分裂的人格灰常有耐心，为我们定制的普吉岛之旅真的是好玩人不多，赞噢！
+					</p>
+					<a href="/public.php" onclick="cz_sta('2_2');" target="_blank" class="btn">
+						马上
+						<br>	
+						定制
+						<s></s>
+					</a>
+					<div class="bg"></div>
+				</div>
+			</li>
+			<li>
+				<i class="i3">公司旅游</i>
+				<img src="../img/286x440_gongsi.jpg" width="286" height="440" alt="">	
+				<div class="item-des" >
+					<p>
+						对于公司的年度旅行我一直是又爱又恨，往往是经理同意了老板不满意，老板拍板了同事们又有新意见。这次找了欣欣旅游顾问帮忙设计，根据我们的需求和预算，一口气给了好几份方案。方案沟通后，还特地上门把合同送过来签约，出游过程也是非常顺利，以后的年度旅游就交给你啦！
+					</p>
+					<a href="/public.php" onclick="cz_sta('2_3');" target="_blank" class="btn">
+						马上
+						<br>	
+						定制
+						<s></s>
+					</a>
+					<div class="bg"></div>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+	</div>
+	
+
+
+</body>
+</html>

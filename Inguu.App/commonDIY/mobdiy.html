@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <title id="page-title"></title>
+    <link rel="stylesheet" href="lib/mui-0.5.9/css/mui.min.css" />
+    <link rel="stylesheet" href="css/powerange.min.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/cupdiy.css" />
+    <link rel="stylesheet" href="css/lomo.css" />
+    <script>
+        var PRO_INFO={id:8729, name:'蓝变色杯', width:1000, height:1000};
+        document.getElementById('page-title').text=PRO_INFO.name+'定制主页';
+    </script>
+</head>
+<body>
+    <div id="page-wrap">
+        <!-- page Index  -->
+        <section data-role="index" id="view-page-index" class="page page-active">
+            <!-- Header B -->
+            <header class="mui-bar mui-bar-nav">
+                <button class="mui-btn mui-btn-link mui-btn-nav mui-pull-left">
+                    <span class="mui-icon mui-icon-home"></span>
+                </button>
+                <h1 class="mui-title" id="index-title">LOMO卡定制</h1>
+            </header>
+            <!-- Header E -->
+
+            <!-- Content B -->
+            <div class="mui-content tpl-view-con">
+                <!--风格选择 B-->
+                <div id="style-wrapper">
+                    <ul class="style-chk-box mb05em style-chk-box mui-clearfix" id="style-chk-box">
+                    </ul>
+                </div>
+                <!--风格选择 E-->
+
+                <!--模板选择 B-->
+                <div class="tpl-chk-box unstyle" id="tpl-chk-box">
+                    <div class="scrollWrapper">
+                        <ul class="unstyle list" id="tpl-list">
+                        </ul>
+                        <div class="pullUp hide" id="pullUp">
+                            <span class="mui-icon mui-icon-arrowthinup"></span> 上拉显示更多...
+                        </div>
+                    </div>
+                </div>
+                <!--模板选择 E-->
+            </div>
+            <!-- Content E -->
+
+            <!--Footer B-->
+            <footer class="mui-bar mui-bar-tab">
+                <div class="mui-table-cell f14 choiceInfo pl1em" id="choiceInfo">无</div>
+                <div class="mui-table-cell mui-col-xs-4 bgc-light-blue mui-text-center">
+                    <a class="mui-btn mui-btn-primary f20" href="javascript:void(0)" id="index-ok" data-modal="modal-test">确认</a>
+                </div>
+            </footer>
+            <!--Footer E-->
+        </section>
+
+        <!-- page Cart -->
+        <section data-role="cart" id="view-page-cart" class="page page-next">
+            <!-- Content B -->
+            <div class="mui-content-no-header cart-view-con">
+                <!-- Top bar info B -->
+                <div class="top-bar-info">
+                    <div class="u-info mui-clearfix">
+                        <div class="c-888 f14 mui-col-xs-8 mui-pull-left">旺旺：<a id="cart-taobao" href="javascript:void(0)"></a></div>
+                        <div class="mui-col-xs-4 c-blue f-blod mui-pull-left needsclick" id="upload-btn">
+                            <span class="mui-icon mui-icon-upload"></span> 上传照片
+                            <input id="file-image" type="file" size="30" onfocus="this.blur()" name="fileselect[]" accept="image/*" multiple="multiple" />
+                        </div>
+                    </div>
+                </div>
+                <!-- Top bar info E -->
+
+                <!-- Img list B -->
+                <div id="upload-pic-box">
+                    <ul class="pic-list-box mui-clearfix" id="pic-list-box">
+                        <li id="cart-temp-info" class="c-888 f30">请上传您的照片！</li>
+                    </ul>
+                </div>
+                <div class="upload-pic-actions mui-clearfix" id="upload-pic-actions">
+                    <button class="next" disabled="disabled"><span class="mui-icon mui-icon-forward"></span></button>
+                    <button class="prev" disabled="disabled"><span class="mui-icon mui-icon-back"></span></button>
+                    <!-- <button class="rotate" disabled="disabled"><span class="mui-icon mui-icon-refreshempty"></span></button> -->
+                    <button class="delete" disabled="disabled"><span class="mui-icon mui-icon-trash"></span>清空</button>
+                    <button class="addTxt" id="addTxt"><span class="mui-icon mui-icon-plusempty"></span> 文字</button>
+                </div>
+                <!-- Img list E -->
+                <div class="loading-tpl c-888" id="loading-tpl">
+                    <img src="/images/loading1.gif" alt="">  加载中···
+                </div>
+                <div id="tpls-box" data-currindex='0'>
+                    <div class="tpl-edit-box" id="tpl-edit-box0" ></div>
+                </div>
+                <div class="tpl-navpage mui-clearfix mt05em mb05em hide" id="tpl-navpage">
+                    <button class="prev"><span class="mui-icon mui-icon-back"></span></button>
+                    <div class="pagenum"></div>
+                    <button class="next"><span class="mui-icon mui-icon-forward"></span></button>
+                </div>
+                <div class="alert alert-info f12 pl05em cart-btm-tip mt05em">
+                图例：<span class="error"></span> 相素不足 <span class="warn"></span> 相素严重不足。<br>
+                提示：双击添加的文字可以进行修改。
+                </div>
+ 
+            </div>
+            <!-- Content E -->
+             <!--Footer B-->
+            <footer class="mui-bar mui-bar-tab">
+                <div class="mui-table-cell f14 choiceInfo pl1em" id="reChoiceTpl"><span class="mui-icon mui-icon-undo"></span> 重新选择模板</div>
+                <div class="mui-table-cell mui-col-xs-4 bgc-light-blue mui-text-center" id="cart-btm-next">
+                    <a class="mui-btn mui-btn-primary f20" href="javascript:void(0)" id="sub-order-btn" data-modal="modal-test">提交作品</a>
+                </div>
+            </footer>
+            <!--Footer E-->
+        </section>
+    </div>
+
+    <!-- dialog login -->
+    <div class="overlay dialog-login" id="dialog-login">
+        <section class="modal modal-test" style="display:none;">
+            <div class="modal-hd"></div>
+            <div class="modal-bd">
+                <div>
+                    <h4 class="mb05em">请输入淘宝旺旺名称：</h4>
+                    <input type="email" name="aliUName" id="userName" value=" " placeholder="请输入淘宝旺旺名称" />
+                </div>
+                <small class="c-888 f06 alert alert-warning">旺旺名将用于淘宝订单核对，请务必填写正确！</small>
+            </div>
+            <div class="modal-ft">
+                <span class="btn-modal btn-cancel">返回</span><span class="btn-modal btn-primary">确认</span>
+            </div>
+        </section>
+    </div>
+
+    <!-- dialog editTaobao -->
+    <div class="overlay dialog-login" id="dialog-editTB">
+        <section class="modal" style="display:none;">
+            <div class="modal-hd">修改旺旺名称</div>
+            <div class="modal-bd">
+                <div>
+                    <h4 class="mb05em">旺旺名：</h4>
+                    <input type="email" name="aliUName" id="txt_editTB" value=""/>
+                </div>
+            </div>
+            <div class="modal-ft">
+                <span class="btn-modal btn-cancel">返回</span><span class="btn-modal btn-primary">确认</span>
+            </div>
+        </section>
+    </div>
+
+    <!-- Loading box -->
+    <div id="loading-box" class="hide">
+        <div>
+            <img src="/images/482.GIF" alt="" class="mb1em">
+            <h4 style="color:#eaeaea">正在上传请稍候····</h4>
+        </div>
+    </div>
+
+    <!-- popup choiceText -->
+    <div class="popup addtxt" id="popup-addtxt" style="display: block;">
+        <div class="popup-inner">
+            <div class="popup-hd">
+                <h4 class="popup-title">添加文字</h4>
+                <span data-popup-close="" class="close">×</span>
+            </div>
+            <div class="popup-bd">
+                <div class="txt-tool mui-clearfix mb05em">
+
+                    <!-- <input type="color" onfocus="this.blur()" id="ttf-color"/> -->
+                    <button class="mui-btn ttf-color" id="ttf-color"></button>
+
+                    <div class="picker-box hide" id="picker-box">
+                        <h4 id="color-txt" class="title">颜色预览</h4>
+                        <div class="color-picker">
+                            <canvas id="cav_picker" class="cav_picker" width="200" height='200' data-val=""></canvas>
+                            <div class="actions">
+                                <button class="btn cancel">取消</button>
+                                <button class="btn confirm">确定</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slider-wrapper" id="size-range">
+                        <input type="text" class="js-step" id="range-font-size" />
+                    </div>
+                    <span id="ttf-name">微软雅黑</span>
+                    <b id="ttf-size">20</b>
+                </div>
+                <div class="mui-clearfix mb05em">
+                    <textarea class="mb05em" rows="4" id="txt-info" placeholder="请输入文字..."></textarea>
+                    <div class="button-group fl text-direction hide" id="text-direction">
+                        <button class="mui-btn mui-btn-positive" data-val="0">横向</button>
+                        <button class="mui-btn" data-val="1">竖向</button>
+                    </div>
+                    <button class="mui-btn mui-btn-primary btn-createTxt fr" id="btn-createTxt">生成</button>
+                </div>
+                    <div class="ui red progress hide" id='progressbar-img'><div class="bar"></div></div>
+                <div class="mui-clearfix txt-result hide" id="txt-result">
+                    <div><img src="" alt="" id="txt-preimg"></div>
+                    <button class="mui-pull-right" id="addToTpl">添加到模板</button>
+                </div>
+                <span class="divider-x"></span>
+                <div class="mui-clearfix hide" id="del-currTxt">
+                    <button class="mui-btn mui-btn-negative"><span class="mui-icon mui-icon-closeempty"></span>删除该文字层</button>
+                </div>
+                <div class="ttf-pic-list clearfix" id="ttf-pic-list"></div>
+                <div class="nav-dotty" id="nav-dotty"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- msg-tip -->
+    <div class="ui msg alert animated" id="alert-box" data-isShown="0">
+        <div class="con flash animated">第几页没有图片！！</div>
+        <div class="close">×</div>
+    </div>
+    
+    <!-- Page Guide -->
+    <div class="page-guide mui-text-center c-white animated" id="page-guide">
+        <div class="logo-img animated fadeInDown">
+            <img src="/images/infoto_logo.png" alt="" height="104" width="200">
+        </div>
+
+        <div class="f30 txt">
+            <h3 class="first animated fadeInLeft">发现精彩</h3>
+            <h3 class="last mb1em animated fadeInRight">记录感动</h3>
+            <img src="/images/294.GIF" class="animated fadeIn" alt="" width="220" height="20">
+        </div>
+    </div>
+
+    <!-- Page subResult -->
+    <div class="page-subResult" id="page-subResult">
+        <a href="###" class="close">×</a>
+        <div class="res-box">
+                <p class="mui-text-center f18 c-white">
+                    <img src="/images/iconfont-smail.png" alt="" width="32" height="32">
+                    <br><br>
+                   <span> 亲，您的作品已经提交成功啦！</span><br>
+                   <span> 赶快联系客服制作吧！</span><br><br>
+                   <span class="f12">您可以复制以下地址到PC端打开查看或编辑作品！</span><br>
+                   <span class="c-888 f12 editeUrl">http://zhigui.inguu.com/TEST/photoDIY/index.html?page=cart</span> <br><br>
+                    <button>返回继续制作</button>
+                </p>
+        </div>
+    </div>
+
+    <script src="lib/touch.min.js"></script>
+    <script src="lib/islider.js"></script>
+    <script src="lib/iscroll-probe.js"></script>
+    <script src="lib/jquery-2.1.1.min.js"></script>
+    <script src="lib/powerange.min.js"></script>
+    <script src="lib/jquery.xml2json.js"></script>
+    <script src="lib/jquery.pep.js"></script>
+    <script src="js/lomo.js"></script>
+</body>
+</html>

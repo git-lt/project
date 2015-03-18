@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Loading 测试</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+	<link href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+	<style>
+	html,body {height: 100%; width: 100%; overflow: hidden;}
+	.ui-mask {position: absolute;top: 0;right: 0;bottom: 0;left: 0;display: none;width: 100%;height: 100%;background-color: rgba(0,0,0,.6);opacity: 0; -webkit-transition: opacity .15s;transition: opacity .15s; z-index: 1100; }
+	.ui-mask.active {opacity: 1;}
+	.no-scroll {overflow: hidden;}
+
+
+/*old
+	.ui-loading-bd.bt {position: absolute; font-size: 14px;left: 50%;top: 50%;margin-left: -50px; margin-top: 25px;}
+	.ui-loading-icon { width: 100px; height: 100px; position: relative; -webkit-transform:scale(0.35); display: inline-block; }
+	.ui-loading-icon.rec div {
+		width: 10px; height: 30px; background: #000; box-shadow: black 0 0 4px;
+		position: absolute; top:35px; left:45px; border-radius:10px 10px 0 0;
+	}
+	.ui-loading-icon.cir div {
+		width: 20px; height: 20px; background: #000; box-shadow: black 0 0 4px;
+		position: absolute; top:40px; left:40px; border-radius:40px;
+	}
+
+	.ui-loading-icon div:nth-child(1) { -webkit-transform:rotate(0deg) translate(0, -40px);opacity:0.12; }
+	.ui-loading-icon div:nth-child(2) { -webkit-transform:rotate(45deg) translate(0, -40px);opacity:0.25; }
+	.ui-loading-icon div:nth-child(3) { -webkit-transform:rotate(90deg) translate(0, -40px);opacity:0.37; }
+	.ui-loading-icon div:nth-child(4) { -webkit-transform:rotate(135deg) translate(0, -40px);opacity:0.50; }
+	.ui-loading-icon div:nth-child(5) { -webkit-transform:rotate(180deg) translate(0, -40px);opacity:0.62; }
+	.ui-loading-icon div:nth-child(6) { -webkit-transform:rotate(225deg) translate(0, -40px);opacity:0.75; }
+	.ui-loading-icon div:nth-child(7) { -webkit-transform:rotate(270deg) translate(0, -40px);opacity:0.87; }
+	.ui-loading-icon div:nth-child(8) { -webkit-transform:rotate(315deg) translate(0, -40px);opacity:1; }
+*/
+	.ui-loading {position: absolute;  display: table; width: 100%; height: 100%;top:0; left:0;z-index: 1200;}
+	.ui-loading .inner {display: table-cell; vertical-align: middle; text-align: center;}
+
+	/*text align right*/
+	.ui-loading-bd.rt {position: relative;top: -28px;font-size: 14px;left: 5px; padding-right: 10px;}
+	/*text align bottom*/
+	.ui-loading-bd.bt {position: relative;font-size: 14px;display: block;padding: 5px 10px 10px 10px;}
+	.loading-wrap {position: relative;display: inline-block;background: rgba(0,0,0,.4);border-radius: 5px; padding: 0 10px;}
+	.ui-loading-icon { width: 70px; height: 70px; position: relative; display: inline-block; }
+	.ui-loading-icon.cir div {
+		width: 10px; height: 10px; background: #000; box-shadow: black 0 0 4px;
+		position: absolute; top:30px; left:30px; border-radius:60px;
+	}
+	.ui-loading-icon.rec div {
+		width: 4px; height: 16px; background: #000; box-shadow: black 0 0 4px;
+		position: absolute; top:27px; left:33px; border-radius:10px 10px 0 0;
+	}
+	.ui-loading-icon div:nth-child(1) { -webkit-transform:rotate(0deg) translate(0, -25px);opacity:0.12; }
+	.ui-loading-icon div:nth-child(2) { -webkit-transform:rotate(45deg) translate(0, -25px);opacity:0.25; }
+	.ui-loading-icon div:nth-child(3) { -webkit-transform:rotate(90deg) translate(0, -25px);opacity:0.37; }
+	.ui-loading-icon div:nth-child(4) { -webkit-transform:rotate(135deg) translate(0, -25px);opacity:0.50; }
+	.ui-loading-icon div:nth-child(5) { -webkit-transform:rotate(180deg) translate(0, -25px);opacity:0.62; }
+	.ui-loading-icon div:nth-child(6) { -webkit-transform:rotate(225deg) translate(0, -25px);opacity:0.75; }
+	.ui-loading-icon div:nth-child(7) { -webkit-transform:rotate(270deg) translate(0, -25px);opacity:0.87; }
+	.ui-loading-icon div:nth-child(8) { -webkit-transform:rotate(315deg) translate(0, -25px);opacity:1; }
+
+	/*//================================*/
+	#textBox { border:1px solid black; padding: 5px; margin: 10px; background: #E8DCBD;}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>Loading 组件测试</h2>
+		<hr><small> 版本一 </small>
+		<p>特点：动画流畅，不便扩展</p>
+	</div>
+	<div id="textBox">
+		<p>
+			Positioning
+
+			Since version 2.0.0 the spinner is absolutely positioned at 50% of its offset parent. You may specify a top and left option to position the spinner manually.
+
+			Note: The spinner element is a 0×0 pixel DIV that represents the center of the spinner. Hence, if you passed {top:0, left:0} only the lower right quater of the spinner would be inside the target's bounding box.
+		</p>
+	</div>
+	<div style="padding:10px;">
+		<button id="btnWt">白色</button>
+		<button id="btnBk">黑色</button>
+		<button id="btnPr">在父容器中</button>
+		<button id="btnShap">改变形状</button>
+	</div>
+	<script>
+	
+	$.fn.emulateTransitionEnd = function(duration) {
+	  var called = false;
+	  var $el = this;
+
+	  $(this).one('webkitTransitionEnd', function() {
+	    called = true;
+	  });
+
+	  var callback = function() {
+	    if (!called) {
+	      $($el).trigger('webkitTransitionEnd');
+	    }
+	    $el.transitionEndTimmer = undefined;
+	  };
+	  this.transitionEndTimmer = setTimeout(callback, duration);
+	  return this;
+	};
+
+	var Mask = function(option){
+		this.inited = false;
+		this.isShow = false;
+		this.$el = null;
+		this.o = option;
+		this.init();
+	};
+
+	Mask.DEFAUTS={
+		selector:'[data-ui-mask]',
+		opacity:0.4,
+		color:'black',
+		parentId:'body',
+		tpl:'<div class="ui-mask" data-ui-mask></div>'
+	}
+
+	Mask.prototype={
+		constructor:Mask,
+		init:function(){
+			if(!this.inited && !this.isShow){
+				$('body').append(this.o.tpl);
+				this.$el = $(Mask.DEFAUTS.selector);
+				this.inited = true;
+			}
+		},
+		show:function(option){
+			if(option) this.o = option;
+			if(!this.isShow){
+				this._initStyle();
+				this.$el.addClass('active')
+				this.isShow = true;
+			}
+		},
+		hide:function(){
+			if(this.isShow){
+				this.$el.removeClass('active').one('webkitTransitionEnd',function(){ 
+					$(this).hide(); 
+					$('body').removeClass('no-scroll'); 
+				});
+				this.$el.emulateTransitionEnd(150);
+				this.isShow = false;
+			}
+		},
+		_initStyle:function(){
+			//set dimmer style
+			var rgba = this.o.color === 'white' ? 'rgba(255,255,255,'+this.o.opacity+')' : 'rgba(0,0,0,'+this.o.opacity+')';
+			if(this.o.parentId != 'body'){
+				var oParent = document.getElementById(this.o.parentId),
+					posi = oParent.getBoundingClientRect(),
+					oParentW = posi.right - posi.left, 
+					oParentH = posi.bottom - posi.top;
+				this.$el.css({
+					'width':oParentW,
+					'height':oParentH,
+					'left':posi.left,
+					'top':posi.top,
+					'backgroundColor':rgba,
+					'display':'block'
+				});
+			}else{
+				$('body').addClass('no-scroll');
+				this.$el.css({'width':'100%','height':'100%','left':0,'top':0,'backgroundColor':rgba,'display':'block'});
+			}
+		}
+	};
+
+	Mask.INSTANCE = null;
+
+	$.mask ={
+		$el:null,
+		instance:null,
+		show:function(opacity,color,parentId){
+			var options = {
+				opacity:opacity || 0.4,
+				color:color|| 'black',
+				parentId: parentId || 'body'
+			};
+
+			var option = $.extend({}, Mask.DEFAUTS,options);
+			if($.isPlainObject(opacity)) option = opacity;
+
+			!Mask.INSTANCE && (Mask.INSTANCE = new Mask(option));
+			
+			this.$el = Mask.INSTANCE.$el;
+			this.instance = Mask.INSTANCE;
+
+			Mask.INSTANCE.show.call(Mask.INSTANCE,option);
+			return Mask.INSTANCE;
+		},
+		hide:function(){
+			Mask.INSTANCE.hide.call(Mask.INSTANCE);
+			return Mask.INSTANCE;
+		}
+	};
+
+
+	var loadingStarter = {
+		timmer:null,
+		start:function(loadingBoxId, size){
+			var count = 0, oEle = document.getElementById(loadingBoxId);
+			function rotate(timmer) {
+				oEle.style.WebkitTransform = 'scale('+(size||1)+') rotate('+count+'deg)';
+				if (count==360) { count = 0 }
+				count+=45;
+			}
+			this.timmer = setInterval(rotate, 100);
+
+		},
+		stop:function(){
+			clearInterval(this.timmer);
+		}
+	}
+	// loadingStarter.start('loadingIconBox',1);
+	var Loading = function(option){
+		this.$el = $(Loading.DEFAULTS.selector);
+		this.o = option;
+		this.isShow = false;
+		this.init();
+	};
+
+	Loading.DEFAULTS={
+		color:'black',		//loading的颜色
+		size:0.8, 			// 0.2-0.5
+		parentId:'body', 	//父容器id
+		text:'',			//文本提示
+		shap:'cir',			//形状：rec：长方形/ cir:圆点
+		hasDimmer:true, 	//是否有遮罩层
+		dimmerOpacity:0.4,	//遮罩层透明度
+		selector:'[data-ui-loading]',
+		tpl:'<div class="ui-loading" data-ui-loading><div class="inner">\
+				<div class="loading-wrap"><div class="ui-loading-icon" id="loadingIconBox">\
+					<div></div>\
+					<div></div>\
+					<div></div>\
+					<div></div>\
+					<div></div>\
+					<div></div>\
+					<div></div>\
+					<div></div>\
+				</div></div>\
+			</div></div>'
+	};
+
+	Loading.prototype = {
+		constructor:Loading,
+		init:function(){
+			if(!this.$el.length){
+				$('body').append(this.o.tpl);
+				this.$el = $(Loading.DEFAULTS.selector);
+			}
+		},
+		show:function(option){
+			if(this.isShow) return;
+			if(option) this.o = option;
+			if(this.o.hasDimmer){
+				$.mask.show(this.o.dimmerOpacity, this.o.color, this.o.parentId);
+			}
+			this._initStyle();
+			this.$el.show();
+			loadingStarter.start('loadingIconBox',this.o.size);
+			this.isShow = true;
+		},
+		hide:function(){
+			if(this.isShow){
+				if(this.o.hasDimmer) $.mask.hide();
+				this.$el.hide();
+				loadingStarter.stop();
+				this.isShow = false;
+			}
+		},
+		_initStyle:function(){
+			var $wraper = this.$el.find('.loading-wrap'), 
+				$loadingbox = this.$el.find('.ui-loading-icon'),
+				$loadingBars = $loadingbox.children(),
+				$textBox = $wraper.find('.ui-loading-bd');
+
+			//set position
+			if(this.o.parentId =='body'){
+				this.$el.css({'width':'100%','height':'100%','left':0,'top':0,'display':'table'});
+			}else{
+				var oParent = document.getElementById(this.o.parentId),
+					posi = oParent.getBoundingClientRect(),
+					oParentW = posi.right - posi.left, 
+					oParentH = posi.bottom - posi.top;
+				this.$el.css({
+					'width':oParentW,
+					'height':oParentH,
+					'left':posi.left,
+					'top':posi.top,
+					'display':'table'
+				});
+			}
+			//set color & shap & size
+			$loadingBars.css('backgroundColor',this.o.color);
+			$loadingbox.attr('class','ui-loading-icon '+this.o.shap).css({
+				'webkitTransform':'scale('+this.o.size+')'
+			});
+			var bgColor = this.o.color=='white' ? 'rgba(0,0,0,.35)':'rgba(255,255,255,.75)';
+			$wraper.css('backgroundColor',bgColor);
+
+			//set text
+			if(this.o.text!=''){
+				if(!$textBox.length){
+					$wraper.append('<span class="ui-loading-bd rt">'+this.o.text+'</span>');
+				}else{
+					$textBox.text(this.o.text);
+				}
+			}else{
+				$wraper.find('.ui-loading-bd').remove();
+			}
+		}
+	};
+
+	Loading.INSTANCE = null;
+
+	$.loading={
+		$el:null,
+		instance:null,
+		show:function(text, color, size, parentId){
+			var options = {
+				text: text|| '',
+				color: color || 'black',
+				parentId: parentId || 'body',
+				size: size || 0.8
+			};
+			if($.isPlainObject(text)) options = text;
+			var option = $.extend({}, Loading.DEFAULTS,options);
+
+			if(!Loading.INSTANCE){
+				Loading.INSTANCE = new Loading(option);
+				this.$el = Loading.INSTANCE.$el;
+				this.instance = Loading.INSTANCE;
+			}
+
+			Loading.INSTANCE.show.call(Loading.INSTANCE, option);
+			return Loading.INSTANCE;
+		},
+		hide:function(){
+			Loading.INSTANCE.hide.call(Loading.INSTANCE);
+			return Loading.INSTANCE;
+		}
+	};
+
+	$('#btnWt').click(function(){
+		$.loading.show('','white', 0.8, '');
+	});
+
+	$('#btnBk').click(function(){
+		$.loading.show('正在努力加载中','black', 0.9, '');
+	});
+
+
+	$('#btnPr').click(function(){
+		$.loading.show('','black', 0.8, 'textBox');
+	});
+	$('#btnShap').click(function(){
+		$.loading.show({
+			shap:'rec'
+		});
+	});
+
+	//关闭
+	$('body').on('click','.ui-loading',function(){
+		$.loading.hide();
+	});
+
+
+
+	</script>
+</body>
+</html>

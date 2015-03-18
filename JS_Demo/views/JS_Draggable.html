@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+	* {margin: 0; padding: 0;}
+	#box,#box2,#box3,#box4{
+		width: 300px;
+		height: 50px;
+		padding: 10px;
+		background: #ccc;
+		border:3px solid #AAAAAA;
+		cursor: move;
+		position: absolute;
+	}
+ul li {
+	display: block;
+	float: left;
+}
+#box4-h3 {height: 20px; background: blue;}
+	</style>
+</head>
+<body>
+	初始化模态对话框<br><br><br><br><br>
+
+模态对话框可以存在于网页的任何位置。在初始化的时候模态对话框的大小会被缓存下来。<br><br><br>
+
+为什么移动模态对话框的内容？<br><br><br><br>
+具有调光器页面内的一个模式可以在3D动画，而无需在3D视角设置更改页面内容的其余部分。此外，外界调光器的内容可以是模糊或改变不会影响模态的内容。
+	<div id="box"></div>
+	<div id="box2"></div>
+	<div id="box3"></div>
+	<div id="box4">
+		<h3 id="box4-h3"></h3>
+	</div>
+
+	<script>
+	function gel(id){
+		return document.getElementById(id);
+	}
+	var oDiv=gel('box');
+	var oDiv2 = gel('box2');
+	var oDiv3 = gel('box3');
+
+var draggableFn = function(oDiv){
+	oDiv.onmousedown=function(e){
+		var e = e||window.event;
+
+		//获取鼠标位置
+		var disX = e.clientX - this.offsetLeft;
+		var disY = e.clientY - this.offsetTop;
+
+		if(oDiv.setCapture){// IE
+			oDiv.onmousemove=fnMove
+			oDiv.onmouseup=fnUp;
+			oDiv.setCapture();	//阻止默认事件 捕获所有的事件到拖拽对象上
+		}else{
+			document.onmousemove=fnMove
+			document.onmouseup=fnUp;
+			return false;	//阻止默认事件 (解决拖动过程中文字选中的问题)
+		}
+
+		function fnMove(e){
+			var e= e||window.event;
+
+			//计算位移 鼠标的位移距离			
+			var moveX = e.clientX - disX;
+			var moveY = e.clientY - disY;
+
+			//限制范围 X轴和Y轴的移动范围
+			var maxX = document.documentElement.clientWidth - oDiv.offsetWidth;
+			var maxY = document.documentElement.clientHeight - oDiv.offsetHeight;
+			moveX = Math.min(maxX,Math.max(0,moveX));
+			moveY = Math.min(maxY,Math.max(0,moveY));
+
+			//磁性吸咐
+			moveX = moveX>=maxX-15 ? maxX : moveX;
+			moveY = moveY>=maxY-15 ? maxY : moveY;
+			moveX = moveX<=15 ? 0 : moveX;
+			moveY = moveY<=15 ? 0 : moveY;
+
+			//改变位置 可拖动对象的位置
+			oDiv.style.left =  moveX + 'px';
+			oDiv.style.top = moveY + 'px';
+		}
+		function fnUp(e){
+			var e=e||event;
+			this.onmousemove=null;
+			this.onmouseup=null;
+
+			if(this.setCapture){//IE
+				this.releaseCapture();//取消事件捕获
+			}
+		}
+	}
+};
+
+var _draggable=function(obj,moveObj){
+			if(arguments.length===1) moveObj=obj;
+				obj.onmousedown=function(e){
+				var e = e||window.event;
+
+				//获取鼠标位置
+				var disX = e.clientX - moveObj.offsetLeft;
+				var disY = e.clientY - moveObj.offsetTop;
+
+				if(obj.setCapture){// IE
+					obj.onmousemove=fnMove
+					obj.onmouseup=fnUp;
+					obj.setCapture();	//阻止默认事件 捕获所有的事件到拖拽对象上
+				}else{
+					document.onmousemove=fnMove
+					document.onmouseup=fnUp;
+					return false;	//阻止默认事件 (解决拖动过程中文字选中的问题)
+				}
+
+				function fnMove(e){
+					var e= e||window.event;
+
+					//计算位移 鼠标的位移距离			
+					var moveX = e.clientX - disX;
+					var moveY = e.clientY - disY;
+
+					//限制范围 X轴和Y轴的移动范围
+					var maxX = document.documentElement.clientWidth - moveObj.offsetWidth;
+					var maxY = document.documentElement.clientHeight - moveObj.offsetHeight;
+					moveX = Math.min(maxX,Math.max(0,moveX));
+					moveY = Math.min(maxY,Math.max(0,moveY));
+
+					//磁性吸咐
+					moveX = moveX>=maxX-15 ? maxX : moveX;
+					moveY = moveY>=maxY-15 ? maxY : moveY;
+					moveX = moveX<=15 ? 0 : moveX;
+					moveY = moveY<=15 ? 0 : moveY;
+
+					//改变位置 可拖动对象的位置
+					moveObj.style.left =  moveX + 'px';
+					moveObj.style.top = moveY + 'px';
+					console.log(maxX+','+maxY);
+					console.log(moveObj.style.left+','+moveObj.style.top);
+				}
+				function fnUp(e){
+					var e=e||event;
+					this.onmousemove=null;
+					this.onmouseup=null;
+
+					if(this.setCapture){//IE
+						this.releaseCapture();//取消事件捕获
+					}
+				}
+			}
+}
+
+// draggableFn(oDiv);
+// draggableFn(oDiv2);
+// draggableFn(oDiv3);
+
+var oBox4 = document.getElementById('box4');
+var oBox4h3 = document.getElementById('box4-h3');
+// console.log(oBox4.offsetWidth);
+// console.log(oBox4.offsetHeight);
+_draggable(oBox4h3,oBox4);
+
+
+	
+
+
+
+
+	</script>
+</body>
+</html>

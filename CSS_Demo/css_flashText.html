@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>文字光影闪动</title>
+	<link href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		body {background: #E2E4E3}
+		.demo {width: 500px; height: 100px; margin: 50px auto; font-size: 30px;font-weight: bold;color:#171717;}		
+		.gradient {
+			width: 500px; height: 100px; border:1px solid #9D9D9D;
+			-webkit-mask: linear-gradient(90deg, #fff 40%,transparent 45%, #fff 50%);
+			-webkit-mask-size: 220% 100%; 
+			-webkit-mask-repeat: no-repeat; 
+			-webkit-mask-position: 100% 0; 
+		}
+
+		@-webkit-keyframes steamer-light-mask {
+			from { -webkit-mask-position: 100% 0;}
+			to { -webkit-mask-position: 0 0;}
+		}
+		.gradient:hover {
+			-webkit-animation: steamer-light-mask 4s infinite linear;
+		}
+
+
+		.demo p {
+			background-image: -webkit-linear-gradient(0, rgba(0,0,0,1) 10px, rgba(255,255,255,1) 48px, rgba(255,255,255,1) 52px, rgba(0,0,0,1) 100px);
+			-webkit-text-fill-color: transparent;
+			-webkit-background-clip: text;
+			-webkit-background-size: 200% 100%;
+			background-position: 20% 0;
+		}
+		p:hover {
+			-webkit-animation: steamer-light 4s infinite linear;
+		}
+		@-webkit-keyframes steamer-light {
+			from { background-position: 20% 0;}
+			to { background-position: -100% 0;}
+		}
+
+
+
+
+	</style>
+</head>
+<body>
+
+	<div class="demo">
+		<h2>css3 流光滑动效果测试</h2><br>
+		<h4>使用MASK遮罩的方式 + 动画</h4><hr>
+		<div class="gradient">文字光影闪动文字光影闪文字光影闪动文字光影闪文字光影闪动文字光影闪文字光影闪动文字光影闪文字光影闪动文字光影闪文字光影闪动文字光影闪</div>
+		<br><h4>使用background-image填充文字的方式 + 动画</h4><hr>
+		<p>文字光影闪动文字光影闪</p>
+	</div>
+</body>
+</html>

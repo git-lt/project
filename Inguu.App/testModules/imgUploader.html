@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+	<title>imgUploader组件 的测试</title>
+
+	<link rel="stylesheet" href="css/animate.css">
+<style>
+	* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;-webkit-tap-highlight-color: transparent; outline: 0; margin: 0; padding: 0;}
+	body{ background:#eee; line-height: 26px; font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",sans-serif; padding: 10px; }
+	ul li {list-style: none;}
+	ul {overflow:  hidden;}
+	button {width:120px; padding: 8px 0; margin: 5px;}
+	.pic-list-preview li{display: block; float:left; width: 192px; border:1px solid #ccc; padding: 5px; margin: 5px; text-align: center; background: #fff;}
+	.pic-list-preview img{ max-width: 180px;  vertical-align: middle;}
+
+</style>
+</head>
+
+<body>
+	<div class="content">
+			<h4 class="tc">imgUploader组件 的测试和用例</h4>
+			<hr>
+		  <p>You know some birds are not meant to be caged, their feathers are just too bright. 你知道，有些鸟儿是注定不会被关在牢笼里的，它们的每一片羽毛都闪耀着自由的光辉。</p><br>
+			
+		  <button id="uploadBtn" class="upload-btn">开始上传</button><br>
+		  <input id="file-image1" type="file" size="30" name="fileselect[]" accept="image/*" multiple="multiple" ><br>
+
+		  <!-- <input id="file-image2" class="ctr-x" type="file" size="30" name="fileselect[]" accept="image/*" multiple="multiple" ><br> -->
+		<br><p>PS:上传的具体详情，请查看日志</p>
+		  <div class="pic-list-preview">
+		 	<ul  id="previewBox">
+		 		
+		 	</ul>
+		  </div>
+		  	<div> <br><a href="/TEST/testModules/index.html">返回</a> </div>
+	</div>
+<script src="lib/require.js"></script>
+<!-- <script src="lib/sea.js"></script> -->
+<script>
+
+
+
+
+// url:"/photo/UploadPhoto"
+// "?guid=79e47747-c954-8995-fb04-2a5278ce59b4&name=935486956"
+
+// requireJs 调用方式：
+// ===================
+require(['lib/jquery','modules/util.imgUploader'],function(){
+	var $previewBox = $('#previewBox');
+	$('#file-image1').imgUploader({
+		url:'/photo/UploadPhoto',									//上传的地址
+		data:{ guid:'79e47747-c954-8995-fb04-2a5278ce',name:'935486956' },								//传递的参数
+		maxSize:1024*1024*100,					//最大大小
+		minSize:100,							//最小大小
+		acceptImgType:['jpg','png','gif'],		//接受的文件类型
+		filter: function(files){ return files},	//文件过滤
+		onError:function(errorMsg,level,file){
+			console.log(errorMsg);
+		},
+		onStart:function(e, file){
+			console.log('开始上传了...');
+		},
+		onPreview:function(dataUrl,file){ 
+			$previewBox.append('<li><img src="'+dataUrl+'" title="'+file.name+'" id="'+file.guid+'" /></li>');
+		},
+		onSelected: function(files) {
+			console.log('选择的文件个数：'+files.length);
+		},
+		onProgress: function(e, file, currPercent,totalPercent) {
+			console.log('当前文件进度: '+currPercent+'  总进度：'+totalPercent);
+		},
+		onSuccess: function(e,res, file) {
+			console.log('服务器返回值为：'+res);
+		},
+		onCancel: function(e, file){},			//取消上传时的回调
+		onCompleted: function() {
+			console.log('所有文件上传完毕！');
+		},
+		createGUID:function(){
+			return 'img'+Math.random().toString(36).substring(2, 10);
+		}
+	});
+
+	$('#uploadBtn').click(function(){
+		$('#file-image1').imgUploader('start');
+	});
+});
+		
+
+
+// seaJs 调用方式
+// ==============
+// seajs.config({
+//   base: "../testModules/"
+// })
+// seajs.use(['lib/jquery','modules/util.imgUploader'],function(){
+// 	$('#file-image1,#file-image2').imgUploader({
+// 		url:'/photo/UploadPhoto',									//上传的地址
+// 		data:{ guid:'79e47747-c954-8995-fb04-2a5278ce',name:'935486956' },								//传递的参数
+// 		maxSize:1024*1024*100,					//最大大小
+// 		minSize:100,							//最小大小
+// 		acceptImgType:['jpg','png','gif'],		//接受的文件类型
+// 		filter: function(files){ return files},	//文件过滤
+// 		onError:function(errorMsg,level,file){
+// 			console.log(errorMsg);
+// 		},
+// 		onStart:function(e, file){
+// 			console.log('开始上传了：');
+// 		},
+// 		onSelected: function(files) {
+// 			console.log('选择的文件个数：'+files.length);
+// 		},
+// 		onProgress: function(e, file, currPercent,totalPercent) {
+// 			console.log('当前文件进度: '+currPercent+'  总进度：'+totalPercent);
+// 		},
+// 		onSuccess: function(e,res, file) {
+// 			console.log('服务器返回值为：'+res);
+// 		},
+// 		onCancel: function(e, file){},			//取消上传时的回调
+// 		onCompleted: function() {
+// 			console.log('所有文件上传完毕！');
+// 		},
+// 		createGUID:function(){
+// 			return Math.random().toString(36).substring(2, 10);
+// 		}
+// 	});
+// });	
+
+</script>
+</body>
+</html>

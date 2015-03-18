@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>tpl</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+	<link href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="../css/animate.css">
+	<script src="../js/jquery-1.8.3.min.js"></script>
+	<script src="../Plugins/jquery.tabSwitch2.js"></script>
+
+	<style>
+	a, a:link, a:visited, a:hover, a:active {
+		text-decoration: none;
+		outline: none;
+		-moz-outline: none;
+	}
+
+	@font-face {
+	  font-family: 'iconfont';
+	  src: url('http://at.alicdn.com/t/font_1423966527_3184063.eot'); /* IE9*/
+	  src: url('http://at.alicdn.com/t/font_1423966527_3184063.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	  url('http://at.alicdn.com/t/font_1423966527_3184063.woff') format('woff'), /* chrome、firefox */
+	  url('http://at.alicdn.com/t/font_1423966527_3184063.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+	  url('http://at.alicdn.com/t/font_1423966527_3184063.svg#iconfont') format('svg'); /* iOS 4.1- */
+	}
+
+	.iconfont{
+	    font-family:"iconfont" !important;
+	    font-style:normal;
+	    font-size:14px;
+	    -webkit-font-smoothing: antialiased;
+	    -webkit-text-stroke-width: 0.2px;
+	    -moz-osx-font-smoothing: grayscale;
+	}
+	.carousel-box {
+		position: relative;
+		overflow: hidden;
+		min-width: 980px;
+		height: 320px;
+		background-color: #f0f0f0;
+	}
+	.carousel-box .prev,.carousel-box .next { 
+		position: absolute; z-index: 200;
+		top:50%; margin-top: -20px;
+		display: block; width: 40px; height: 40px; border-radius: 5px;
+		background: #000;filter: alpha(opacity=40); background: rgba(0,0,0,.4); 
+		text-shadow:0 0 3px rgba(0,0,0,.2); text-align: center;
+		color:#eee; color:rgba(255,255,255,.6);
+		opacity: 0;
+	}
+	
+	.carousel-box:hover .prev,.carousel-box:hover .next{
+		opacity: 1;
+		transition:opacity 0.35s linear;
+	}
+	.carousel-box .prev:hover,.carousel-box .next:hover {
+		color:#fff;
+		background: rgba(0,0,0,.8);
+		filter: alpha(opacity=80);
+		transition:color 0.35s linear, background-color 0.35s linear;
+	}
+	.carousel-box i.iconfont {font-size: 24px; vertical-align: middle;  line-height: 40px;}
+	.carousel-box .prev { left: 2%;}
+	.carousel-box .next { right: 2%;}
+
+	.carousel-items { width: 100%; height: 100%; overflow: hidden; list-style: none; vertical-align: bottom;}
+	.carousel-item {
+		position: absolute;
+		z-index: -1;
+		top: 0;
+		left: 0;
+		display: none;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		background: #f0f0f0 url(../img/loading.gif) no-repeat center center;
+	}
+	.carousel-item .layer,.carousel-item a {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: none;
+		background-repeat: no-repeat;
+		background-position: center center;
+	}
+	.carousel-item.active { z-index: 100; opacity: 1; transition:background-color 0.35s linear,opacity 0.35s linear;}
+	.carousel-item.active .layer,.carousel-item.active a {display: block;}
+	/*.slider-imgs li {}*/
+
+	.carousel-control-paging {
+		position: absolute;
+		z-index: 200;
+		bottom: 15px;
+		left: 0;
+		width: 100%;
+		height: 12px;
+		font-size: 0;
+		line-height: 0;
+		text-align: center;
+	}
+	.carousel-control-paging a {
+		display: inline-block;
+		width: 12px;
+		height: 12px;
+		margin: 0 3px;
+		border-radius: 10px;
+		background-color: #e6e6e6;
+		cursor: pointer;
+		vertical-align: middle;
+	}
+	.carousel-control-paging a.active,.carousel-control-paging a:hover {
+		background-color: #d9143c;
+	}
+
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>焦点图 动画轮播插件测试</h2><hr>
+	</div>
+
+	
+	<div class="carousel-box tab-box" id="carouselBox">
+		<!-- <h3 class="no-txt">焦点图</h3> -->
+		<div class="carousel-control-paging tab-menus">
+			<a href="javascript:;" class="active">1</a>
+			<a href="javascript:;">2</a>
+			<a href="javascript:;">3</a>
+		</div>
+		<ul class="carousel-items tab-content">
+			<li class="carousel-item active" style="background:#AA1118;">
+				<div class="layer animated fadeIn" data-bg="../img/banner8.png" data-delay="0"></div>
+				<div class="layer animated fadeIn" data-bg="../img/banner23.png" data-delay="10"></div>
+				<div class="layer animated fadeInUp" data-bg="../img/banner5.png" data-delay="0"></div>
+				<div class="layer animated bounceInDown" data-bg="../img/banner9.png" data-delay="5"></div>
+				<a href="###" target="_blank"></a>
+			</li>
+			<li class="carousel-item" style="background:#AA1118;">
+				<div class="layer animated fadeIn" data-bg="../img/banner7.png" data-delay="0"></div>
+				<div class="layer animated bounceInDown" data-bg="../img/banner18.png" data-delay="2"></div>
+				<div class="layer animated bounceInRight" data-bg="../img/banner6.png" data-delay="5"></div>
+				<div class="layer animated bounceInDown" data-bg="../img/banner3.png" data-delay="2"></div>
+				<a href="###" target="_blank"></a>
+			</li>
+			<li class="carousel-item" style="background:#EEEEEE;">
+				<div class="layer animated fadeIn" data-bg="../img/banner1.png" data-delay="0"></div>
+				<div class="layer animated bounceInLeft" data-bg="../img/banner19.png" data-delay="2"></div>
+				<div class="layer animated bounceInRight" data-bg="../img/banner24.png" data-delay="2"></div>
+				<a href="###" target="_blank"></a>
+			</li>
+		</ul>
+
+		<a href="javascript:;" class="prev"><i class="iconfont">&#xe600;</i></a>
+		<a href="javascript:;" class="next"><i class="iconfont">&#xe601;</i></a>
+	</div>
+
+<script>
+	
+	// $(function(){
+
+	// 	var CarouselAnimate = function(){};
+
+	// 	CarouselAnimate.DEFAULTS={};
+
+	// 	CarouselAnimate.prototype={
+	// 		constructor:CarouselAnimate,
+	// 		init:function(){},
+	// 		next:function(){},
+	// 		prev:function(){},
+
+	// 	};
+
+	// });
+
+	$('#carouselBox').tabSwitch({
+		isCarousel: true,                //是否为轮播图
+		autoPlay: true			  //是否自动播放
+	});
+
+</script>
+
+</body>
+</html>

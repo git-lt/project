@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>移动开发 模块整理</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+	<link href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+	<style>
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>移动开发 模块整理 <small>项目中提取</small></h2>
+		<hr>
+		<div class="row">
+			<blockquote>
+				<a href="http://zhigui.inguu.com/TEST/testModules/testMsg.html">弹窗</a>
+				<footer>最后修改日期：2015年1月15日 11:15:56</footer>
+			</blockquote>
+			<blockquote>
+				<a href="http://zhigui.inguu.com/TEST/testModules/testNotice.html">通知消息</a>
+				<footer>最后修改日期：2015年1月15日 11:15:56</footer>
+			</blockquote>
+			<blockquote>
+				<a href="http://zhigui.inguu.com/TEST/testModules/testUpload.html">图片上传</a>
+				<footer>最后修改日期：2015年1月15日 11:15:56</footer>
+			</blockquote>
+			<blockquote>
+				<a href="http://zhigui.inguu.com/TEST/testModules/testUpload.html">拖动排序</a>
+				<footer>最后修改日期：2015年1月15日 11:15:56</footer>
+			</blockquote>
+			<blockquote>
+				<a href="http://zhigui.inguu.com/TEST/testModules/testUpload.html">颜色选取</a>
+				<footer>最后修改日期：2015年1月15日 11:15:56</footer>
+			</blockquote>
+			<blockquote>
+				<a href="http://zhigui.inguu.com/TEST/testModules/testUpload.html">滑杆</a>
+				<footer>最后修改日期：2015年1月15日 11:15:56</footer>
+			</blockquote>
+			<blockquote>
+				<a href="http://zhigui.inguu.com/TEST/testModules/testUpload.html">拉动刷新</a>
+				<p>备注：需要优化</p>
+				<footer>最后修改日期：2015年1月15日 11:15:56</footer>
+			</blockquote>
+		</div>
+	</div>
+</body>
+</html>

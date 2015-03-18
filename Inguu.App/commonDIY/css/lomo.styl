@@ -1,0 +1,245 @@
+#tpl-list
+	li
+		text-align center
+		img
+			display inline-block
+			width 65%
+
+.pic-list-box
+	li.active
+		border:1px solid red;
+.top-bar-info .u-info
+	padding 0.3em 0.5em;
+.upload-pic-actions
+	border-bottom:1px solid #dbdbdb;
+	button
+		border:none;
+		border-left:1px solid #DBDBDB;
+		border-radius:0;
+		float:right;
+		width:15%
+		box-sizing border-box
+		height 30px;
+		padding 4px 10px;
+		line-height 1.5em
+		color:#007aff
+		&[disabled="disabled"]
+			color:#dbdbdb;
+		&.addTxt
+			border:none;
+			width 27.5%
+			span
+				font-size 18px
+		&.delete
+			width 27.5%
+		
+.tpl-navpage
+	padding 0 0.5em
+	button
+		float:left;
+		width:10%
+		padding:0
+		height:28px;
+		// border:none;
+		line-height 32px
+	div.pagenum
+		float:left;
+		width:80%
+		text-align center
+		div a
+			text-decoration: none;
+			outline: none;
+			display: inline-block;
+			font-size: 12px;
+			width: 15%;
+			text-align: center;
+			line-height: 26px;
+			border: 1px solid #eee;
+			margin-left: 1.9%;
+			color: #1A1A1A;
+			background: #d9e1e1;
+			position: relative;
+			border-radius:3px;
+			&:first-child
+				margin-left:0;
+			&.active
+				background #58BFC9
+				color:#fff;
+.pep-active
+	border:1px solid red;
+.cart-view-con ul.pic-list-box
+	height 80px
+	padding 0
+	li 
+		-webkit-transform-origin: 50% 50%;
+		transform-origin: 50% 50%;
+		&.actived
+			border: 1px solid red;
+		span
+			display inline-block
+			width 16px
+			height 16px
+			&.normal
+				background:url(../images/iconfont-biaoqing.png?__sprite) no-repeat;
+			&.error
+				background:url(../images/iconfont-xinxi.png?__sprite) no-repeat;
+			&.warn
+				background:url(../images/iconfont-wentifankui.png?__sprite) no-repeat;
+.cart-btm-tip span
+	display inline-block
+	width 16px
+	height 16px
+	position: relative;
+	top: 4px;
+	&.normal
+		background:url(../images/iconfont-biaoqing.png?__sprite) no-repeat;
+	&.error
+		background:url(../images/iconfont-xinxi.png?__sprite) no-repeat;
+	&.warn
+		background:url(../images/iconfont-wentifankui.png?__sprite) no-repeat;
+#tpls-box
+	padding 10px 0 0 0;
+.tpl-edit-box
+	box-shadow:0 0 10px rgba(0,0,0,.2);
+
+.popup.addtxt
+	position absolute
+	left 0
+	top 0 
+	bottom 0
+	height 100%
+	width 100%
+	z-index 1110
+	background #F8F8F8
+	opacity: 0;
+	-webkit-transition-property: -webkit-transform;
+	transition-property: transform;
+	-webkit-transform: translate3d(0,100%,0);
+	transform: translate3d(0,100%,0);
+	-webkit-transition: -webkit-transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+	transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+	&.active
+		opacity: 1;
+		-webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+	.popup-inner
+		padding-top:35px;
+		height 100%
+		.popup-hd
+			position absolute
+			top:0
+			width 100%
+			height 35px 
+			line-height 35px
+			border-bottom: 1px solid #dedede;
+			background-color: #fff;
+			h4
+				line-height 35px
+				color:#333
+				margin: 0 30px
+				font-weight:700
+				text-align center
+				overflow hidden
+			.close
+				position: absolute;
+				right: 0;
+				top: 0;
+				font-size: 30px;
+				width: 35px;
+				text-align: center;
+				cursor: pointer;
+				color:#ccc
+		.popup-bd
+			padding:10px 15px;
+			background: #f8f8f8;
+			color: #555;
+			border-top:1px solid #fff
+			height 100%
+			width 100%
+			overflow-y:auto;
+			overflow-x:hidden;
+			-webkit-overflow-scrolling : touch;
+			textarea
+				display block;
+				color:#000
+				line-height 1em;
+				overflow-x hidden
+				overflow-y auto;
+				height 100px
+			.txt-tool
+				line-height 33px;
+				.ttf-color
+					display: inline-block;
+					height: 30px;
+					width: 30px;
+					margin: 0;
+					margin-right: 8px;
+					position: relative;
+					top: 2px;
+					border-radius: 50%;
+					background: #000;
+					box-shadow: 0 0 4px rgba(0,0,0,.2);
+				span
+				b
+					font-size 14px
+					font-weight normal
+				.slider-wrapper
+					width 100px;
+					display inline-block
+					margin-right: 8px;
+					.range-handle
+						width 20px
+						height 20px
+						top -10px
+					.range-bar
+						top -3px
+				.range-min
+					width 0
+					height 0
+					position static
+				
+			.ttf-pic-list
+				height auto
+				position relative
+				box-sizing:border-box
+				ul
+				li
+					margin 0 
+					padding 0
+					list-style none
+				>ul>li
+					position absolute
+					height 100%
+					z-index 99
+					border: 1px solid #f8f8f8;
+				ul.ttf-item
+					width 100%
+					overflow auto
+					li
+						float:left;
+						display:block;
+						width 45%
+						margin 2.5%
+						padding 0 2.5%
+						background #fff
+						border:1px solid #ccc
+						border-radius 4px;
+						img
+							display block
+							width 100%
+							height auto
+			.txt-result
+				div
+					text-align center
+					width: 100%;
+					overflow:hidden;
+				img
+					display inline-block
+					margin-bottom: 10px
+					height auto
+			.btn-createTxt
+				padding-left:30px
+				padding-right:30px
+	
+						
+

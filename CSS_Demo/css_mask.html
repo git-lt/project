@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CSS3 蒙版测试</title>
+	<link rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.3.0/css/bootstrap.min.css">
+	<script src="../lib/touch.min.js"></script>
+	<style>
+		.mask1 {
+			width: 200px;
+			height: 200px;
+			padding: 5px;
+			border:1px solid black;
+			background: #DEBE5C url(../images/img500x281_2.jpg) no-repeat center center;
+			background-size: auto 100%; 
+			background-clip:content-box;
+			background-origin: content;
+
+			-webkit-mask:url(../images/mask1.png) no-repeat center center;
+			-webkit-mask-size:contain;
+			-webkit-mask-origin:content;
+		}
+	</style>
+
+</head>
+<body>
+	<div class="container">
+		<h3>CSS3 蒙版测试</h3>
+		<hr>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="mask1" id="mask1">
+					<!-- <img src="../images/img500x281_2.jpg" alt=""> -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+
+
+
+	var dx, dy;
+	var img = document.querySelector('#mask1 img');
+	touch.on('#mask1','drag',function(ev){
+		console.log(ev);
+		// if(ev.direction=='')
+
+		//限制上下或左右拖动
+		//限制拖动距离
+
+		dx = dx || 0;
+		dy = dy || 0;
+
+		this.style.backgroundPositionX = dx + ev.x + 'px';
+		this.style.backgroundPositionY = dy + ev.y + 'px';
+
+		// img.style.webkitTransform = "translate3d("  + ev.x + 'px' + ","+ ev.y + 'px' + ",0)";
+
+	});
+
+	touch.on('#mask1', 'dragend', function(ev){
+		dx += ev.x;
+		dy += ev.y;
+	});
+	</script>
+</body>
+</html>

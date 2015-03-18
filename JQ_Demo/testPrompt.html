@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+
+	<title>msg.prompt 测试</title>
+	<!-- Touch & Jquery -->
+	<script src="lib/jquery.js"></script>
+	<script src="lib/touch.min.js"></script>
+	<link rel="stylesheet" href="css/animate.css">
+	<style>
+		/*range*/
+		body {background: -black; padding: 20px;}
+		.ui.msg.tip{
+	        position: absolute;
+	        top:0;
+	        left:0;
+	        right: 0;
+	        z-index: 9999;
+	        overflow: auto;
+	        margin: 0;padding: 0;
+	        display: none;
+	      }
+	      .ui.msg.tip>.con{
+	        height: 44px;
+	        line-height: 44px;
+	        padding-left: 0.5em;
+	        width: 82%;
+	        float:left;
+	        -webkit-animation-delay: 1s;
+	        animation-delay: 1s;
+	      } 
+	      .ui.msg.tip>.close{
+	        float:right;
+	        text-align: center;
+	        background: rgba(255,255,255,.5);
+	        float:right;
+	        width: 18%;
+	        height: 100%;
+	        line-height: 44px;
+	        font-size: 28px;
+	        border-left: 1px solid rgba(0,0,0,.1);
+	      }
+	      .ui.msg.blue{
+	        background-color: #E6F4F9;
+	        color: #4D8796;
+	        border: 1px solid #A5D8E8;
+	        border-left:3px solid #A5D8E8;
+	      }
+	      .ui.msg.red{
+	        background-color: #F1D7D7;
+	        color: #A95252;
+	        border-bottom: 1px solid #E8B4B4;
+	        border-left:3px solid #E8B4B4;
+	      }
+	      .ui.msg.yellow{
+	        background-color: #F6F3D5;
+	        color: #96904D;
+	        border-bottom: 1px solid #E5DEAA;
+	        border-left:3px solid #E5DEAA;
+	      }
+	      .ui.msg.green{
+	        background-color: #DEFCD5;
+	        color: #52A954;
+	        border-bottom: 1px solid #B7E8AA;
+	        border-left:3px solid #B7E8AA;
+	      }
+
+	      .ui.mask {
+	      	height: 100%; width: 100%;
+	      	background-color: rgba(0,0,0,.2);
+	      	position: absolute;
+	      	left:0;
+	      	top:0;
+	      	right: 0;
+	      	bottom: 0;
+	      	z-index: 9;
+	      }
+		
+	</style>
+	<script>
+	$(function(){
+
+
+		var Mask = function(){
+			this.inited = false;
+			this.isShow = false;
+			this.$el = $(Mask.DEFAUTS.tpl);
+
+			this.init();
+		};
+
+		Mask.DEFAUTS={
+			selector:'[data-ui-mask]',
+			tpl:'<div class="ui mask hide" data-ui-mask></div>'
+		}
+
+		Mask.prototype={
+			constructor:Mask,
+			init:function(){
+				if(!this.inited){
+					$('body').append(this.$el);
+					this.inited = true;
+				}
+			},
+			show:function(opacity){
+				var self = this;
+				if(!this.isShow){
+					if(opacity) self.$el.css('background-color','rgba(0,0,0,'+opacity+')');
+					setTimeout(function(){self.$el.show();},0);
+					this.$el.addClass('animated fadeIn');
+					this.isShow = true;
+				}
+			},
+			hide:function(){
+				if(this.isShow){
+					this.$el.removeClass('fadeIn').addClass('fadeOut');
+					this.isShow = false;
+					this.$el[0].addEventListener('webkitAnimationEnd',function(){
+						$(this).removeClass('animated fadeOut').hide();
+					});
+				}
+			}
+		};
+
+		var mask = new Mask();
+
+		$.mask = mask;
+
+		// TEST Mask 
+		$.mask.show(0.2);
+
+		setTimeout(function(){
+			$.mask.hide();
+		},2000);
+
+
+
+		$.msg={};
+		
+		var MsgPrompt = function(options){
+			this.o = $.extend({},MsgPrompt.DEFAUTS,typeof options == 'object' && options);
+			this.inited = false;
+			this.isShown = false;
+
+			this.init();
+		};
+
+		MsgPrompt.DEFAUTS={
+			title:'',
+			content:'',
+			isModal:true,
+			onCancel:function(val){},
+			onConfirm:function(val){},
+			closeable:false,
+			className:{
+				active:'',
+				out:''
+			},
+			selectors:{
+				promptBox:'#promptBox',
+				header:'.prompt-hd p',
+				body:'.prompt-bd',
+				footer:'.prompt-ft',
+				input:'.prompt-ipt',
+				btnCancel:'.btn-cancel',
+				btnConfirm:'.btn-confirm'
+			},
+			tpl:'<section class="ui msg prompt" style="display:none;" id="promptEditTB">'+
+                	'<div class="prompt-hd"><h4>修改旺旺名称</h4></div>'+
+	                '<div class="prompt-bd">'+
+	                    '<div>'+
+	                        '<h4 class="">旺旺名：</h4>'+
+	                        '<input type="email" name="taobao" class="prompt-ipt" id="txt_editTB" value=""/>'+
+	                    '</div>'+
+	                '</div>'+
+	                '<div class="prompt-ft">'+
+	                    '<span class="btn">返回</span><span class="btn btn-primary">确认</span>'+
+	                '</div>'+
+	            '</section>'
+		};
+		MsgPrompt.prototype={
+			constructor:MsgPrompt,
+			init:function(){
+				if(!this.inited){
+					$('body').append(this.o.tpl);
+					this.inited = true;
+				}
+				this.$box = $(this.o.selectors.promptBox);
+				this.$header = tis.$box.find(this.o.selectors.header);
+				this.$body = tis.$box.find(this.o.selectors.body);
+				this.$footer = tis.$box.find(this.o.selectors.footer);
+				this.$btnCancel = this.$footer.find(this.o.selectors.btnCancel);
+				this.$btnConfirm = this.$footer.find(this.o.selectors.btnConfirm);
+				this.$input = this.$body.find(this.o.selectors.input);
+
+				this.addEvents();
+			},
+			show:function(){
+				var self = this;
+				if(!this.isShown){
+					this.o.isModal && $.msg.mask.show();
+					setTimeout(function(){self.$box.show()},0);
+					this.$box.addClass('animated zoomIn');
+					this.isShown = true;
+				}
+			},
+			hide:function(){
+				var self = this;
+				if(this.isShown){
+					this.o.isModal && $.msg.mask.hide();
+					this.$box.removeClass('zoomIn').addClass('zoomOut');
+					this.$box[0].addEventListener('webkitAnimationEnd',function(){
+						$(this).removeClass('animated zoomOut').off().remove();
+					});
+				}
+
+			},
+			addEvents:function(){
+				var self = this;
+				self.$btnCancel.on('click',function(){
+					self.onCancel(this.$input.val());
+					self.hide();
+				});
+
+				self.$btnConfirm.on('click',function(){
+					self.onConfirm(this.$input.val());
+				});
+			}
+		}
+
+		$.msg.prompt =function(){
+			return new MsgPrompt();
+		};
+
+
+
+				// /* === 对话框 === */
+			 //    var $overlay = $('#dialog-login');
+			 //    	$('#index-ok').click(function () {
+			 //    	//验证是否选择了模板
+			 //    	if(!GLOBAL.orderInfo.tplID) {
+			 //    		$.msg.tip('请选择一个模板！','#alert-box',4000,'yellow');
+			 //    		return false;
+			 //    	}
+
+			 //        //判断是否已经登录(已经输入taobao账号), 跳转到下一页
+			 //        if ($.trim(GLOBAL.orderInfo.taobao) !== '') {
+			 //            $.pageTransition.nextPage($('#view-page-index'));
+			 //            return false;
+			 //        }
+
+			 //        var $that = $(this);
+
+			 //        $overlay.addClass('active');
+			 //        var $whichModal = $('.' + $(this).data('modal'));
+			 //        $whichModal.css({ "display": "block" });
+			 //        setTimeout(function () { $whichModal.addClass('modal-in'); }, 100);
+
+			 //        $overlay.find('.btn-cancel').click(function (e) {
+			 //            modalHidden($overlay);
+			 //            return false;
+			 //        });
+			 //        $overlay.find('.btn-primary').click(function (e) {
+			 //            //获取输入 不能为空
+			 //            var uName = $.trim($('#userName').val())
+			 //            if (uName !== '') {
+			 //                //存入缓存 -> 跳转下一页
+			 //                GLOBAL.orderInfo.taobao = uName;
+				// 			Utils.setCookie('taobao',uName,30);
+			 //                $('#userName').removeClass('ipt-error');
+			 //                modalHidden($overlay);
+			 //                setTimeout(function () { $.pageTransition.nextPage($('#view-page-index')); }, 110);
+			 //                return false;
+			 //            } else {
+			 //                $('#userName').addClass('ipt-error');
+			 //                $('#userName')[0].addEventListener('webkitAnimationEnd',function(){
+			 //                	$(this).removeClass('ipt-error');
+			 //                },false);
+			 //            }
+			 //            return false;
+			 //        });
+
+			 //        $overlay.click(function (e) {
+			 //            if (e.target.classList.contains('overlay')) {
+			 //                modalHidden($overlay);
+			 //            }
+			 //        });
+			 //    });
+				
+			// $('#txt_editTB')[0].addEventListener('webkitAnimationEnd',function(){
+			// 	$(this).removeClass('ipt-error');
+			// },false);
+			// 
+			// function modalHidden($modalBox) {
+		    // var $con = $modalBox.find('section.modal');
+		    // $con.removeClass('modal-in');
+		    // $con.css({ "display": "none" });
+		    // $modalBox.removeClass('active');
+// };
+
+	});
+	</script>
+</head>
+<body>
+	<div class="container">
+		<div class="ui range-wrap" id="size-range">
+		    <span class="range-bar">
+		      <span class="range-handle" style="left: 0;"></span>
+		      <span class="range-quantity" style="width: 0"></span>
+		    </span>
+		</div>
+	</div>
+</body>
+</html>

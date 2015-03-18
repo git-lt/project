@@ -1,0 +1,7 @@
+button {
+  -webkit-box-shadow: 2px 1px 10px #f00;
+  -moz-box-shadow: 2px 1px 10px #f00;
+  -ms-box-shadow: 2px 1px 10px #f00;
+  -o-box-shadow: 2px 1px 10px #f00;
+  box-shadow: 2px 1px 10px #f00;
+}

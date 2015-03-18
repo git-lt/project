@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>tpl</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+	<link href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+	<style>
+	@font-face {
+	  font-family: 'iconfont';
+	  src: url('http://at.alicdn.com/t/font_1423966527_3184063.eot'); /* IE9*/
+	  src: url('http://at.alicdn.com/t/font_1423966527_3184063.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	  url('http://at.alicdn.com/t/font_1423966527_3184063.woff') format('woff'), /* chrome、firefox */
+	  url('http://at.alicdn.com/t/font_1423966527_3184063.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+	  url('http://at.alicdn.com/t/font_1423966527_3184063.svg#iconfont') format('svg'); /* iOS 4.1- */
+	}
+
+	.iconfont{
+	    font-family:"iconfont" !important;
+	    font-style:normal;
+	    font-size:14px;
+	    -webkit-font-smoothing: antialiased;
+	    -webkit-text-stroke-width: 0.2px;
+	    -moz-osx-font-smoothing: grayscale;
+	}
+		
+
+
+	.demo li img{ width: 260px; height: auto;}
+	.bigimg-actions i {font-size: 40px; color:#eaeaea;}
+	.bigimg-actions a {text-decoration: none; display: inline-block; position: fixed; z-index:9000;}
+	.bigimg-actions a:hover{text-shadow: 0 0 6px rgba(255,255,255,.5);}
+	.bigimg-actions a.prev { top:45%; left:10%;}
+	.bigimg-actions a.next { top:45%; right:10%;}
+	.bigimg-actions a.close { top:10%; right:10%;}
+
+	/*ui-mask*/
+	.ui-mask {position: fixed; top: 0;right: 0;bottom: 0;left: 0;display: none;width: 100%;height: 100%;background-color:#000; background-color: rgba(0,0,0,.6);z-index: 1100;opacity: 0.5; -webkit-transition: opacity .15s;transition: opacity .15s; z-index: 1100; }
+	/*.ui-mask.active {opacity: 1;}*/
+	.no-scroll {overflow: hidden;}
+
+	</style>	
+</head>
+<body>
+	<div class="container">
+		<h2>HTML5模板文件</h2>
+		<hr>
+
+		<div class="demo" id="imgBox">
+			<ul class="list-inline imgs" >
+				<li data-bigimg="../../images/img500x281_1.jpg"><img src="../../images/img500x281_1.jpg" alt=""></li>
+				<li data-bigimg="../../images/img500x281_2.jpg"><img src="../../images/img500x281_2.jpg" alt=""></li>
+				<li data-bigimg="../../images/img500x281_3.jpg"><img src="../../images/img500x281_3.jpg" alt=""></li>
+				<li data-bigimg="../../images/img500x281_4.jpg"><img src="../../images/img500x281_4.jpg" alt=""></li>
+			</ul>
+		</div>
+		
+<!-- 		<div class="bigimg-actions">
+			<a href="javscript:void(0)" class="prev"><i class="iconfont">&#xe600;</i></a>
+			<a href="javscript:void(0)" class="next"><i class="iconfont">&#xe601;</i></a>
+			<a href="javscript:void(0)" class="close"><i class="iconfont">&#xe602;</i></a>
+		</div> -->
+
+	</div>
+	<script>
+	$(function(){
+
+		// 注册图片链接的点击事件，获取大图的路径
+		// 生成遮罩层
+		// 显示操作按钮
+		// 注册按钮事件
+		// 事件：
+
+// ========================================================
+
+;(function (root, factory) {
+  if (typeof define === 'function' && ( define.amd || define.cmd )) { //requireJs & seaJs
+	define(['jquery'], function(require, exports, module){
+		return factory($); 
+	});
+  } else if ( typeof exports === 'object' ) {	// CommonJS
+    module.exports = factory(require('jquery'));
+  }else {
+   	factory(window.$);
+  }
+})(window, function ($) {
+
+	"use strict";
+
+	var Mask = function(option){
+		this.inited = false;
+		this.isShow = false;
+		this.$el = null;
+		this.o = option;
+		this.init();
+	};
+
+	Mask.DEFAUTS={
+		selector:'[data-ui-mask]',
+		opacity:0.4,
+		color:'black',
+		parentId:'body',
+		onShown:function(){},
+		tpl:'<div class="ui-mask" data-ui-mask></div>'
+	}
+
+	Mask.prototype={
+		constructor:Mask,
+		init:function(){
+			if(!this.inited && !this.isShow){
+				$('body').append(this.o.tpl);
+				this.$el = $(Mask.DEFAUTS.selector);
+				this.inited = true;
+			}
+		},
+		show:function(option){
+			if(option) this.o = option;
+			var self = this, o = this.o;
+			if(!this.isShow){
+				this._initStyle();
+				this.$el.fadeIn(500,function(){
+					o.onShown();
+				});
+				this.isShow = true;
+			}
+		},
+		hide:function(){
+			if(this.isShow){
+				this.$el.off().fadeOut('fast', function() {
+					$('body').removeClass('no-scroll'); 
+				});
+				this.isShow = false;
+			}
+		},
+		_initStyle:function(){
+			//set dimmer style
+			var color = this.o.color === 'white' ? '#fff': '#000';
+
+			if(this.o.parentId != 'body'){
+				var $Parent = $('#'+this.o.parentId);
+				this.$el.css({
+					'width':$Parent.outerWidth(),
+					'height':$Parent.outerHeight(),
+					'left':$Parent.offset().left+'px',
+					'top':$Parent.offset().top+'px',
+					'backgroundColor':color,
+					'opacity':this.o.opacity,
+					'filter':'alpha(opacity='+this.o.opacity*100+')',
+					'display':'block'
+				});
+			}else{
+				$('body').addClass('no-scroll');
+				this.$el.css({'width':'100%','height':'100%','left':0,'top':0,'backgroundColor':color,'opacity':this.o.opacity,'display':'block'});
+			}
+		}
+	};
+
+	Mask.INSTANCE = null;
+
+	$.mask ={
+		$el:null,
+		instance:null,
+		show:function(opacity,color,parentId){
+			var options = {
+				opacity:opacity || 0.4,
+				color:color|| 'black',
+				parentId: parentId || 'body'
+			};
+
+			if($.isPlainObject(opacity)) options = opacity;
+			var option = $.extend({}, Mask.DEFAUTS, options);
+
+			!Mask.INSTANCE && (Mask.INSTANCE = new Mask(option));
+			
+			this.$el = Mask.INSTANCE.$el;
+			this.instance = Mask.INSTANCE;
+
+			Mask.INSTANCE.show.call(Mask.INSTANCE,option);
+			return Mask.INSTANCE;
+		},
+		hide:function(){
+			Mask.INSTANCE.hide.call(Mask.INSTANCE);
+			return Mask.INSTANCE;
+		}
+	};
+
+	return $.mask;
+});
+
+
+(function(){
+	var ShowBigPic=function(ele, option){
+		this.$el = $(ele);
+		this.o = option;
+		this.showImgBoxId = 'big' + Math.random().toString(32).substring(4);
+		this.bigImgsArr = [];
+		this.currIndex = 0; 	//当前显示的图片的索引
+		this.$showImgBox = null;
+		this.$bigimgActions = null;
+		this.timmer = null;
+		this.init();
+	};
+
+	ShowBigPic.DEFAULTS = {
+		tpls:{
+			actions:'<div class="bigimg-actions">\
+						<a href="javascript:void(0)" class="prev"><i class="iconfont">&#xe600;</i></a>\
+						<a href="javascript:void(0)" class="next"><i class="iconfont">&#xe601;</i></a>\
+						<a href="javascript:void(0)" class="close"><i class="iconfont">&#xe602;</i></a>\
+					</div>'
+		}
+	};
+
+	ShowBigPic.prototype={
+		constructor:ShowBigPic,
+		init:function(){
+			// 获取当前元素下的所有大图集合 和 当前图片的索引
+			// 添加到 div 中
+			// 注册操作事件
+			var self = this;
+			this.$el.find('[data-bigimg]').each(function(){
+				self.bigImgsArr.push($(this).data('bigimg'));
+			});
+
+			var $showImgBox = $('<div>').prop('id',this.showImgBoxId).appendTo('body');
+
+			var t = '';
+			for(var i in this.bigImgsArr){
+				t += '<img src="'+this.bigImgsArr[i]+'" style="display:none">'
+			}
+			this.$showImgBox = $showImgBox.html(t);
+
+			if(!$('.bigimg-actions').length){
+				$('body').append(this.o.tpls.actions);
+			}
+
+			this.$bigimgActions = $('.bigimg-actions').hide();
+
+			this.addEvents();
+		},
+		show:function($currImg){
+			// 先显示loading，加载完成后显示大图
+			// 获取当前图片的大小
+			// 获取居中时的position
+			// 开始动画显示
+            var self = this, $currBigImg, docH, docW,$doc=$(document);
+            var smallImgW = $currImg.outerWidth(),
+                smallImgH = $currImg.outerHeight(),
+                smallImgT = $currImg.offset().top - $doc.scrollTop(),
+                smallImgL = $currImg.offset().left - $doc.scrollLeft();
+
+			this.currIndex = $currImg.index();
+			$currBigImg = this.$showImgBox.children().eq(this.currIndex);
+
+			docH = document.documentElement.clientHeight, docW = document.documentElement.clientWidth;
+			var toW = $currBigImg.outerWidth(),
+				toH = $currBigImg.outerHeight(),
+				toT = parseFloat((((docH-toH)/2)/docH)*100)+'%',
+				toL = parseFloat((((docW-toW)/2)/docW)*100)+'%';
+
+			$currBigImg.parent().children().each(function(){
+				var $this=$(this), w, h;
+				w = $this.width();
+				h = $this.height();
+				$this.css({
+					'position':'fixed',
+					'zIndex':9000,
+					'top':((docH - h)/2)>>0,
+					'left':((docW - w)/2)>>0
+				}).data({'w':w, 'h':h});
+			});
+
+
+			$currBigImg.css({
+				'display':'block',
+				'opacity':0,
+				'position':'fixed',
+				'zIndex':9000,
+				'width':smallImgW,
+				'height':smallImgH,
+				'top':smallImgT,
+				'left':smallImgL
+			});
+
+			$currBigImg.offset().top;
+
+			$.mask.show(0.8);
+			$currBigImg.animate({
+				'opacity':1,
+				'width':toW,
+				'height':toH,
+				'top':toT,
+				'left':toL
+			}, 350, function(){
+				self.$bigimgActions.show();
+			});
+		},
+		prev:function(){
+			this.currIndex = this.bigImgsArr[this.currIndex-1] ? this.currIndex : 0;
+			if(this.currIndex === 0){
+				this.$showImgBox.children().eq(this.currIndex).fadeOut().end().last().fadeIn();
+				this.currIndex = this.bigImgsArr.length-1;
+			}else{
+				this.$showImgBox.children().eq(this.currIndex).fadeOut().end().eq(--this.currIndex).fadeIn();
+			}
+		},
+		next:function(){
+			this.currIndex = this.bigImgsArr[this.currIndex+1] ? this.currIndex : -1;
+
+			this.$showImgBox.children().eq(this.currIndex).fadeOut().end().eq(++this.currIndex).fadeIn();
+		},
+		close:function(){
+			// 关闭图层动画
+			// 隐藏mask
+			var self = this;
+			var $bigImgs = this.$showImgBox.children();
+			$bigImgs.eq(this.currIndex).animate({
+					'opacity':0,
+					'width':0,
+					'height':0,
+			}, 300, function(){
+				$.mask.hide();
+				self.$bigimgActions.hide();
+				$bigImgs.attr('style','display:none');
+			});
+		},
+		resize:function(){
+			clearTimeout(this.timmer);
+			var self = this, $currBigImg, w, h,
+				docH = document.documentElement.clientHeight, 
+				docW=document.documentElement.clientWidth;
+			this.timmer = setTimeout(function(){
+				self.$showImgBox.children().each(function(){
+					w = $(this).data('w'), h = $(this).data('h');
+					$(this).css({
+						top:((docH - h)/2)>>0,
+						left:((docW - w)/2)>>0
+					});
+				});
+			}, 50);
+		},
+		addEvents:function(){
+			var self = this, o = this.o;
+			
+			this.$el.on('click','[data-bigImg]', function(e){ e.preventDefault(); self.show($(this));});
+			this.$bigimgActions.on('click','.prev', $.proxy(this.prev, this));
+			this.$bigimgActions.on('click','.next', $.proxy(this.next, this));
+			this.$bigimgActions.on('click','.close', $.proxy(this.close, this));
+			$(window).on('resize',$.proxy(this.resize, this));
+		}
+	};
+
+	$.fn.showBigPic=function(options){
+		return this.each(function(){
+			var $this = $(this);
+			var option = $.extend({}, ShowBigPic.DEFAULTS, typeof options == 'object' && options);
+			var data = $this.data('showBigPic');
+			if(!data) $this.data('showBigPic', (data= new ShowBigPic(this, option)));
+			if(typeof option == 'string') data[option]();
+		});
+	};
+
+
+
+	// Data api
+	$(function(){
+		$('[data-smallImgsBox]').showBigPic();
+	});
+
+})();
+
+
+$('#imgBox').showBigPic();
+
+
+
+
+
+
+	});
+
+	</script>
+</body>
+</html>

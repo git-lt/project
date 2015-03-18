@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Bootstrap TPL</title>
+	<meta name="description" content="jQuery - Bootstrap 模板">
+
+	<style>
+	body{background: #f4f4f4}
+	</style>
+</head>
+<body>
+    <div class="container">
+    	<div class="block-center">
+    		<canvas width="200" height="200" data-value="80" id="ring-cvs"></canvas>
+    	</div>
+    	<div id="res">
+    		
+    	</div>
+    </div>
+    <script>
+    window.onload=function(){
+    	//圆环进度条	
+    	var RingPB = function(oTarget, opts){
+    		this.o = this.initOptions(opts);
+    		this.t = oTarget;
+    		this.ctx = oTarget.getContext('2d');
+    		this.val = this.o.defaultVal || this.t.getAttribute('data-value');
+
+    		this.init();
+    		this.go(this.val);
+    	};
+
+    	RingPB.VERSION = '0.0.1';
+
+    	RingPB.prototype={
+    		constructor:RingPB,
+    		settings:{
+    			bgColor:'#FFD6D6',
+    			ringColor:'#FF5F5F',
+    			size:null, 			//默认从标签属性读取
+    			defaultVal:null, 	//默认从标签属性读取
+    			step:5,
+    			delay:0,
+    			onBefore:function(self){},
+    			onDone:function(self){}
+    		},
+    		init:function(){
+    			// 初始化大小
+    			var self = this, ctx = this.ctx, o = this.o, txt, txtW;
+    			ctx.width = ctx.height = self.size ? self.size : (self.t.getAttribute('width') || 200);
+    			o.onBefore(self);
+    		},
+    		go:function(deg){
+    			// 绘制进度动画;
+    			var r=1,self=this, 
+	    			ctx=this.ctx, 
+	    			o = this.o, 
+	    			w=ctx.width/2,
+	    			deg = deg>>0,
+	    			txt,txtW;
+
+				var Tween = {  
+				    Cubic: {  
+				    	easeIn: function(t,b,c,d){
+				    	    return c*(t/=d)*t*t + b;
+				    	},
+				    	easeOut: function(t,b,c,d){
+				    	            return c*((t=t/d-1)*t*t + 1) + b;
+	    	        	}
+				    }
+				};
+				var t=0;
+    			var tick = function(){
+    				r = Math.ceil(Tween.Cubic.easeOut(t,r,deg,600));
+    				r = r>deg?deg:r;
+    				console.log(r);
+					ctx.clearRect(0,0,w*2, w*2);
+
+					ctx.beginPath();
+					ctx.strokeStyle = o.bgColor;
+					ctx.lineWidth = 20;
+					ctx.arc(w, w, w-20, 0 , Math.PI*2, false);
+					ctx.stroke();
+
+					ctx.beginPath();
+					ctx.strokeStyle=o.ringColor;
+					ctx.lineWidth = 20;
+					ctx.arc(w, w, w-20,-90*Math.PI/180, (r/100*360-90)*Math.PI/180, false);
+					ctx.stroke();
+
+					ctx.fillStyle=o.ringColor;
+					ctx.font="40px Arial";
+					txt = r+'%';
+					txtW = ctx.measureText(txt).width;
+					ctx.fillText(txt, w - txtW/2, w+15);
+
+					r < deg ? (++t && setTimeout(tick, 40)) : o.onDone(self);
+				}
+				tick(); 
+    		},
+    		destroy:function(){
+    			ctx = null;
+    			this.t.parentNode.removeChild(this.t);
+    		},
+    		initOptions:function(opts){
+    			if(opts && typeof opts === 'object'){
+    				for(var i in opts){
+    					this.settings[i] && (this.settings[i] = opts[i]);
+    				}
+    			}
+    			return this.settings;
+    		}
+    	};
+
+
+    	var r = new RingPB(document.getElementById('ring-cvs'),{
+    		onDone:function(oThis){
+    			// 生成图片，替换掉canvas
+    			var data = oThis.t.toDataURL("image/png")
+    			var oRes = document.getElementById('res');
+    			oRes.innerHTML='<img src="'+data+'" alt="" width="'+oThis.ctx.width+'" height="'+oThis.ctx.height+'">';
+    			oThis.destroy();
+    		}
+    	});
+    };
+    </script>
+</body>
+</html>

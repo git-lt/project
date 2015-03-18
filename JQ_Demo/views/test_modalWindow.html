@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Template</title>
+    <!--<link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.css" rel="stylesheet">-->
+	<style>
+	body {
+		font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+		color: #555555;
+		font-size: 15px;
+		line-height: 1.42857143;
+		/*background: url(../img/12.png) no-repeat top center;*/		
+		background: cadetblue;
+	}
+	*{margin: 0; padding: 0;}
+	
+		.ui.modal-open{
+			overflow-x:hidden;
+			overflow-y:auto;
+		}
+
+		.ui.modal { 
+			position:fixed; 
+			left:0; 
+			right: 0;
+			bottom:0; 
+			top:0;
+			z-index: 1050;
+			overflow: hidden;
+			background:#000; 
+			opacity: 0; 
+			filter: alpha(opacity=0);
+			outline: 0;
+		}
+		.ui.modal.fade{
+			-webkit-transform: translate3d(0,0,0);
+			-webkit-transition:opacity 0.5s linear;
+		}
+		.ui.modal.fade.in{
+			opacity: 0.7; 
+			filter: alpha(opacity=70);
+		}
+		.ui.modal.fade.out{
+			opacity: 0; 
+			filter: alpha(opacity=0);
+		}
+
+		.ui.modal-dialog {
+			width: 498px;
+			height: 218px;
+			background: #fff;
+			position: absolute; 
+			top: 50%; 
+			margin-top: -150px;
+			left:50%;
+			margin-left: -300px;
+			opacity: 1;
+			z-index: 8001;
+			border-radius: 5px;
+			border: 1px solid #DDD;
+			box-shadow: 0 5px 15px rgba(0,0,0,.5);
+		}
+		.ui.modal-dialog .dialog-header h4{
+			display: block;
+			font-size: 16px;
+			margin: 0;
+			padding: 1.5em 2em;
+			border-radius: 5px 5px 0 0;
+			color:#555555;
+		}
+		.ui.modal-dialog .dialog-header a.close{
+			font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+			display: block;
+			position: absolute;
+			right: -25px;
+			top:-30px;
+			font-size: 28px;
+			text-decoration: none;
+			color:#CDCDCD;
+		}
+		.ui.modal-dialog .dialog-header a.close:hover{
+			font-size: 30px;
+			color:#fff;
+			text-shadow:0 0 3px rgba(255,255,255,.4);
+		}
+		.ui.modal-dialog .dialog-body{
+			padding: 2em;
+			background-color: #F4F4F4;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			-ms-box-sizing: border-box;
+		}
+		.ui.modal-dialog .dialog-footer{
+			position: absolute;
+			bottom:0;
+			left:0;
+			right: 0;
+			border-radius: 0 0 5px 5px;
+			padding: 1em 2em;
+			text-align: right;
+		}
+		.ui.modal-dialog .dialog-footer .btn{
+			margin-left: 0.75em;
+		}
+		
+		
+		.ui.btn{
+			display: inline-block;
+			text-align: center;
+			vertical-align: middle;
+			border: 0;
+			outline: none;
+			border-radius: 0.25em;
+			padding: 0.7em 1.5em;
+			box-shadow: 0 0 0 1px rgba(0,0,0,.08) inset;
+			cursor: pointer;
+			font-weight: 700;
+			background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.05));
+		}
+		.ui.btn:hover{
+			background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.08));
+			color: rgba(0,0,0,.7);
+		}
+		.ui.positive.btn{
+			background-color: #5BBD72!important;
+			color: #FFF;
+		}		
+		.ui.nagative.btn{
+			background-color: #D95C5C!important;
+			color: #FFF;
+		}
+		.ui.nagative.btn:hover{
+			background-color: #E75859!important;
+			color: #FFF;
+		}
+		.ui.positive.btn:hover{
+			background-color: #58CB73!important;
+			color: #FFF;
+		}
+		
+		
+		
+		.demo1 {
+			width:200px;
+			height:50px;
+			margin: 30px auto;
+		}
+	</style>
+
+  </head>
+  <body>
+    <div class="container">
+    	<div class="demo1">
+			<button id="openWin1" class="ui btn positive">点击打开弹窗</button>
+		</div>
+		<br>
+    </div> <!-- /container -->
+    
+	<!--<div class="ui modal fade"></div>-->
+	<div class="ui modal-dialog">
+		<div class="dialog-header">
+			<h4>提示信息</h4>
+			<a href="#" class="close">×</a>
+		</div>
+		<div class="dialog-body"><p>有闲钱寻找投资渠道?</p></div>
+		<div class="dialog-footer">
+			<div class="ui btn nagative">取消</div>
+			<div class="ui btn positive close">确定</div>
+		</div>
+	</div>
+	
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+	    <script>
+    	$(function(){
+    		$('.ui.modal-dialog').hide();
+    		
+    		//注册 点击 事件 = 触发弹窗
+    		$('#openWin1').click(function(){
+    			//添加模态背景层 和 css3动画样式
+    			$('<div class="ui modal fade"></div>').appendTo('body').hide().addClass('in').show();
+    			
+    			//显示对话框
+    			$('.ui.modal-dialog').show();
+    			
+    			//注册对话框中的点击事件 = 关闭和按钮点击事件
+    			//如果是关闭则 执行关闭操作：1.添加动画效果 2.移除绑定在DOM对象上的事件 3.移除DOM对象
+    			$('.dialog-header a.close,.dialog-footer div.close').click(function(){
+    				
+    				$('.ui.modal-dialog').hide(function(){
+    					
+    					$('.ui.modal').removeClass('in').addClass('out');
+    					
+    					setTimeout(function(){
+    						$('.ui.modal').remove();
+    					},500);
+    					
+						$('.dialog-header a.close,.dialog-footer div.close').off('click');
+
+    				});
+    				
+    				if($(this).text()!=='×'){
+    					alert('您点击了 '+$(this).text()+' 按钮, 将要执行....');
+    				}
+    			});
+    		});
+    		
+    	});
+    </script>
+  </body>
+</html>

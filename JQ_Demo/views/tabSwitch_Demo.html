@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>TabSwitch插件Demo</title>
+	    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.css" rel="stylesheet">
+	    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+	    <script src="../Plugins/jquery.tabSwitch.js"></script>
+	    <style type="text/css">
+	    .tabDemo2 {position: relative; width: 500px; padding: 0;}
+	    .tabDemo2 .tab-menus { position: absolute; right:20px; bottom:10px;}
+	    	.tabDemo2 .tab-menus a{ display: block; width:10px; height: 10px; border-radius: 50%; background: #333;box-shadow:0 0 2px rgba(0,0,0,.2),0 0 2px 2px rgba(255,255,255,.3); float:left; margin-right: 20px;}
+	    	.tabDemo2 .tab-menus a.active{ background: #22A9FF;}
+	    	.tabDemo2 .tab-content {box-shadow: 0 0 6px rgba(0,0,0,.2);}
+	    	
+	    </style>
+	</head>
+	<body>
+		<div class="container">
+			<!--添加上data-toggle='tab-box' 自动初始化tab组件-->
+			<div class="row">
+				<div class="panel panel-default">
+				  <div class="panel-heading">添加上data-toggle='tab-box' 自动初始化tab组件</div>
+				  <div class="panel-body">
+				   	 <div class="tab-box" data-toggle="tab-box">
+				<ul class="nav nav-tabs tab-menus" role="tablist" id="myTab">
+				  <li class="active"><a href="javascript:void(0)" role="tab" data-toggle="tab">Home</a></li>
+				  <li><a href="javascript:void(0)"  role="tab" data-toggle="tab">Profile</a></li>
+				  <li><a href="javascript:void(0)" role="tab" data-toggle="tab">Messages</a></li>
+				</ul>
+				<div class="tab-content">
+				  <div class="tab-pane active" id="home">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</div>
+				  <div class="tab-pane" id="profile">Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.</div>
+				  <div class="tab-pane" id="messages">Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free </div>
+				</div>
+				</div>
+				  </div>
+				</div>
+			</div>
+		
+			<!---->
+			<div class="row">
+				<div class="panel panel-default">
+			  	  <div class="panel-heading">还可以配置参数进行自动切换</div>
+				  <div class="panel-body">
+				    <ul class="tab-box tabDemo2">
+				    	<div class="tab-menus clearfix">
+				    		<a href="javascript:void(0)"></a>
+							<a href="javascript:void(0)"></a>
+							<a href="javascript:void(0)"></a>
+							<a href="javascript:void(0)"></a>
+				    	</div>
+				    	<div class="tab-content">
+							<img src="../img/541455.jpg" alt="" />
+							<img src="../img/555474.jpg" alt="" />
+							<img src="../img/587218.jpg" alt="" />
+							<img src="../img/589164.jpg" alt="" />
+				    	</div>
+				    </div>
+				  </div>
+				</div>
+				<script type="text/javascript">
+					$(function(){
+						//自定义初始化参数
+						$('.tabDemo2').tabSwitch({
+							menusBoxCls:'tab-menus',	//选项菜单所在盒子的className
+							contentBoxCls:'tab-content',//内容切换所在盒子的className
+							activeCls:'active',			//菜单激活的className
+							effect:'fadeIn',  			//内容显示的方式show/fadeIn/slideDown/slideUp
+							eventType:'click',			//菜单触的事件 click/mouseover
+							autoPlay:true,				//是否自动播放
+							delay:3000					//播放延迟时间 (秒)
+						 });
+					});
+				</script>
+			</div>
+		</div>
+	</body>
+</html>

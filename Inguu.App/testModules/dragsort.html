@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拖动排序</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+	<link href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<!-- // <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script> -->
+	<style>
+	.demo ul{padding: 5px; border:1px solid  #0967BD; overflow:hidden; max-width: 460px;}
+	.demo li {list-style: none; width: 100px; height: 100px; border:1px solid #ccc; background: #4C4C4C; margin: 5px; float:left;}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>拖动排序</h2>
+		<hr>
+		<div class="row demo center">
+			<ul class="clearfix item_wrap center-block" id="dragsortBox">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+		<div> <br><a href="/TEST/testModules/index.html">返回</a> </div>
+	</div>
+
+
+	<script src="lib/require.js"></script>
+	<!-- // <script src="lib/sea.js"></script> -->
+	<script>
+
+	// requireJs 调用方式：
+	// ===================
+	require(['lib/jquery','modules/ui.dragsort'],function(){
+			$('#dragsortBox').dragSort({
+				wrap:'.item_wrap',
+				item:'li'
+			});
+	});
+
+	// seaJs 调用方式
+	// ==============
+	// seajs.config({
+	//   base: "../testModules/"
+	// })
+	// seajs.use(['lib/jquery','modules/ui.dragsort'],function(){
+	// 	$('#dragsortBox').dragSort({
+	// 		wrap:'.item_wrap',
+	// 		item:'li'
+	// 	});
+	// });
+	
+	</script>
+</body>
+</html>

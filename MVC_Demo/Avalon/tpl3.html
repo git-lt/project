@@ -1,0 +1,6 @@
+<ul ms-each-el="array" class="un-style">
+	<li> 第{{$index+1}} 个元素的值：{{el}} <button class="btn" ms-click="$remove">删除</button></li>
+</ul>
+<p>添加一个元素，回车确定
+	<input type="text" ms-keypress="add">
+</p>

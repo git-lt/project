@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>jQuery Template</title>
+		<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			function fun1 () {console.log('fun1  success 成功 :(');}
+			function fun2 () {console.log('fun2  fial 失败 ):');}
+			function fun3 () {console.log('fun3  prosess 处理中...');}
+			
+			//定义一个deferred对象
+			var deferrend = $.Deferred();
+				
+			//使用 resolve/reject/notify 方法 触发 done/fail/progress 事件
+			//模拟ajax请求返回不同结果的处理
+			setTimeout(function(){
+				var n = Math.ceil((Math.random()*10+1));
+				console.log(n);
+				if(n<3){
+					deferrend.resolve();
+				}else if(n>4&&n<8){
+					deferrend.reject();	
+				}else{
+					deferrend.notify();
+				}
+			}, 1000);
+			
+			//
+//			deferrend.done(fun1).fail(fun2).progress(fun3);
+//简写形式
+			deferrend.then(fun1, fun2, fun3);
+
+			//当执行成功 或失败时都会执行 always中的方法 ，如果状态是progress时，不会执行always
+			deferrend.always(function(){
+				var state = deferrend.state();
+				if(state == 'resolved'){
+					console.log('always SUCCESS');
+				}else if(state == 'rejected'){
+					console.log('always FAIL');
+				}
+			});
+			
+			var fn1=function(){console.log('fn1  is work');};
+			var fn2=function(){console.log('fn2  is work');};
+			var fn4=function(){console.log('All done');};
+			
+			var defer2 = $.Deferred();
+			var defer3 = $.Deferred();
+			
+			defer2.done(fn1);			
+			defer3.then(fn2,fun2);
+			
+			setTimeout(function(){
+				defer2.resolve();
+				defer3.reject();
+			},2000);
+			
+			
+			$.when(defer2,defer3).done(fn4);
+			
+			//使用deferrend对象调用ajax
+			$.ajax().done().done().fail().fail();
+			var ajax1 = $.ajax(URL1);
+			var ajax2 = $.ajax(URL2);
+			
+			　　$.when($.ajax("test1.html"), $.ajax("test2.html"))
+　　				.done(function(){ alert("哈哈，成功了！"); })
+　　				.fail(function(){ alert("出错啦！"); });
+			
+		</script>
+	</head>
+	<body>
+		<h1>jQuery Template is OK</h1>
+	</body>
+</html>

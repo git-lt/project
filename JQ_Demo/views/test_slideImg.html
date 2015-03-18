@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Template</title>
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.css" rel="stylesheet">
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+
+	<style>
+	.slidImg-box {position: relative; margin-top: 80px;}
+	.slidImg-box .wrap {width:600px; height: 100px;  overflow: hidden;margin: 40px auto;}
+	.slidImg-box li{display: block; float: left; text-align: center; padding: 0 20px;}
+	.slidImg-box li h3{font-size: 30px; font-weight: bold; color:#333;}
+	.slidImg-box li h4{font-size: 24px; font-weight: normal; color:#FAA748;}
+	.slidImg-box a.arrow-left { position:absolute; height:30px; width: 20px; left:0; top:10px; background: url("../bg/arrow_l.png") no-repeat left center; opacity: 0.8;}
+	.slidImg-box a.arrow-right {position:absolute;  height:30px; width: 20px; right:0; top:10px;  background: url("../bg/arrow_r.png") no-repeat left center; opacity: 0.8;}
+	.slidImg-box a.arrow-left:hover,.loginhtml .slidImg-box a.arrow-right:hover{cursor: pointer; opacity: 1;}
+	</style>
+<script>
+	$(function(){
+	var oLis = $('#slidImg-box ul li');
+	var itemW =oLis.outerWidth(true),
+		itemNum=oLis.length;
+	var timer =null; 
+	$('#slidImg-box ul').append(oLis.clone()).css({
+		'width':itemW*itemNum*2,
+		'margin-left':-itemW*itemNum
+	});
+
+	var oUl = $('#slidImg-box ul');
+	var $leftBtn = $('#slidImg-box .arrow-left');
+	var $rightBtn=$('#slidImg-box .arrow-right');
+
+	$leftBtn.click(function(){
+		move(-itemW);
+	});
+	$rightBtn.click(function(){
+		move(itemW);
+	});
+
+	function move(num){
+		var old =parseInt(oUl.css('margin-left'));
+		if(old=== 0){
+			oUl.css('margin-left',-(itemW*itemNum));
+			oUl.animate({'margin-left':-itemW*(itemNum-1)},300)
+		} 
+		else if (old===-itemW*itemNum){
+			oUl.css('margin-left',0);
+			oUl.animate({'margin-left':-itemW},300)
+		}
+		else{
+			oUl.animate({'margin-left':old+num+'px'},300);
+		}
+	}
+
+	timer = setInterval(function(){$rightBtn.trigger('click');},3000);
+
+	$('#slidImg-box').hover(function(){
+		clearTimeout(timer);
+	},function(){
+		timer = setInterval(function(){
+			$rightBtn.trigger('click');
+		},3000);
+	});
+});
+</script>
+
+  </head>
+  <body>
+    <div class="container">
+      <h1>Bootstrap starter template</h1>
+		<div class="slidImg-box" id='slidImg-box'>
+		   <div class="wrap">
+			   	<ul class="clearfix">
+			   		<li>
+			   			<h3 class="mb15">1理财改变生活，网上理财比你想的简单！</h3>
+			   			<h4>盈合财富-全民疯抢的理财产品！</h4>
+			   		</li>
+			   		<li>
+			   			<h3 class="mb15">2理财改变生活，网上理财比你想的简单！</h3>
+			   			<h4>盈合财富-全民疯抢的理财产品！</h4>
+			   		</li>
+			   		<li>
+			   			<h3 class="mb15">3理财改变生活，网上理财比你想的简单！</h3>
+			   			<h4>盈合财富-全民疯抢的理财产品！</h4>
+			   		</li>
+			   	</ul>
+		   </div>
+		   <a class="inline-block arrow-left glyphicon glyphicon-chevron-left"></a>
+		   <a class="inline-block arrow-right glyphicon glyphicon-chevron-right"></a>
+		</div>
+    </div> <!-- /container -->
+
+  </body>
+</html>

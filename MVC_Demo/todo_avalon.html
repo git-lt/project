@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+	
+	<style>
+    .done-true {
+                text-decoration: line-through;
+                color: grey;
+            }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>备忘录</h2>
+		<div ms-controller="todos">
+			<div>
+				<span ms-if="todolist.size()>0">所有：{{todolist.size()}}</span>&nbsp;&nbsp;
+				<span ms-if="getRemaing()>0">待办：{{getRemaing()}}</span>&nbsp;&nbsp;
+				<span ms-if="getDone()>0">已办：{{getDone()}}</span>
+			</div>
+			<hr>
+
+			<ol class="unstyled">
+				<li ms-repeat="todolist">
+					<input type="checkbox" name="" ms-attr-checked="el.done">
+					<span ms-class="done-{{el.done}}">{{el.text}}</span>
+					<button type="button" class="close" ms-click="$remove"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				</li>
+			</ol>
+
+			<form ms-on-submit="add">
+				<input type="text" name=""  size="30" placeholder="Add new todo here" ms-duplex="txt">
+				<input type="submit" class="btn btn-primary" value="添加任务">
+				<button class="btn btn-default" ms-if="getDone()>0">移除已办事项</button>
+			</form>
+		</div>
+	</div>
+</body>
+<script src="avalon.js"></script>
+<script>
+var todoVM = avalon.define({
+	$id:'todos',
+	txt:'',
+	todolist:[],
+	done:0,
+	add:function(e){
+		e.preventDefault();
+		!!todoVM.txt.trim() && todoVM.todolist.push({text:todoVM.txt, done:false});
+		todoVM.txt = '';
+	},
+	getRemaing:function(){
+		var c =0; 
+		todoVM.todolist.forEach(function(item){
+			c += item.done ? 0 : 1;
+		});
+		return c;
+	},
+	getDone:function(){
+		return todoVM.todolist.size() - todoVM.getRemaing();
+	},
+	delDone:function(){
+		var old = todoVM.todolist;
+		todoVM.todolist = [];
+		old.forEach(function(item){
+			item.done && todoVM.todolist.push(item);
+		});
+	}
+});
+</script>
+</html>

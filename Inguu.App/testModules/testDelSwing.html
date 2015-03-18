@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+	<title>Msg组件 的测试</title>
+	<link rel="stylesheet" href="css/animate.css">
+<style>
+	* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;-webkit-tap-highlight-color: transparent; outline: 0; margin: 0; padding: 0;}
+	body{ background:#eee; line-height: 26px; font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",sans-serif; padding: 10px; }
+
+	button {width:120px; padding: 8px 0; margin: 5px;}
+
+	/*iconfont*/
+	@font-face {
+	  font-family: 'iconfont';
+	  src: url('http://at.alicdn.com/t/font_1420426473_8682983.eot'); /* IE9*/
+	  src: url('http://at.alicdn.com/t/font_1420426473_8682983.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	  url('http://at.alicdn.com/t/font_1420426473_8682983.woff') format('woff'), /* chrome、firefox */
+	  url('http://at.alicdn.com/t/font_1420426473_8682983.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+	  url('http://at.alicdn.com/t/font_1420426473_8682983.svg#iconfont') format('svg'); /* iOS 4.1- */
+	}
+	.iconfont{font-family:"iconfont" !important;font-style:normal;-webkit-font-smoothing: antialiased;-webkit-text-stroke-width: 0.2px;-moz-osx-font-smoothing: grayscale;}
+
+@-webkit-keyframes shake-little { 
+  0% { -webkit-transform: translate(0px, 0px) rotate(0deg); }
+  2% { -webkit-transform: translate(-1px, 0px) rotate(-0.5deg); }
+  4% { -webkit-transform: translate(0px, 0px) rotate(-0.5deg); }
+  6% { -webkit-transform: translate(0px, -1px) rotate(-0.5deg); }
+  8% { -webkit-transform: translate(0px, 0px) rotate(-0.5deg); }
+  10% { -webkit-transform: translate(0px, 0px) rotate(-0.5deg); }
+  12% { -webkit-transform: translate(-1px, 0px) rotate(-0.5deg); }
+  14% { -webkit-transform: translate(-1px, -1px) rotate(-0.5deg); }
+  16% { -webkit-transform: translate(0px, 0px) rotate(-0.5deg); }
+  18% { -webkit-transform: translate(0px, 0px) rotate(-0.5deg); }
+  20% { -webkit-transform: translate(0px, 0px) rotate(-0.5deg); }
+  22% { -webkit-transform: translate(-1px, 0px) rotate(-0.5deg); }
+  24% { -webkit-transform: translate(-1px, 0px) rotate(-0.5deg); }
+  26% { -webkit-transform: translate(-1px, 0px) rotate(-0.5deg); }
+  28% { -webkit-transform: translate(-1px, 0px) rotate(-0.5deg); }
+  30% { -webkit-transform: translate(0px, -1px) rotate(-0.5deg); }
+  32% { -webkit-transform: translate(0px, 0px) rotate(-0.5deg); }
+  34% { -webkit-transform: translate(-1px, 0px) rotate(-0.5deg); }
+  36% { -webkit-transform: translate(-1px, 0px) rotate(-0.5deg); }
+  38% { -webkit-transform: translate(0px, -1px) rotate(-0.5deg); }
+  40% { -webkit-transform: translate(0px, 0px) rotate(-0.5deg); }
+  42% { -webkit-transform: translate(-1px, 0px) rotate(-0.5deg); }
+  44% { -webkit-transform: translate(-1px, -1px) rotate(-0.5deg); }
+  46% { -webkit-transform: translate(0px, 0px) rotate(-0.5deg); }
+  48% { -webkit-transform: translate(0px, -1px) rotate(-0.5deg); }
+  50% { -webkit-transform: translate(0px, -1px) rotate(-0.5deg); }
+  52% { -webkit-transform: translate(-1px, 0px) rotate(-0.5deg); }
+  54% { -webkit-transform: translate(-1px, -1px) rotate(-0.5deg); }
+  56% { -webkit-transform: translate(0px, 0px) rotate(-0.5deg); }
+  58% { -webkit-transform: translate(-1px, -1px) rotate(-0.5deg); }
+  60% { -webkit-transform: translate(0px, 0px) rotate(-0.5deg); }
+  62% { -webkit-transform: translate(-1px, 0px) rotate(-0.5deg); }
+  64% { -webkit-transform: translate(0px, -1px) rotate(-0.5deg); }
+  66% { -webkit-transform: translate(0px, 0px) rotate(-0.5deg); }
+  68% { -webkit-transform: translate(-1px, 0px) rotate(-0.5deg); }
+  70% { -webkit-transform: translate(0px, 0px) rotate(-0.5deg); }
+  72% { -webkit-transform: translate(0px, 0px) rotate(-0.5deg); }
+  74% { -webkit-transform: translate(-1px, -1px) rotate(-0.5deg); }
+  76% { -webkit-transform: translate(-1px, -1px) rotate(-0.5deg); }
+  78% { -webkit-transform: translate(0px, -1px) rotate(-0.5deg); }
+  80% { -webkit-transform: translate(-1px, 0px) rotate(-0.5deg); }
+  82% { -webkit-transform: translate(-1px, -1px) rotate(-0.5deg); }
+  84% { -webkit-transform: translate(-1px, 0px) rotate(-0.5deg); }
+  86% { -webkit-transform: translate(0px, 0px) rotate(-0.5deg); }
+  88% { -webkit-transform: translate(0px, -1px) rotate(-0.5deg); }
+  90% { -webkit-transform: translate(0px, -1px) rotate(-0.5deg); }
+  92% { -webkit-transform: translate(-1px, -1px) rotate(-0.5deg); }
+  94% { -webkit-transform: translate(0px, -1px) rotate(-0.5deg); }
+  96% { -webkit-transform: translate(-1px, 0px) rotate(-0.5deg); }
+  98% { -webkit-transform: translate(-1px, -1px) rotate(-0.5deg); } 
+}
+
+.shake-little { 
+	-webkit-animation-name: shake-little; 
+	animation-name: shake-little; 
+	-webkit-animation-duration: 100ms; animation-duration: 100ms; 
+	-webkit-animation-iteration-count: 1; 
+	animation-iteration-count: 1; 
+	-webkit-animation-timing-function: ease-in-out; 
+	animation-timing-function: ease-in-out; 
+	-webkit-animation-play-state: running; 
+	animation-play-state: running; 
+}
+
+	 /*-webkit-transform-origin:center;transform-origin:center;  -webkit-animation-duration:1s;animation-duration:1s;*/
+	ul li {list-style: none;}
+	.list-box { background: #DBDBDB; padding: 5px;  overflow:  hidden;}
+	.list-box li{ position: relative; background: #EEEEEE; width: 80px; height: 80px; float:left; margin: 5px; border:1px solid #474747;border-radius: 4px; box-shadow: 0 0 4px rgba(0,0,0,.5);
+		-webkit-animation-duration: 1s; animation-duration: 1s; 
+	}
+	.list-box .close{ position: absolute; display: none; top:-7px; right:-7px; background: red; color:#fff; height: 14px; width: 14px; line-height: 12px; border-radius: 50%; text-align: center;
+		-webkit-animation-duration:0.5s;animation-duration:.5s;
+	}
+
+</style>
+</head>
+
+<body>
+	<div class="content">
+		<ul class="list-box" id="listBox">
+			<li>1<span class="close">&times;</span></li>
+			<li>2<span class="close">&times;</span></li>
+			<li>3<span class="close">&times;</span></li>
+			<li>4<span class="close">&times;</span></li>
+			<li>5<span class="close">&times;</span></li>
+			<li>6<span class="close">&times;</span></li>
+			<li>7<span class="close">&times;</span></li>
+			<li>8<span class="close">&times;</span></li>
+			<li>9<span class="close">&times;</span></li>
+			<li>10<span class="close">&times;</span></li>
+			<li>11<span class="close">&times;</span></li>
+			<li>12<span class="close">&times;</span></li>
+		</ul>
+	</div>
+
+<script src="lib/jquery.js"></script>
+<script src="lib/touch.min.js"></script>
+<script>
+
+$.fn.redraw = function(){
+	return $(this).each(function(){
+		var i = this.offsetHeight;
+	});
+	return this;
+}
+$('#listBox li').addClass('zoomIn').one('webkitAnimationEnd',function(){
+	$(this).removeClass('zoomIn');
+	$('#listBox li:even').attr('style','-webkit-animation-delay:.1s; animation-delay:.1s;');
+	$('#listBox li:odd').attr('style','-webkit-animation-delay:.3s; animation-delay:.3s;');
+});
+
+touch.on('#listBox','hold','li',function(e){
+	e.preventDefault();
+	$('#listBox li').addClass('shake-little').one('webkitAnimationEnd',function(){
+		$(this).removeClass('shake-little');
+	});
+	$('#listBox li span').css('display','block').redraw().addClass('zoomIn');
+	return false;
+});
+
+touch.on('#listBox','tap','li',function(e){
+	if(e.target.tagName.toLowerCase()=='li'){
+	$('#listBox li span').removeClass('zoomIn').addClass('zoomOut').one('webkitAnimationEnd',function(){
+		$(this).removeClass('zoomOut').hide();
+	});
+}
+	e.preventDefault();
+});
+
+
+touch.on('#listBox','tap','span',function(e){
+	$(this).parent().attr('style','-webkit-animation-duration: 0.5s; animation-duration: 0.5s;').addClass('zoomOut').one('webkitAnimationEnd',function(){
+		$(this).remove();
+	});
+	e.preventDefault();
+});
+
+</script>
+</body>
+</html>

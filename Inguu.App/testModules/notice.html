@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+	<title>Notice组件 的测试</title>
+	<link rel="stylesheet" href="css/animate.css">
+		<style>
+		body{ background:#f8f8f8; }
+		*{ box-sizing:border-box; }
+		button {width:120px; padding: 8px 0; margin: 5px;}
+		.ui-notice {position: absolute;top:0;left:0;right: 0;z-index: 9998;background:#eaeaea;height: 40px;line-height: 40px;border:1px solid #eee;border-left:3px solid #eee;display:none;}
+		.ui-notice>.con{display:inline-block;padding-left: 10px;padding-right: 50px;width: 100%;}
+		.ui-notice>.close{display:inline-block;text-decoration:none;text-align: center;background: rgba(255,255,255,.5);color:rgba(0,0,0,.4);font-size:20px;font-weight:bold;width: 50px;height:38px;position:absolute;top: 0;right:0;z-index: 9999; cursor:pointer;}
+		.ui-notice.blue{background-color: #E6F4F9;color: #4D8796;border-color:#A5D8E8;}
+		.ui-notice.red{background-color: #F1D7D7;color: #A95252;border-color:#F1D7D7;}
+		.ui-notice.green{background-color: #DEFCD5;color: #52A954;border-color:#DEFCD5;}
+		.ui-notice.yellow{background-color: #F6F3D5;color: #96904D;border-color:#F6F3D5;}
+		.no-scroll {overflow: hidden;}
+		</style>
+</head>
+<body>
+	<div class="content">
+	<h4 class="tc">Notice组件 的测试和用例</h4>
+	<hr>
+	  <p>Hope is a good thing and maybe the best of things. And no good thing ever dies.希望是一个好东西,也许是最好的,好东西是不会消亡的。 </p><br>
+	  <button id="boxIn">TopIn</button>
+	  <button id="boxIn2">CenterIn</button>
+	  <button id="boxIn3">BottomIn</button>
+	  <!-- <button id="boxOut">hide</button> -->
+	  <button id="simple">Simple</button>
+	</div>
+		<div> <br><a href="/TEST/testModules/index.html">返回</a> </div>
+	<script src="lib/require.js"></script>
+	<script>
+	require(['lib/jquery','modules/ui.notice'],function(){
+		$('#boxIn').click(function(){
+			$.notice({content:'这是一个通知！01',position:'top', textAlign:'center',color:'blue'});
+		});
+
+		$('#boxIn2').click(function(){
+			$.notice({content:'这是一个通知！02',color:'red',position:'center'});
+		});
+
+		$('#boxIn3').click(function(){
+			$.notice({content:'这是一个通知！03',color:'green',position:'bottom'});
+		});
+
+	  	$('#boxOut').click(function(){
+			$.notice(); //关闭
+		});
+
+	  	$('#simple').click(function(){
+	  		$.notice('这是便捷方式调用！','yellow');
+	  	});
+
+	});
+
+	</script>
+</body>
+</html>

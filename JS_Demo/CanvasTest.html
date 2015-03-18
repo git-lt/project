@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title></title>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="lib/jquery.xml2json.js"></script>
+    <script src="lib/jquery.pep.js"></script>
+
+	<script>
+	$(function(){
+		//读取模板图片
+		// $.post('/MakeApi/ProxyXml',{url:"http://api.inguu.com/Upload/75/Template.xml"},function(data){
+		// 	var res = $.xml2json(data);
+		// 	console.log(res);
+
+		// 	//模板大小
+		// 	var modelWidth = res.ModelWidth,
+		// 		modelHeight = res.ModelHeight;
+		// 	var pages = res.Pages||{};
+		// 	if(!pages) return false;
+
+		// 	// 背景图和文本层
+		// 	var back= pages.PageModel.Back,
+		// 		textLayers= pages.PageModel.TextLayers;
+
+		// 	//设置背景图片
+		// 	var $tplbox = $('#tpl-box')
+		// 	var docW = window.screen.width;
+		// 	$tplbox.css({
+		// 		'background':'url('+'http://api.inguu.com'+back+') no-repeat center center',
+		// 		'background-size':'contain',
+		// 		'background-clip':'content-box',
+		// 		'width':modelWidth,
+		// 		'height':modelHeight,
+		// 		'zoom':docW/modelWidth
+		// 	});
+
+		// 	var arrLays = pages.PageModel.Layers.LayerModel,
+		// 	eleW ,eleH ,eleIndex ,isPhoto ,isRotate ,eleRotate ,eleX ,eleY ,src;
+		// 	for(var i=0,len=arrLays.length; i<len; i+=1){
+
+		// 		eleW = arrLays[i]['Width'];
+		// 		eleH = arrLays[i]['Height'];
+		// 		eleIndex = arrLays[i]['Index'];
+		// 		isPhoto = arrLays[i]['IsPhoto'];
+		// 		isRotate = arrLays[i]['IsRotate'];
+		// 		eleRotate = 'rotate('+arrLays[i]['Rotate']+'deg)';
+		// 		eleX = arrLays[i]['X'];
+		// 		eleY = arrLays[i]['Y'];
+		// 		src= arrLays[i]['Src'];
+
+		// 		if(src) src= 'http://api.inguu.com'+src;
+
+		// 		if(isPhoto=='false'){	//素材
+		// 			$('<img src="'+src+'" alt="素材图片" width="'+eleW+'" height="'+eleH+'" />').css({
+		// 				left:eleX+'px',
+		// 				top:eleY+'px',
+		// 				zIndex:eleIndex,
+		// 				transform: eleRotate
+		// 			}).appendTo($tplbox);
+		// 		}else{ 	//照片
+		// 			$('<div>拖动图片到此处</div>').css({
+		// 				background:'gray',
+		// 				left:eleX+'px',
+		// 				top:eleY+'px',
+		// 				zIndex:eleIndex,
+		// 				transform: eleRotate,
+		// 				width:eleW+'px',
+		// 				height:eleH+'px'}).appendTo($tplbox);
+		// 		}
+		// 	}
+		// });
+
+		$('.draggable').pep({
+          droppable: ".droppable",
+          overlapFunction: function($a, $b){
+            var rect1 = $a[0].getBoundingClientRect();
+            var rect2 = $b[0].getBoundingClientRect();
+
+            return (  rect2.left    > rect1.left  && 
+                      rect2.right   < rect1.right && 
+                      rect2.top     > rect1.top   && 
+                      rect2.bottom  < rect1.bottom  );
+          },
+          useCSSTranslation: false
+        });
+
+
+	});
+
+
+	</script>
+</head>
+<body>
+<style>
+	body {margin: 0; padding: 0; position: relative;}
+	.tpl-box {position: relative;border:1px solid #4BADD8;}
+	.tpl-box img,.tpl-box div{position:absolute;}
+	.chk-img li{float:left; list-style: none; border:1px solid #dbdbdb; z-index: 20;}
+	.chk-img li img{display: inline-block;}
+/*      .pep{ width: 40px; height: 40px; background: blue; z-index: 10; }
+      .droppable{   width: 100px; height: 100px; 
+                    position: absolute; 
+                    border: 5px solid #ccc; }
+
+      .droppable.m  { top: 50%; left:50%; margin-left: -50px; margin-top: -50px; }
+      .droppable.tr { right:  30px; bottom:  30px; }
+      .droppable.br { top:    30px; right:   30px;}
+      .droppable.bl { top:    30px; left:    30px;}
+      .droppable.tl { bottom: 30px; left:    30px;}*/
+      .pep-dpa      { border-color: blue; background: yellow }
+
+
+
+</style>
+	<div id="tpl-box" class="tpl-box"></div>
+
+	<ul class="chk-img">
+		<li draggable='true' class="draggable" id="dragt1"><img src="images/printtype-m.jpg" alt=""></li>
+		<li draggable='true' class="draggable"><img src="images/printtype-s.jpg" alt=""></li>
+	</ul>
+
+	<div class="droppable" style="width:100px; height:100px; border:2px solid black; position: absolute; top:130px; left:130px;">
+	</div>
+</body>
+</html>

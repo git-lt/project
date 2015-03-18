@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>tpl</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+	<style>
+		.network-chk {
+			background: #F7E8AE; line-height: 3em; height: 3em; overflow: hidden; 
+			position: absolute; top: -3em; left:0; right: 0; padding: 0 20px;
+			box-shadow: 0 1px 3px rgba(0,0,0,.3); opacity: 0;
+			transition:opacity .35s linear, top .35s linear;
+		}
+		.network-chk .glyphicon-circle-arrow-down {color:#D94337; font-size: 16px}
+		.network-chk.active{opacity: 1; top:0;}
+	</style>
+
+</head>
+<body>
+	<div class="container">
+		<h2>HTML5 网络检测</h2>
+		<hr>
+		<div class="network-chk" id="networkChk"> 世界上最遥远的距离就是没有网 :( </div>
+	</div>
+
+	<script>
+	window.onload=function(){
+
+		(function(win){
+			var ChkNetwork = function(callback){
+				this.navigator = win.navigator;
+				this.callback = callback || function(){};
+				this._init();
+			};
+
+			var chkNetworkProto = ChkNetwork.prototype;
+
+			chkNetworkProto._init = function(){
+				var self = this;
+				win.addEventListener('online', this._handler.bind(this), true);
+				win.addEventListener('offline', this._handler.bind(this), true);
+			};
+			chkNetworkProto._handler = function(){
+				this.callback && this.callback(this.navigator.onLine ? 'online':'offline');
+			};
+			chkNetworkProto.isOnline = function(){
+				return this.navigator.onLine;
+			};
+
+			win.ChkNetwork = ChkNetwork;
+
+		})(window);
+
+		var oEl = document.getElementById('networkChk');
+
+		// 如果有网络则隐藏，如果没有则显示
+		var networkEv = function(status){
+			status === 'online' ? oEl.classList.remove('active') : oEl.classList.add('active');
+		};
+		var ntwk = new ChkNetwork(networkEv);
+		!ntwk.isOnline() && (oEl.classList.add('active'));
+
+
+	};
+	</script>
+</body>
+</html>

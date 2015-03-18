@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery全屏滚动插件fullPage.js演示</title>
+	<link rel="stylesheet" href="../css/jquery.fullPage.css">
+	<script src="../js/jquery-1.8.3.min.js"></script>
+	<script src="../js/jquery.easing.min.js"></script>
+	<script src="../js/jquery.fullPage.min.js"></script>
+	<link rel="stylesheet" href="../css/animate.css">
+	<script>
+		$(function(){
+			$.fn.fullpage({
+					slidesColor: ['#1bbc9b', '#4BBFC3', '#7BAABE', '#f90'],
+					anchors: ['page1', 'page2', 'page3', 'page4']
+			});
+		});
+	</script>
+	<style>
+		* {margin: 0; padding: 0;}
+		div {box-sizing:border-box;}
+		.section { text-align: center; font: 50px "Microsoft Yahei"; color: #fff;}
+		.section .box1,.section .box2,.section .box3 {display: none;}
+		.section.active .box1,.section.active .box2,.section.active .box3 {display: block;}
+
+		.box1 { width: 200px; height: 50px; background: #DFAB40; position: absolute; left:40%; top:30%;}
+		.box2 { width: 300px; height: 50px;background: #68D9F0; position: absolute; left:20%; top:40%;}
+		.box3 { width: 100px; height: 50px; background: #91A9FD; position: absolute; left:50%; top:50%;}
+
+	</style>
+</head>
+<body>
+	<div class="section">
+		<h4>这里第1屏</h4>
+		<p>第1屏中的文字</p>
+		<div class="box1 s1-b1 animated fadeIn"></div>
+		<div class="box2 s1-b2 animated fadeInLeft"></div>
+		<div class="box3 s1-b3 animated fadeInRight"></div>
+	</div>
+	<div class="section">
+		<h4>这里第2屏</h4>
+		<p>第2屏中的文字</p>
+		<div class="box1 s2-b1 animated fadeIn"></div>
+		<div class="box2 s2-b2 animated fadeInLeft"></div>
+		<div class="box3 s2-b3 animated fadeInRight"></div>
+	</div>
+	<div class="section">
+		<h4>这里第3屏</h4>
+		<p>第3屏中的文字</p>
+		<div class="box1 s3-b1"></div>
+		<div class="box2 s3-b2"></div>
+		<div class="box3 s3-b3"></div>
+	</div>
+	<div class="section">
+		<h4>这里第4屏</h4>
+		<p>第4屏中的文字</p>
+		<div class="box1 s4-b1"></div>
+		<div class="box2 s4-b2"></div>
+		<div class="box3 s4-b3"></div>
+	</div>
+</body>
+</html>

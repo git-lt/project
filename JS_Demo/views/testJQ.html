@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+	<script>
+
+		// $.Callbacks();
+/* 
+		function fn1 (){ alert('1'); };
+		function fn2 (){ alert('2'); };
+
+		var cb = $.Callbacks();
+
+		cb.add(fn1);
+		cb.add(fn2);
+
+		cb.fire();
+
+		cb.remove(fn1);
+		cb.fire();
+*/
+		// $.Deferred();
+/*
+		var df = $.Deferred();
+		setTimeout(function(){
+			alert('1');
+			df.resolve();
+		},1000);
+
+		df.done(function(){
+			alert('2');
+		});
+*/ 
+
+		// $.data();
+		$(function(){
+			$('#div1').data('name','toto');
+			var s = $('#div1').data('name');
+			alert(s);
+		});
+		
+		
+
+	</script>
+</head>
+
+<body>
+	<div id="div1"></div>
+</body>
+</html>

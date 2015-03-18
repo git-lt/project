@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>滚动相册测试</title>
+    <link href="http://cdn.bootcss.com/normalize/3.0.1/normalize.css" rel="stylesheet">
+    <link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+
+    <style>
+        .clearfix {overflow: hidden;}
+        .clearfix:before,.clearfix:after {content: ''; display: table;}
+        .clearfix:after {clear:both;}
+        .hide {display: none;}
+        .inline-block {display: inline-block;}
+
+        .album-wrap {margin: 100px auto;}
+        .bdr1-gray-shadow {border:1px solid #e6e6e6; box-shadow: 0 0 8px rgba(0,0,0,.2);}
+
+        /*这里最外面盒子的高和宽应该由js计算出来 应该是图片的宽度和高度(包含外边距)*/
+        .scrollAlbum-box {height: 400px;width: 800px; margin: 0 auto; position: relative;}
+
+        .album-imgs a { display: block; float:left;}
+        .album-imgs a img {display: block;}
+
+        /*这里的top值，由js计算*/
+        .album-prev,.album-next {position: absolute; top:168px; opacity: .4; text-shadow: 0 0 5px rgba(0,0,0,.4);}
+        .album-prev {left: 15px;}
+        .album-next {right: 15px;}
+        .album-prev:hover,.album-next:hover {opacity: 1;}
+
+    </style>
+</head>
+<body>
+
+
+<div class="album-wrap">
+    <div class="scrollAlbum-box clearfix bdr1-gray-shadow" id="scrollAlbum-box">
+        <div class="album-imgs" id="album-imgs">
+            <a href="javascript:void(0)"><img src="http://lorempixel.com/800/400/people/1" alt=""/></a>
+            <a href="javascript:void(0)"><img src="http://lorempixel.com/800/400/people/2" alt=""/></a>
+            <a href="javascript:void(0)"><img src="http://lorempixel.com/800/400/people/3" alt=""/></a>
+            <a href="javascript:void(0)"><img src="http://lorempixel.com/800/400/people/4" alt=""/></a>
+            <a href="javascript:void(0)"><img src="http://lorempixel.com/800/400/people/5" alt=""/></a>
+        </div>
+
+        <div class="album-controls hide" id="album-ctronls">
+            <i class="fa fa-angle-left fa-4x album-prev" id="album-prev"></i>
+            <i class="fa fa-angle-right fa-4x album-next" id="album-next"></i>
+        </div>
+
+        <div class="album-navlist" id="album-navlist">
+            <!--导航小圆点 使用js动态生成-->
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

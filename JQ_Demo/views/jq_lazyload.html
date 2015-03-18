@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>JQuery TPL</title>
+	<meta name="description" content="jQuery - Bootstrap 模板">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+	<link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <link rel="stylesheet" href="../css/animate.css">
+	<style>
+		.row {margin: 30px 0; text-align: center;}
+		img {width: 100%; max-width: 200px; height: 118px; border: 1px solid #E6E6E6;display: block;padding: 5px;box-shadow: 0 0 3px rgba(0,0,0,.2);}
+	</style>
+</head>
+<body>
+    <div class="container" id="imgWraper">
+    	<div class="row">
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic1.jpg" height="531" width="1000" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic2.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic3.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic4.jpg" alt=""></div>
+    	</div>
+    	<div class="row">
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic5.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic6.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic7.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic8.jpg" alt=""></div>
+    	</div>
+    	<div class="row">
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic9.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic10.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic11.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic12.jpg" alt=""></div>
+    	</div>
+    	<div class="row">
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic13.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic14.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic15.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic16.jpg" alt=""></div>
+    	</div>
+    	<div class="row">
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic17.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic18.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic19.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic20.jpg" alt=""></div>
+    	</div>
+    	<div class="row">
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic21.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic22.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic23.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic24.jpg" alt=""></div>
+    	</div>
+    	<div class="row">
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic25.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic26.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic27.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic28.jpg" alt=""></div>
+    	</div>
+    	<div class="row">
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic29.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic30.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic31.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic32.jpg" alt=""></div>
+    	</div>
+    	<div class="row">
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic33.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic34.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic35.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic36.jpg" alt=""></div>
+    	</div>
+    	<div class="row">
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic37.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic38.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic39.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic40.jpg" alt=""></div>
+    	</div>
+    	<div class="row">
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic41.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic42.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic43.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic44.jpg" alt=""></div>
+    	</div>
+    	<div class="row">
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic45.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic46.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic47.jpg" alt=""></div>
+    		<div class="col-sm-3"><img src="/img/pixel.gif" data-url="../img/imgload/pic48.jpg" alt=""></div>
+    	</div>
+    </div>
+    <script>
+
+    	$(function(){
+            /**
+             * [懒加载插件：jquery.lazyLoadY.js]
+             * LastTime:2015年3月10日 16:28:29
+             * usgage: $('#imgWraper').lazyLoadY();
+             * Version: 1.0.0
+             * Email: 935486956@qq.com
+             * PS：img必须有固定的高，否则高度无法计算
+             */
+    		;(function($, window, document){
+	    		'use strict';
+
+	    		// CLASS DEFINITION
+	    		// ================
+	    		var LazyLoadY = function(ele, options){
+	    			this.$el = $(ele);
+	    			this.o = options;
+	    			this.$imgs = this.o.$container.find('['+this.o.attr+']');
+                    this.isDoc =  this.o.$container.get(0) === document;
+                    this.last=0;
+                    this.supportTouch = !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
+                    this.init();
+	    		};
+
+	    		LazyLoadY.VERSION = "1.0.0";
+
+	    		LazyLoadY.DEFAULTS = {
+	    			attr:'data-url',			    //保存原图地址的自定义属性
+	    			holderImg:'/img/loading.gif',   //占位图
+	    			imgs:[],					    //未加载的图片集合
+                    $container:$(document),         //需要加载的容器
+                    effect:'zoomIn',                //css3动画效果，依赖animate.css
+                    useCss3:true,                   //为false时，参数effect无效，统一使用jquery的fadeIn显示图片
+	    			callback:$.noop                 //每张图片加载后的回调
+	    		};
+
+	    		LazyLoadY.prototype = {
+	    			constructor:LazyLoadY,
+	    			init:function(){
+	    				if(!this.$imgs.length) return;
+
+	    				var oThis = this,  o = this.o,
+	    					holderBg = 'url('+o.holderImg+') no-repeat 50% 50%';
+
+	    				//设置占位图，获取所有图片信息
+	    				this.$imgs
+		    				.css('background',holderBg)
+		    				.each(function(){
+		    					o.imgs.push({
+		    						obj:$(this),
+		    						tag:this.nodeName.toLowerCase(),
+		    						url:$(this).attr(o.attr)
+		    					})
+	    				});
+                        
+                        this.loading();
+                        this.bindEvents();
+	    			},
+                    getBoxPos:function(){ /* 获取盒子的定位信息 */
+                        var l,t,w,h;
+                        if(this.isDoc){
+                            var docele = document.documentElement;
+                            l = docele.scrollLeft || document.body.scrollLeft;
+                            t = docele.scrollTop || document.body.scrollTop;
+                            w = docele.clientWidth;
+                            h = docele.clientHeight;
+                        }else{
+                            l = this.o.$container.offset().left;
+                            t = this.o.$container.offset().top;
+                            w = this.o.$container.width();
+                            h = this.o.$container.height();
+                        }
+                        return {left:l, top:t, width:w, height:h};
+                    },
+                    getItemPos:function($obj){ /* 获取盒子中元素的定位信息 */
+                        return {
+                            left:$obj.offset().left,
+                            top:$obj.offset().top,
+                            width:$obj.width(),
+                            height:$obj.height(),
+                        };
+                    },
+                    chkInters:function(boxPos, itemPos){ /*检测两个矩形是否有交集*/
+                        var lc1, lc2, tc1, tc2, w1, h1; 
+                        lc1 = boxPos.left + boxPos.width / 2; 
+                        lc2 = itemPos.left + itemPos.width / 2; 
+                        tc1 = boxPos.top + boxPos.height / 2 ; 
+                        tc2 = itemPos.top + itemPos.height / 2; 
+                        w1 = (boxPos.width + itemPos.width) / 2 ; 
+                        h1 = (boxPos.height + itemPos.height) / 2; 
+                        return Math.abs(lc1 - lc2) < w1 && Math.abs(tc1 - tc2) < h1 ;
+                    },
+                    refreshArr:function(arr){ /* 去掉集合中的空数据并加上正确的length */
+                        var t = [];
+                        for(var a in arr)
+                            arr[a] && t.push(arr[a]);
+                        return t;
+                    },
+	    			loading:function(){
+	    				var oThis = this, o = this.o, i=0, len = o.imgs.length;
+
+                        // 如果资源全部加载完毕，解除事件监听，退出
+                        if(!len){ oThis.offBind(); return false; } 
+
+                        var boxPos = oThis.getBoxPos(), itemPos, curr;
+
+                        // 控制加载频率
+                        curr = +new Date();
+                        if(curr - oThis.last  < 50) return false;
+
+                        for(;i<len; i++){
+                            if(o.imgs[i]){
+                                var $obj = o.imgs[i].obj, tag = o.imgs[i].tag, url = o.imgs[i].url, imgT, imgH;
+                                itemPos = oThis.getItemPos($obj);
+                                if(oThis.chkInters(boxPos,itemPos)){
+                                    if(url){
+                                        if(tag==='img'){
+                                            var cImg = $obj;
+                                            // 监听图片加载事件，如果加载完毕则以动画方式显示图片
+                                            (function(cImg){
+                                                oThis.loadImg(url,function(img){
+                                                    cImg.attr('src', img.src);
+                                                    o.useCss3 ? cImg.addClass('animated '+o.effect) : cImg.css('opacity',0).animate({'opacity':1},350);
+                                                    o.callback(cImg);
+                                                });
+                                            })(cImg)
+                                        }else{
+                                            $obj.load(url, {}, function(){
+                                                var $this= $(this);
+                                                o.useCss3 ? $this.addClass('animated '+o.effect) : $this.css('opacity',0).animate({'opacity':1},350);;
+                                                o.callback($this);
+                                            });
+                                        }
+                                    }else{
+                                        callback($obj);
+                                    }
+                                    // console.log(i);
+                                    delete o.imgs[i];
+                                }
+                            }
+                        }
+                        o.imgs = this.refreshArr(o.imgs);
+                        oThis.last = curr;
+	    			},
+	    			bindEvents:function(){
+                        var oThis = this, o = this.o;
+                        if(this.supportTouch){
+                            o.$container[0].addEventListener('touchend', $.proxy(oThis.loading, oThis));
+                        }else{
+                            o.$container.on('scroll', $.proxy(oThis.loading, oThis));
+                            this.isDoc && $(window).on('resize', $.proxy(oThis.loading, oThis)); 
+                        }
+                    },
+                    offBind:function(){
+                        var oThis = this, o = this.o;
+                        if(this.supportTouch){
+                            o.$container[0].removeEventListener('touchend', $.proxy(oThis.loading, oThis));
+                        }else{
+                            o.$container.off('scroll', $.proxy(oThis.loading, oThis));
+                            this.isDoc && $(window).off('resize', $.proxy(oThis.loading, oThis)); 
+                        }
+                    },
+                    loadImg:function(url, callback){
+                        var LoadImg = function(url, callback){
+                            var img = new Image();
+                            img.onload = function(){
+                                img.onload = null;
+                                 callback(img);
+                            };
+                            img.src = url;
+                        }
+                        return new LoadImg(url, callback);
+                    }
+	    		};
+
+
+	    		// PLUGIN DEFINITION
+	    		// =================
+                function Plugin(option) {
+                    return this.each(function () {
+                      var $this = $(this);
+                      var data  = $this.data('ui.lazyLoadY');
+                      var options = $.extend({}, LazyLoadY.DEFAULTS, typeof option == 'object' && option);
+
+                      if (!data) $this.data('ui.lazyLoadY', (data = new LazyLoadY(this, options)));
+                      // if (typeof option == 'string') data[option]();
+                    })
+                }
+
+                var old = $.fn.lazyLoadY;
+
+                $.fn.lazyLoadY             = Plugin;
+                $.fn.lazyLoadY.Constructor = LazyLoadY;
+
+                // NO CONFLICT
+                // ===========
+                $.fn.lazyLoadY.noConflict = function () {
+                    $.fn.lazyLoadY = old;
+                    return this;
+                }
+
+                // DATA-API
+                // ========
+                $(function(){
+                	Plugin.call($('[data-toggle="lazyLoadY"]'));
+                });
+	    		  
+		    })(jQuery,window,document);
+
+
+            $('#imgWraper').lazyLoadY();
+
+    	});
+    </script>
+</body>
+</html>

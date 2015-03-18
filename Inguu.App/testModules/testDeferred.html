@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="lib/jquery.js"></script>
+	<script>
+	var fun1 = function(){ console.log('fun1') };
+	var fun2 = function(){ console.log('fun2') };
+
+
+	var main = function(){
+		fun1();
+		fun2();
+		console.log('main');
+	};
+
+	$.when(main()).then(function(){
+		console.log('成功');
+	}, function(){
+		console.log('失败');
+	});
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

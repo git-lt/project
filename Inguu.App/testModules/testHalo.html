@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+<title>CSS3雷达波向外散发动画效果 - 站长素材</title>
+<style>
+body{ background:#F7F7F4;}
+.single em{
+	width:90px;
+	height:90px; 
+	margin:0 auto; 
+	cursor:pointer;
+	display:block;
+	position:relative;
+	background: #ccc; 
+	border-radius: 50%;
+}
+.single em:after {
+ content: ''; 
+ position: absolute; 
+ z-index: -1;
+ width: 120px; 
+ height: 120px; 
+ border-radius: 50%; 
+ box-shadow: 0 0 5px 8px rgba(255,0,0,0.2); 
+ top: 50%; 
+ left: 50%; 
+ margin-top: -60px;
+ margin-left: -60px;
+ opacity: 0; 
+  -webkit-animation: halo 1s 0.5s infinite ease-out; 
+  animation: halo 1s 0.5s infinite ease-out; 
+}
+/*	@-webkit-keyframes halo { 
+		0% { opacity: 0;-webkit-transform: scale(0.1); }
+		50% {opacity: 1; }
+		100%{opacity: 0;-webkit-transform: scale(1.2); } 
+	}*/
+	@-webkit-keyframes halo { 
+		0% { opacity: 0;-webkit-transform: scale(1.2); }
+		50% {opacity: 1; }
+		100%{opacity: 0;-webkit-transform: scale(0.1); } 
+	}
+</style>
+</head>
+<body>
+<br><br><br><br><br>
+<div class="single">
+<em></em>
+</div>
+
+
+
+</body></html>

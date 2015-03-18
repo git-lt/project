@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>颜色选取</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+	<link href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<!-- // <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script> -->
+
+	<style>
+		.picker-box {border:1px solid #dbdbdb; box-shadow: 0 0 5px rgba(0,0,0,.2); width:210px; border-radius: 3px; position: absolute; z-index: 100;background: #fff; }
+		.picker-box h4 {font-size:18px; border-left:30px solid #000; line-height: 30px; background: #eaeaea;text-align: center; border-radius: 3px 3px 0 0; margin: 0;}
+		.picker-box .color-picker {padding:5px 0;border-top: 1px solid #dbdbdb; text-align: center;cursor: crosshair;}
+		.picker-box .actions{margin-top: -5px;}
+		.picker-box .color-picker .btn {width: 40%; height: 30px; line-height: 30px; padding: 0; }
+		.picker-box .color-picker .btn:first-child{ margin-right: 10px;}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>颜色选取</h2>
+		<hr>
+
+		<div class="row demo">
+			<button id="getColorBtn">选择颜色</button>
+			<div class="picker-box" id="picker-box" style="display:none">
+			    <h4 id="color-txt" class="title">颜色预览</h4>
+			    <div class="color-picker">
+			        <canvas id="cav_picker" class="cav_picker" width="200" height='200' data-val=""></canvas>
+			        <div class="actions">
+			            <button class="btn cancel">取消</button>
+			            <button class="btn confirm">确定</button>
+			        </div>
+			    </div>
+			</div>
+
+		</div>
+		<div> <br><a href="/TEST/testModules/index.html">返回</a> </div>
+	</div>
+
+	<script src="lib/require.js"></script>
+	<!-- // <script src="lib/sea.js"></script> -->
+	<script>
+
+	// requireJs 调用方式：
+	// ===================
+	require(['lib/jquery','modules/ui.colorPicker'],function(){
+		$('#getColorBtn').click(function(){
+			var $this = $(this);
+			$('#picker-box').colorPicker({
+				colorBgSrc:'/images/colorwheel.png',
+				currColor:'#000',
+				onConfirm:function(val){
+					$this.css('backgroundColor',val);
+				}
+			});
+		});
+	});
+
+	// seaJs 调用方式
+	// ==============
+	// seajs.config({
+	//   base: "../testModules/"
+	// })
+	// seajs.use(['lib/jquery','modules/ui.colorPicker'],function(){
+	// 	$('#getColorBtn').click(function(){
+	// 		var $this = $(this);
+	// 		$('#picker-box').colorPicker({
+	// 			colorBgSrc:'/images/colorwheel.png',
+	// 			currColor:'#000000',
+	// 			onConfirm:function(val){
+	// 				$this.css('backgroundColor',val);
+	// 			}
+	// 		});
+	// 	});
+	// });
+	
+	</script>
+</body>
+</html>

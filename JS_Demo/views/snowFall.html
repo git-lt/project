@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+		body{
+			background: url(../imgs/7webp.webp) no-repeat;
+			background-size: cover;
+			background-attachment:fixed ;
+		}
+		.center {
+			width: 40%;
+			height: 40px;
+			line-height: 40px;
+			position: fixed;
+			left:50%;
+			margin-left: -20%;
+			bottom: 20px;
+			font-size: 0;
+			display: table;
+			letter-spacing: 0;
+		}
+		.btn {
+			display: table-cell;
+			text-align: center;
+			font-size: 24px;
+			color:#fff;
+			background: rgba(0,0,0,.4);
+			padding: 0 20px;
+			text-decoration: none;
+			transition:background .35s linear;
+		}
+		.btn:hover {
+			cursor:pointer;
+			background: rgba(0,0,0,.8);
+			text-shadow:0 0 2px rgba(0,0,0,.2);
+		}
+	</style>
+</head>
+<body>
+	<div class="center">
+		<a class="btn snow-start" id="snowStart">开始</a>
+		<a class="btn snow-stop" id="snowStop">结束</a>
+		<a class="btn snow-pause" id="snowPause">暂停</a>
+		<a class="btn snow-resume" id="snowResume">继续</a>
+	</div>
+	<script>
+
+	window.onload = function(){
+
+		function snowFall(snow){
+			snow = snow || {};
+			this.maxFlake = snow.MaxFlake || 200;
+			this.flakeSize = snow.flakeSize || 10; 
+			this.fallSpeed = snow.fallSpeed || 2;
+			this.status = 0; //0-初始化、1-开始下雪、2-停止下雪、3-暂停、4-继续
+		}
+
+		requestAnimationFrame = window.requestAnimationFrame ||
+								window.mozRequestAnimationFrame ||
+								window.webkitRequestAnimationFrame ||
+								window.msRequestAnimationFrame ||
+								window.oRequestAnimationFrame ||
+								function (callback){ setTimeout(callback, 1000/60)};
+
+		cancelAnimationFrame = window.cancelAnimationFrame ||
+								window.mozCancelAnimationFrame ||
+								window.webkitCancelAnimationFrame ||
+								window.msCancelAnimationFrame ||
+								window.oCancelAnimationFrame;
+
+		snowFall.prototype.start = function(){
+			if(this.status == 1 || this.status == 4){
+				return false;
+			}
+			this.status = 1;
+
+			snowCanvas.apply(this);
+
+			createFlakes.apply(this);
+
+			drawSnow.apply(this);
+		};
+
+		snowFall.prototype.stop = function(){
+			if(this.status == 2 || this.status == 0 || !this.canvas){
+				return false;
+			}
+
+			this.pause();
+			this.status = 2;
+
+			this.canvas.parentNode.removeChild(this.canvas);
+			this.canvas = null;
+		};
+		snowFall.prototype.pause = function(){
+			if(this.status == 3){
+				return false;
+			}
+			this.status = 3;
+			cancelAnimationFrame(this.loop);
+		};
+		snowFall.prototype.resume = function(){
+			if(this.status == 3 && this.canvas){
+				this.status = 4;
+				this.loop = requestAnimationFrame(function(){
+					drawSnow.apply(that);
+				})
+			}
+		};
+
+		function snowCanvas(){
+			var snowcanvas = document.createElement('canvas');
+			snowcanvas.id = 'snowfall';
+			snowcanvas.width = window.innerWidth;
+			snowcanvas.height = window.innerHeight;
+			snowcanvas.setAttribute('style','position:fixed; top:0; left:0; z-index:1000; pointer-events:none;');
+
+			document.getElementsByTagName('body')[0].appendChild(snowcanvas);
+			this.canvas = snowcanvas;
+			this.ctx = snowcanvas.getContext('2d');
+
+			window.onresize = function(){
+				snowcanvas.width = window.innerWidth;
+				snowcanvas.height = window.innerHeight;
+			};
+		};
+		function flakeMove(canvasWidth, canvasHeight, flakeSize, fallSpeed){
+			this.x = Math.floor(Math.random() * canvasWidth);
+			this.y = Math.floor(Math.random() * canvasHeight);
+			this.size = Math.random() * flakeSize +2;
+			this.maxSize = flakeSize;
+			this.speed = Math.random()*1 + fallSpeed;
+			this.fallSpeed = fallSpeed;
+			this.velY = this.speed;
+			this.velX = 0;
+			this.stepSize = Math.random() / 30;
+			this.step = 0;
+		};
+
+		// 更新运动方向和速度
+		flakeMove.prototype.update=function(){
+			var x = this.x, y = this.y;
+			this.velX *= 0.98;
+
+			if(this.velY <= this.speed){
+				this.velY = this.speed;
+			}
+			this.velX += Math.cos(this.step + .05)*this.stepSize;
+
+			this.y += this.velY;
+			this.x += this.velX;
+
+			if(this.x >= canvas.width || this.x <= 0 || this.y>=canvas.height ||this.y<=0){
+				this.reset(canvas.width, canvas.height);
+			}
+		};
+
+		// 将飞出边界的雪花重置最顶端
+		flakeMove.prototype.reset=function(width, height){
+			this.x = Math.floor(Math.random()*width);
+			this.y = 0;
+			this.size = Math.random() * this.maxSize +2;
+			this.speed = Math.random() * 1 + this.fallSpeed;
+			this.velY = this.speed;
+			this.velX = 0;
+		};
+
+		// 渲染雪花
+		flakeMove.prototype.render=function(ctx){
+			// 径向渐变
+			var snowFlake = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
+			// 设置颜色
+			snowFlake.addColorStop(0, 'rgba(255,255,255,0.9)');
+			snowFlake.addColorStop(.5, 'rgba(255,255,255,0.5)');
+			snowFlake.addColorStop(1, 'rgba(255,255,255,0)');
+			ctx.save();
+			// 设置渐变路径
+			ctx.fillStyle=snowFlake;
+			ctx.beginPath();
+			ctx.arc(this.x, this.y, this.size, 0, Math.PI *2);
+			ctx.fill();
+			ctx.restore();
+		};
+
+		function createFlakes(){
+			var maxFlake = this.maxFlake,
+				flakes = this.flakes = [],
+				canvas = this.canvas;
+			for(var i=0; i<maxFlake; i++){
+				flakes.push(new flakeMove(canvas.width, canvas.height,this.flakeSize, this.fallSpeed))
+			}
+		};
+		function drawSnow(){
+			var maxFlake = this.maxFlake,
+				flakes = this.flakes;
+				ctx = this.ctx,
+				canvas = this.canvas, 
+				that =this;
+			ctx.clearRect(0,0,canvas.width, canvas.height);
+
+			for(var e = 0; e< maxFlake; e++){
+				flakes[e].update();
+				flakes[e].render(ctx);
+			}
+
+			this.loop = requestAnimationFrame(function(){
+				drawSnow.apply(that);
+			})
+		};
+
+		 var snow = new snowFall({maxFlake:200});
+
+
+		 // Binding Events
+		 var get = function(id){ return document.getElementById(id)}, 
+		 	oStart = get('snowStart'),
+		 	oStop = get('snowStop'),
+		 	oPause = get('snowPause'),
+		 	oResume = get('snowResume');
+
+		 oStart.addEventListener('click', snow.start.bind(snow));
+		 oStop.addEventListener('click', snow.stop.bind(snow));
+		 oPause.addEventListener('click', snow.pause.bind(snow));
+		 oResume.addEventListener('click', snow.resume.bind(snow));
+
+
+	}
+
+	</script>
+</body>
+</html>

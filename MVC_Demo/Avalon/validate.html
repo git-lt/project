@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="avalon.js"></script>
+	<script>
+	avalon.ready(function(){
+		avalon.define({
+			$id:'test',
+			name:'jack'
+		});
+		avalon.scan();
+	});
+
+	//自定义 字符长度限制
+	avalon.duplexHooks.limit = {
+		get:function(str, data){
+			var limit = data.element.getAttribute('data-duplex-limit')>>0;
+
+			if(str.length > limit)
+				return data.element.value = str.slice(0, limit);
+			return str;
+		}
+	};
+
+	</script>
+</head>
+<body>
+	
+	<div ms-controller="test">
+		<input type="text" ms-duplex-limit="name" data-duplex-limit="8">{{name}}
+	</div>
+
+
+
+</body>
+</html>

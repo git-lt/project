@@ -1,0 +1,258 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+
+    <title>相册制作间</title>
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/com.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/page.css">
+    <script>
+        // 初始化请求的产品配置 8760、30008
+        var PRO_INFO={id:30008, name:'蓝变色杯', width:1000, height:1000};
+
+        // 从首页加载
+        if(window.location.hash !== '#&pageIndex'){
+          var goIndexUrl = window.location.href.replace(window.location.hash,'#&pageIndex');
+          window.location.href = goIndexUrl; 
+          window.location.reload();
+        }
+
+        // 捕获未知错误
+        window.onerror = function(msg,url,line,col,error){
+         alert(msg+'--'+url+'--'+line+'--'+col+'--'+error);
+        }
+    </script>
+</head>
+
+<body>
+    <!-- HEADER B-->
+    <!-- <div class="header">
+        <a href="javascript:" data-rel="back">返回</a>
+        <h1>相册制作</h1>
+    </div> -->
+    <!-- HEADER E-->
+    
+    <!-- INDEX B -->
+    <section id="pageIndex" class="page out page-home" data-title="选择模板" data-role="page">
+        <div class="content page-index-con">
+          <!--风格选择 B-->
+          <div id="style-wrapper" class="style-wrap"><div class="ui menu style-chk-box" id="style-chk-box"></div></div>
+          <!-- 风格选择 E-->
+
+          <!--模板选择 B-->
+          <div class="tpl-chk-box unstyle" id="tpl-chk-box">
+              <div class="scrollWrapper">
+                  <ul class="ui-list-y page-home-tpls tc" id="tpl-list"></ul>
+                  <div class="pullUp c-6 tc pt10 pb10 hide" id="pullUp">
+                      <i class="iconfont f18">&#xe602;</i> 上拉显示更多...
+                  </div>
+              </div>
+          </div>
+          <!--模板选择 E-->
+        </div>
+    </section>
+    <!-- INDEX E -->
+
+    <!-- PHOTO B -->
+    <section id="pagePhoto" class="page out" data-title="上传相片" data-role="page">
+      <div class="content page-photo-con">
+        <div class="row p10 b1-b bg-f5 imgs-action">
+          <div class="col-2">
+            <button class="fl btn btn-xs imgs-action-d" id="delPic"><i class="iconfont f24">&#xe60e;</i></button>
+          </div> 
+          <div class="col-8 tc">
+            <button class="btn btn-primary btn-block"><i class="iconfont f18">&#xe600;</i> 上传相片</button>
+            <input id="file-image" class="ctr-x opc0 tp0" type="file" size="30" onfocus="this.blur()" name="fileselect[]" accept="image/*" multiple="multiple" style="width:90%; height:40px;" /></div>
+          <div class="col-2"> <button class="fr btn btn-xs imgs-action-r" id="rotatePic"><i class="iconfont f24">&#xe605;</i></button> </div>
+        </div>
+        <p class="alert alert-warning">
+          图例：<i class="iconfont c-or">&#xe60c;</i> 相素不足，<i class="iconfont c-rd">&#xe60c;</i> 相素严重不足。<br>
+        </p> <!-- 提示：点击照片可以进行删除/旋转/排序操作！ -->
+        <!-- Upload PIC B -->
+        <div class="pic-preview-box p5 tc">
+            <!-- <p class="center show f20 c-9 tc"><i class="iconfont f24 c-888">&#xe611;</i> <br>请上传您的相片！</p> -->
+          <ul class="imgsWrap clearfix" id="imgs-box">
+           <!--  <li class="col-3 imgItem"><span class="S show"></span></li> -->
+          </ul>
+        </div>
+        <!-- Upload PIC E -->
+
+      </div>
+    </section>
+    <!-- PHOTO E -->
+
+    <!-- PREVIEW B -->
+    <section id="pagePreview" class="page out" data-title="效果预览" data-role="page">
+        <div class="content">
+          <div class="row pt5 pb5 pl10 pr10 b1-b lh18 bg-f5">
+            <i class="iconfont f18">&#xe609;</i> 旺旺： <a href="javascript:void(0)" class="mr10" id="previewTbName"></a> <span id="previewEditTB"><i class="iconfont f18 c-bl">&#xe623;</i></span>
+            <!-- <div class="col-4 tr">相片：<span>20</span> 张</div> -->
+          </div>
+
+          <div id="upload-pic-box" class="b1-b pic-list-box rel row">
+            <a class="prev abs lf0 z20 hide"><i class="iconfont f24">&#xe61a;</i></a>
+            <ul class="imgsWrap" id="pic-list-box">
+              <li id="cart-temp-info" class="c-9 f20 tc mt20">请上传您的照片！</li>
+            </ul>
+            <a class="next abs rt0 z20 hide"><i class="iconfont f24">&#xe619;</i></a>
+          </div>
+          
+          <div class="row">
+            <span class="inline-block ml10 mt5 mb5 c-bl" id="addTxt"><i class="iconfont f18">&#xe60b;</i> 文字</span>
+
+            <span class="inline-block mr10 mt5 mb5 fr c-8 btn-auto-add" id="btnAutoAdd">自动添加到模板<i class="iconfont inline-block pl10 f18">&#xe622;</i></span>
+
+            <div id="tpls-box" class="preview-tpls-box" data-currindex='0'>
+                <div class="tpl-edit-box" id="tpl-edit-box0" ></div>          
+                <div class="loading-tpl c-9 ctr" id="loading-tpl"><img src="/images/loading1.gif" alt=""> 加载中···</div>
+            </div>
+          </div>
+
+          <div class="tpl-navpage tc mt10 hide" id="tpl-navpage">
+              <button class="prev btn btn-default btn-xs"><i class="iconfont f20">&#xe61a;</i></button>
+              <div class="pagenum inline-block"></div>
+              <button class="next btn btn-default btn-xs"><i class="iconfont f20">&#xe619;</i></button>
+          </div>
+
+          <p class="row mt10 alert alert-warning">提示：双击添加的文字可以进行修改。</p>
+
+          <div class="row mt10 pl10 pr10 mt10">
+            <button class="btn btn-block btn-primary" id="sub-order-btn"><i class="iconfont f20">&#xe61d;</i> 提交作品</button>
+          </div>
+        </div>
+    </section>
+    <!-- PREVIEW E -->
+
+    <!-- FOOTER B-->
+    <footer class="footer lh0 b1-t c-8 pt5">
+       <a href="#pageIndex" class="col-4 tc A active" data-rel="auto"><i class="iconfont f24 block">&#xe616;</i>选择模板</a>
+       <a href="#pagePhoto" class="col-4 tc A" data-rel="auto"><i class="iconfont f24 block">&#xe611;</i>上传照片</a>
+       <a href="#pagePreview" class="col-4 tc A" data-rel="auto"><i class="iconfont f24 block">&#xe61d;</i>预览提交</a>
+    </footer>
+    <!-- FOOTER E-->
+
+    <!-- ========COMS========= -->
+
+    <!-- upload Loading box -->
+    <div id="loading-box" class="hide">
+        <div>
+            <img src="/images/482.GIF" alt="" class="mb10">
+            <h4 style="color:#eaeaea">正在上传请稍候····</h4>
+        </div>
+    </div>
+
+    <!-- popup choiceText -->
+    <div class="popup addtxt hide" id="popup-addtxt">
+        <div class="popup-inner">
+            <div class="popup-hd">
+                <h4 class="popup-title">添加文字</h4>
+                <span data-popup-close="" class="close">×</span>
+            </div>
+            <div class="popup-bd">
+                <div class="txt-tool clearfix mb5">
+                    <!-- <input type="color" onfocus="this.blur()" id="ttf-color"/> -->
+                    <button class="btn ttf-color p0" id="ttf-color"></button>
+
+                    <div class="picker-box hide" id="picker-box">
+                        <h4 id="color-txt" class="title">颜色预览</h4>
+                        <div class="color-picker">
+                            <canvas id="cav_picker" class="cav_picker" width="200" height='200' data-val=""></canvas>
+                            <div class="actions">
+                                <button class="btn cancel">取消</button>
+                                <button class="btn confirm">确定</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui range-wrap" id="size-range">
+                        <span class="range-bar">
+                          <span class="range-handle" style="left: 0;"></span>
+                          <span class="range-quantity" style="width: 0"></span>
+                        </span>
+                    </div>
+
+                    <span id="ttf-name">微软雅黑</span>
+                    <b id="ttf-size">20</b>
+                </div>
+                <div class="clearfix mb5">
+                    <textarea class="mb5 p5 f16" rows="4" id="txt-info" placeholder="请输入文字..."></textarea>
+                    <div class="button-group fl text-direction hide" id="text-direction">
+                        <button class="btn btn-positive" data-val="0">横向</button>
+                        <button class="btn" data-val="1">竖向</button>
+                    </div>
+                    <button class="btn btn-primary btn-createTxt fr" id="btn-createTxt">生成</button>
+                </div>
+                    <div class="ui red progress hide" id='progressbar-img'><div class="bar"></div></div>
+                <div class="clearfix txt-result hide" id="txt-result">
+                    <div><img src="" alt="" id="txt-preimg"></div>
+                    <button class="pull-right" id="addToTpl">添加到模板</button>
+                </div>
+                <span class="divider-x"></span>
+                <div class="clearfix hide" id="del-currTxt">
+                    <button class="btn btn-danger">删除该文字层</button>
+                </div>
+                <div class="ttf-pic-list clearfix" id="ttf-pic-list"></div>
+                <div class="nav-dotty" id="nav-dotty"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- msg-tip -->
+    <div class="ui msg tip" id="tipBox" data-isShown="0">
+        <div class="con flash animated"></div>
+        <div class="close">×</div>
+    </div>
+    
+    <!-- Page Guide -->
+    <div class="page-guide tc c-wt animated" id="page-guide">
+        <div class="logo-img animated fadeInDown">
+            <img src="/images/infoto_logo.png" alt="" height="104" width="200">
+        </div>
+
+        <div class="f24 txt ctr-x">
+            <h3 class="first animated fadeInLeft">发现精彩</h3>
+            <h3 class="last mb1em animated fadeInRight">记录感动</h3>
+            <img src="/images/294.GIF" class="animated fadeIn" alt="" width="220" height="20">
+        </div>
+    </div>
+
+    <!-- Page subResult -->
+    <div class="page-subResult hide" id="page-subResult">
+        <a href="###" class="close">×</a>
+        <div class="res-box">
+                <p class="tc f18 c-wt">
+                    <img src="/images/iconfont-smail.png" alt="" width="32" height="32">
+                    <br><br>
+                   <span> 亲，您的作品已经提交成功啦！</span><br>
+                   <span> 赶快联系客服制作吧！</span><br><br>
+                   <span class="f12">您可以复制以下地址到PC端打开查看或编辑作品！</span><br>
+                   <span class="c-888 f12 editeUrl">http://zhigui.inguu.com/TEST/photoDIY/index.html?page=cart</span> <br><br>
+                    <button class="btn">返回继续制作</button>
+                </p>
+        </div>
+    </div>
+
+    <script src="lib/require.js"></script>
+    <script>
+      requirejs.config({
+        baseUrl: "lib/",
+        shim: {
+          'jquery.xml2json' : ['jquery'],
+          'jquery.pep' : ['jquery']
+        }
+      })
+      requirejs(["../main"]);
+    </script>
+</body>
+</html>

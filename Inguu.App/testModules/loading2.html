@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Loading 测试</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+	<link href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+	<style>
+	html,body {height: 100%; width: 100%; overflow: hidden; color:#333;}
+	button {margin: 3px;}
+	.ui-mask {position: absolute;top: 0;right: 0;bottom: 0;left: 0;display: none;width: 100%;height: 100%;background-color: rgba(0,0,0,.6);opacity: 0; -webkit-transition: opacity .15s;transition: opacity .15s; z-index: 1100; }
+	.ui-mask.active {opacity: 1;}
+	.no-scroll {overflow: hidden;}
+
+	@font-face {
+	  font-family: 'iconfont';
+	  src: url('http://at.alicdn.com/t/font_1420877785_5627344.eot'); /* IE9*/
+	  src: url('http://at.alicdn.com/t/font_1420877785_5627344.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	  url('http://at.alicdn.com/t/font_1420877785_5627344.woff') format('woff'), /* chrome、firefox */
+	  url('http://at.alicdn.com/t/font_1420877785_5627344.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+	  url('http://at.alicdn.com/t/font_1420877785_5627344.svg#iconfont') format('svg'); /* iOS 4.1- */
+	}
+	.iconfont{
+	    font-family:"iconfont" !important;
+	    font-style:normal;
+	    -webkit-font-smoothing: antialiased;
+	    -webkit-text-stroke-width: 0.2px;
+	    -moz-osx-font-smoothing: grayscale;
+	}
+
+	/*//================================*/
+	#textBox { border:1px solid black; padding: 5px; margin: 10px; background: #E8DCBD;}
+
+	@-webkit-keyframes loading {
+	    0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+		12% { -webkit-transform: rotate(45deg); transform: rotate(45deg); }
+		25% { -webkit-transform: rotate(90deg); transform: rotate(90deg); }
+		37% { -webkit-transform: rotate(135deg); transform: rotate(135deg); }
+		50% { -webkit-transform: rotate(180deg); transform: rotate(180deg); }
+		63% { -webkit-transform: rotate(225deg); transform: rotate(225deg); }
+		75% { -webkit-transform: rotate(270deg); transform: rotate(270deg); }
+		87% { -webkit-transform: rotate(315deg); transform: rotate(315deg); }
+	   90% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+	}
+	.loading {
+		-webkit-animation: loading .85s step-start infinite;
+		animation: loading .85s step-start infinite;
+	}
+	
+	.fa-spin {
+	  -webkit-animation: spin 1s infinite linear;
+	  animation: spin 1s infinite linear;
+	}
+	@-webkit-keyframes spin {
+	  0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+	  100% { -webkit-transform: rotate(359deg); transform: rotate(359deg); }
+	}
+	@keyframes spin {
+	  0% {
+	    -webkit-transform: rotate(0deg);
+	    transform: rotate(0deg);
+	  }
+	  100% {
+	    -webkit-transform: rotate(359deg);
+	    transform: rotate(359deg);
+	  }
+	}
+
+	.ui-loading {position: absolute;  display: table; width: 100%; height: 100%;top:0; left:0;z-index: 1200;}
+	
+	.loading-wrap {position: relative;display: inline-block;background: rgba(0,0,0,.5);border-radius: 5px; padding: 0 10px; color:#fff; padding:5px 10px;}
+	.ui-loading .inner {display: table-cell; vertical-align: middle; text-align: center;}
+	.ui-loading-icon { display: inline-block; vertical-align: top; text-align: center;}
+	.ui-loading-icon .loading-icon{ 
+		font-size:60px; width: 60px; height: 60px; line-height: 1;display: inline-block;
+		-webkit-animation-fill-model:both; animation-fill-model:both; text-shadow:0 0 1px #fff;
+	}
+	.ui-loading-text { 
+		display: inline-block; padding:0 10px;  line-height:60px; vertical-align: top;
+		font-size: 14px;
+	}
+
+	.ui-loading {}
+	.ui-loading.vertical .ui-loading-icon{ display: block;}
+	.ui-loading.vertical .ui-loading-text{ display: block;}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>Loading 组件测试</h2>
+		<hr><small> 版本二 </small>
+		<p>特点：动画有轻微抖动, 配置灵活</p>
+	</div>
+	<div id="textBox">
+		<p>
+			Positioning
+			Since version 2.0.0 the spinner is absolutely positioned at 50% of its offset parent. You may specify a top and left option to position the spinner manually.
+			Note: The spinner element is a 0×0 pixel DIV that represents the center of the spinner.
+		</p>
+	</div>
+	<div style="padding:10px; line-height:1.5em;">
+		<button id="btnWt">白色</button>
+		<button id="btnBkx">黑色带文字</button>
+		<button id="btnBky">垂直对齐</button>
+		<button id="btnPr">指定父容器</button>
+		<button id="btnBt">在按钮上</button>
+		<button id="btnIc">更按图标</button>
+		<button id="btnSz">改变大小</button>
+		<button id="btnBg">没有背景</button>
+		<button id="btnEf">更换动画效果</button>
+	</div>
+
+	<div> <br><a href="/TEST/testModules/index.html">返回</a> </div>
+<script>
+	$(function(){
+		$('#btnWt').click(function(){
+			$.loading.show('','white', 40, '');
+		});
+		$('#btnBky').click(function(){
+			$.loading.show({
+				text:'文字与图标垂直对齐',
+				color:'white',
+				isAlignX:false
+			});
+		});
+		$('#btnBkx').click(function(){
+			$.loading.show('正在努力加载中','black', 35, '');
+		});
+		$('#btnPr').click(function(){
+			$.loading.show('','black', 20, 'textBox');
+		});
+		$('#btnBt').click(function(){
+			$.loading.show({
+				color:'white',
+				size:20,
+				iconfont:'&#xe603;',
+				parentId:'btnBt',
+				hasBackground:false
+			});
+		});
+		$('#btnIc').click(function(){
+			$.loading.show({
+				iconfont:'&#xe603;'
+			});
+		});
+		$('#btnSz').click(function(){
+			$.loading.show('','black', 80);
+		});
+		$('#btnBg').click(function(){
+			$.loading.show({
+				hasBackground:false
+			});
+		});
+
+		$('#btnEf').click(function(){
+			$.loading.show({
+				effect:'spin'
+			});
+		});
+
+
+		//关闭
+		$('body').on('click','.ui-loading',function(){
+			$.loading.hide();
+		});
+	});
+
+</script>
+
+
+	<script>
+//mask=============B
+	$.fn.emulateTransitionEnd = function(duration) {
+	  var called = false;
+	  var $el = this;
+
+	  $(this).one('webkitTransitionEnd', function() {
+	    called = true;
+	  });
+
+	  var callback = function() {
+	    if (!called) {
+	      $($el).trigger('webkitTransitionEnd');
+	    }
+	    $el.transitionEndTimmer = undefined;
+	  };
+	  this.transitionEndTimmer = setTimeout(callback, duration);
+	  return this;
+	};
+
+	var Mask = function(option){
+		this.inited = false;
+		this.isShow = false;
+		this.$el = null;
+		this.o = option;
+		this.init();
+	};
+
+	Mask.DEFAUTS={
+		selector:'[data-ui-mask]',
+		opacity:0.4,
+		color:'black',
+		parentId:'body',
+		tpl:'<div class="ui-mask" data-ui-mask></div>'
+	}
+
+	Mask.prototype={
+		constructor:Mask,
+		init:function(){
+			if(!this.inited && !this.isShow){
+				$('body').append(this.o.tpl);
+				this.$el = $(Mask.DEFAUTS.selector);
+				this.inited = true;
+			}
+		},
+		show:function(option){
+			if(option) this.o = option;
+			if(!this.isShow){
+				this._initStyle();
+				this.$el.addClass('active')
+				this.isShow = true;
+			}
+		},
+		hide:function(){
+			if(this.isShow){
+				this.$el.removeClass('active').one('webkitTransitionEnd',function(){ 
+					$(this).hide(); 
+					$('body').removeClass('no-scroll'); 
+				});
+				this.$el.emulateTransitionEnd(150);
+				this.isShow = false;
+			}
+		},
+		_initStyle:function(){
+			//set dimmer style
+			var rgba = this.o.color === 'white' ? 'rgba(255,255,255,'+this.o.opacity+')' : 'rgba(0,0,0,'+this.o.opacity+')';
+			if(this.o.parentId != 'body'){
+				var oParent = document.getElementById(this.o.parentId),
+					posi = oParent.getBoundingClientRect(),
+					oParentW = posi.right - posi.left, 
+					oParentH = posi.bottom - posi.top;
+				this.$el.css({
+					'width':oParentW,
+					'height':oParentH,
+					'left':posi.left,
+					'top':posi.top,
+					'backgroundColor':rgba,
+					'display':'block'
+				});
+			}else{
+				$('body').addClass('no-scroll');
+				this.$el.css({'width':'100%','height':'100%','left':0,'top':0,'backgroundColor':rgba,'display':'block'});
+			}
+		}
+	};
+
+	Mask.INSTANCE = null;
+
+	$.mask ={
+		$el:null,
+		instance:null,
+		show:function(opacity,color,parentId){
+			var options = {
+				opacity:opacity || 0.4,
+				color:color|| 'black',
+				parentId: parentId || 'body'
+			};
+
+			var option = $.extend({}, Mask.DEFAUTS,options);
+			if($.isPlainObject(opacity)) option = opacity;
+
+			!Mask.INSTANCE && (Mask.INSTANCE = new Mask(option));
+			
+			this.$el = Mask.INSTANCE.$el;
+			this.instance = Mask.INSTANCE;
+
+			Mask.INSTANCE.show.call(Mask.INSTANCE,option);
+			return Mask.INSTANCE;
+		},
+		hide:function(){
+			Mask.INSTANCE.hide.call(Mask.INSTANCE);
+			return Mask.INSTANCE;
+		}
+	};
+//mask=============E
+
+	var Loading = function(option){
+		this.$el = $(Loading.DEFAULTS.selector);
+		this.o = option;
+		this.isShow = false;
+		this.init();
+	};
+
+	Loading.DEFAULTS={
+		color:'black',				//loading的颜色
+		iconfont:'&#xe62a;',		//图标编码
+		effect:'loading',	//动画类名
+		size:50, 			//大小：font-size
+		text:'',			//文本提示
+		parentId:'body', 	//父容器id
+		isAlignX:true,		//文本是否与图标水平对齐
+		hasMask:true, 		//是否有遮罩层
+		hasBackground:true, //是否有背景层
+		maskOpacity:0.4,	//遮罩层透明度
+		selector:'[data-ui-loading]',
+		tpl:'<div class="ui-loading" data-ui-loading>\
+				<div class="inner">\
+					<div class="loading-wrap">\
+						<div class="ui-loading-icon">\
+							<i class="iconfont loading-icon loading">&#xe62a;</i>\
+						</div>\
+						<div class="ui-loading-text">正在加载中</div>\
+					</div>\
+				</div>\
+			</div>'
+	};
+
+	Loading.prototype = {
+		constructor:Loading,
+		init:function(){
+			if(!this.$el.length){
+				$('body').append(this.o.tpl);
+				this.$el = $(Loading.DEFAULTS.selector);
+			}
+		},
+		show:function(option){
+			if(this.isShow) return;
+			if(option) this.o = option;
+			if(this.o.hasMask){
+				$.mask.show(this.o.maskOpacity, this.o.color, this.o.parentId);
+			}
+			this._initStyle();
+			this.$el.show();
+			this.isShow = true;
+		},
+		hide:function(){
+			if(this.isShow){
+				if(this.o.hasMask) $.mask.hide();
+				this.$el.hide();
+				this.isShow = false;
+			}
+		},
+		_initStyle:function(){
+			var $wraper = this.$el.find('.loading-wrap'), 
+				$loadingbox = this.$el.find('.loading-icon'),
+				$textBox =  this.$el.find('.ui-loading-text');
+
+			//set position
+			if(this.o.parentId =='body'){
+				this.$el.css({'width':'100%','height':'100%','left':0,'top':0,'display':'table'});
+			}else{
+				var oParent = document.getElementById(this.o.parentId),
+					posi = oParent.getBoundingClientRect(),
+					oParentW = posi.right - posi.left, 
+					oParentH = posi.bottom - posi.top;
+				this.$el.css({
+					'width':oParentW,
+					'height':oParentH,
+					'left':posi.left,
+					'top':posi.top,
+					'display':'table'
+				});
+				
+			}
+
+			//set color & align & size
+			if(!this.o.hasBackground){
+				$wraper.css({
+					'backgroundColor':'transparent',
+					'color':this.o.color == 'white'?'black':'white',
+					'padding':0
+				});
+			}else{
+				$wraper.css({
+					'backgroundColor':this.o.color == 'white'?'rgba(0,0,0,.4)':'rgba(255,255,255,.7)',
+					'color':this.o.color,
+					'padding':'5px 10px'
+				});
+			}
+			this.$el.attr('class',('ui-loading'+ (this.o.isAlignX ? '' : ' vertical')));
+
+			$loadingbox.html(this.o.iconfont).css({
+				'fontSize': this.o.size,
+				'width': this.o.size,
+				'height': this.o.size
+			}).addClass(this.o.effect);
+			
+
+			//set text
+			if(this.o.text!=''){
+				if(!$textBox.length){
+					$textBox=$('<div class="ui-loading-text">'+this.o.text+'</div>').appendTo($wraper);
+				}else{
+					$textBox.text(this.o.text);
+				}
+			}else{
+				$wraper.find('.ui-loading-text').remove();
+			}
+
+			var lh = (this.o.isAlignX ? this.o.size : 28)+'px';
+			$textBox.css({ 'lineHeight': lh});
+		}
+	};
+
+	Loading.INSTANCE = null;
+
+	$.loading={
+		$el:null,
+		instance:null,
+		show:function(text, color, size, parentId){
+			var options = {
+				text: text|| '',
+				color: color || 'black',
+				size: size || 50,
+				parentId: parentId || 'body'
+			};
+			if($.isPlainObject(text)) options = text;
+			var option = $.extend({}, Loading.DEFAULTS,options);
+
+			if(!Loading.INSTANCE){
+				Loading.INSTANCE = new Loading(option);
+				this.$el = Loading.INSTANCE.$el;
+				this.instance = Loading.INSTANCE;
+			}
+
+			Loading.INSTANCE.show.call(Loading.INSTANCE, option);
+			return Loading.INSTANCE;
+		},
+		hide:function(){
+			Loading.INSTANCE.hide.call(Loading.INSTANCE);
+			return Loading.INSTANCE;
+		}
+	};
+
+	
+	</script>
+</body>
+</html>

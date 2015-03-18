@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Template</title>
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.css" rel="stylesheet">
+    <style>
+    #box1 {width: 250px; height: 40px; background: #cfcfcf;}
+    </style>
+  </head>
+  <body>
+    
+    <div class="container">
+      <h1></h1>
+      <input type="button" name="" id="evBtn" value="点击我会触发三个事件">
+      <div id="box1" onclick="fn1()"></div>
+    </div>
+    
+    <!-- // <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script> -->
+    <script>
+    function fn1(e){
+        var e = e|| window.event;
+        console.log(e);
+    }
+    fn1();
+
+
+    var EventTarget = function(){
+        this._listener={};
+    };
+
+    EventTarget.prototype={
+        constructor:this,
+
+        addEvent:function(type,fn){
+            if(typeof type==="string" && typeof fn==='function'){
+                if(typeof this._listener[type] === 'undefined'){
+                    this._listener[type]=[fn];
+                }else{
+                    this._listener[type].push(fn);
+                }
+            }
+            return this;
+        },
+        addEvents:function(obj){
+            obj= typeof obj === 'object' ? obj : {};
+            var type;
+            for(type in obj){
+                if( type && typeof obj[type] === 'function'){
+                    this.addEvent(type,obj[type]);
+                }
+            }
+            return this;
+        },
+
+        fireEvent:function(type){
+            if(type && this._listener[type]){
+                var events = {
+                    type:type,
+                    target:this
+                };
+
+                for(var len=this._listener[type].length,start=0; start<len; start+=1){
+                    this._listener[type][start].call(this,events);
+                }
+            }
+            return this;
+        },
+        fireEvents:function(array){
+            if(array instanceof Array){
+                for(var i=0, len=array.length; i<len; i+=1){
+                    this.fireEvent(array[i]);
+                }
+            }
+            return this;
+        },
+
+        removeEvent:function(type,key){
+            var listeners = this._listener[type];
+            if(listeners instanceof Array){
+                if(typeof key === 'function'){
+                    for(var i=0, len=listeners.length; i<len; i+=1){
+                        if(listeners[i]===key){
+                            listeners.splice(i,1);
+                            break;
+                        }
+                    }
+                }else if(key instanceof Array){
+                    for(var j=0,count=key.length; j<count; j+=1){
+                        this.removeEvent(type,key[count]);
+                    }
+                }else{
+                    delete this._listener[type];
+                }
+            }
+            return this;
+        },
+        removeEvents:function(params){
+            if(params instanceof Array){
+                for(var i=0, len=params.length; i<len; i+=1){
+                    this.removeEvent(params[i]);
+                }
+            }else if(typeof params==='object'){
+                for(var type in params){
+                    this.removeEvent(type,params[type]);
+                }
+            }
+            return this;
+        }
+    };
+
+
+
+    // var events = new EventTarget();
+
+    // events.addEvents({
+    //     'alertOnce':function(){
+    //         alert('自定义：只弹出一次'); 
+    //         this.removeEvent('alertOnce');
+    //     },
+    //     'alertEvery':function(){
+    //         alert('自定义：每次都会弹出来');
+    //     }
+    // });
+
+    // document.getElementById('evBtn').onclick=function(){
+    //     alert('这是浏览器的click事件');
+    //     events.fireEvents(['alertOnce','alertEvery']);
+    // };
+
+//========================================
+        // var  _createHeader=function(title){
+        //     return title && '<div class="dialog-header"><h4>'+title+'</h4><i class="close">×</i></div>';
+        // };
+        // console.log(_createHeader(''));
+
+        // console.log(_createHeader('asdfasdf'));
+
+        var day=(new Date).getDay()===0;
+        // //传统if语句
+        // if (day) {
+        //     alert('Today is Sunday!');
+        // };
+        // 
+        //运用逻辑与代替if
+        true &&alert('Today is Sunday!');
+
+        var a = '';
+        // var b =0;
+         true && alert('adsf');
+        //  b==0 && inputHtml='1231';
+        //  console.log(inputHtml);
+
+
+    </script>
+
+
+  </body>
+</html>

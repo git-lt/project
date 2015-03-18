@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection"content="telephone=no, email=no" />
+    <title>定制主页</title>
+    <link rel="stylesheet" href="lib/mui-0.5.9/css/mui.min.css"/>
+    <link rel="stylesheet" href="lib/mui-0.5.9/css/oa.css" />
+    <link rel="stylesheet" href="css/site.css"/>
+</head>
+<body>
+    <div id="page-wrap">
+        <!-- page Index  -->
+        <section data-role="index" id="view-page-index" class="page page-active">
+            <!-- Header B -->
+            <header class="mui-bar mui-bar-nav">
+                <button class="mui-btn mui-btn-link mui-btn-nav mui-pull-left">
+                    <span class="mui-icon mui-icon-home"></span>
+                </button>
+                <h1 class="mui-title" id="index-title">数码冲印定制</h1>
+            </header>
+            <!-- Header E -->
+            <!-- Content B -->
+            <div class="mui-content paper-view-con" >
+                <!--相纸选择 B-->
+                <ul class="mui-table-view brand-chk-box" id="brand-chk-box">
+                    <li class="mui-table-view-cell mui-media hide" id="brand-box">
+                        <img class="mui-media-object mui-pull-left brand-img" src="/images/paperbrand_k.jpg">
+                        <div class="mui-media-body">
+                            <div class="mui-card">
+                                <form class="mui-input-group">
+                                    <div class="mui-input-row">
+                                        <label>柯达皇家</label>
+                                        <button class="mui-icon brand mui-icon-checkmarkempty radio active" data-val = '柯达'></button>
+                                    </div>
+                                    <div class="mui-input-row">
+                                        <label>富士晶彩</label>
+                                        <button class="mui-icon brand radio" data-val = '富士'></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="mui-table-view-cell mui-media hide" id="texture-box">
+                        <img class="mui-media-object mui-pull-left texture-img" src="/images/paperface-g.jpg">
+                        <div class="mui-media-body">
+                            <div class="mui-card">
+                                <form class="mui-input-group">
+                                    <div class="mui-input-row">
+                                        <label>光面材质</label>
+                                        <button class="mui-icon texture mui-icon-checkmarkempty radio active" data-val = '光面'></button>
+                                    </div>
+                                    <div class="mui-input-row mui-radio">
+                                        <label>绒面材质</label>
+                                        <button class="mui-icon texture radio " data-val = '绒面'></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="mui-table-view-cell mui-media hide" id="print-box">
+                        <img class="mui-media-object mui-pull-left print-img" src="/images/printtype-m.jpg">
+                        <div class="mui-media-body">
+                            <div class="mui-card">
+                                <form class="mui-input-group">
+                                    <div class="mui-input-row">
+                                        <label>木质版画</label>
+                                        <button class="mui-icon print mui-icon-checkmarkempty radio active" data-val = '木质'></button>
+                                    </div>
+                                    <div class="mui-input-row mui-radio">
+                                        <label>水晶版画</label>
+                                        <button class="mui-icon print radio" data-val = '水晶'></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <!--相纸选择 E-->
+                <!--尺寸选择 B-->
+                <ul class="size-list" id="size-list">
+                    <li data-val = '3寸' id="size3">3寸</li>
+                    <li data-val = '4寸' id="size4">4寸</li>
+                    <li class="active" data-val = '5寸' id="size5">5寸</li>
+                    <li data-val = '6寸' id="size6">6寸</li>
+                    <li data-val = '7寸' id="size7">7寸</li>
+                    <li data-val = '8寸' id="size8">8寸</li>
+                    <li data-val = '10寸' id="size10">10寸</li>
+                    <li data-val = '全景6寸' id="sizeQ6">全景6寸</li>
+                </ul>
+                <div class="alert alert-info f14" id="size-sum-box">
+                    <span></span>规格：<span class="f16 c-blue"></span>
+                </div>
+
+               <!--相纸比较 B-->
+                <ul class="mui-table-view mui-table-view-chevron defferend-box mb05em hide">
+                    <li class="mui-table-view-cell mui-collapse hide" id="brand-sum-box">
+                        <a class="mui-navigate-right c-888" href="javascript:void(0)" id="brand-sum-t">柯达与富士相纸的区别 <span class="mui-icon mui-icon-info"></span></a>
+                        <div class="sum-con hide c-888" id='brand-sum-c'>
+                            <dl class="pr1em pl1em f08">
+                                <dt><strong>柯达皇家相纸</strong></dt>
+                                <dd><b>适用类型：</b>人像照片</dd>
+                                <dd><b>特点：</b>柯达皇家相纸属于高端相纸，采用先进的涂层技术，可以使影像更加鲜艳夺目，相纸保存寿命更长久；同时，柯达皇家相纸的基底也更厚实，比晶锐相纸厚约20%，照片质感丰厚，手感更佳。</dd>
+                            </dl>
+                            <dl class="pr1em pl1em pb1em f08">
+                                <dt><strong>富士晶彩相纸</strong></dt>
+                                <dd><b>适用类型：</b>风景照片</dd>
+                                <dd><b>特点：</b>富士晶彩相纸色彩鲜艳，是富士公司为了大幅激光扩印机输出专门打造的银盐相纸，可以生产高品质的影像产品，是最大众化的民用相纸，富士相纸洗出来的颜色鲜艳一些，适合风景照片。</dd>
+                            </dl>
+                        </div>
+                    </li>
+                    <li class="mui-table-view-cell mui-collapse hide" id="texture-sum-box">
+                        <a class="mui-navigate-right" href="javascript:void(0)" id="texture-sum-t">光面与绒面的区别 <span class="mui-icon mui-icon-info"></span></a>
+                        <div class="sum-con hide p1em c-888 f08" id="texture-sum-c">
+                            <strong>光面：</strong><br />相纸颜色鲜艳，表面有反光，触摸留有指纹。<br />
+                            <strong>绒面：</strong><br />相纸颜色平直，表面无反光，触摸不留指纹。
+                        </div>
+                    </li>
+                </ul>
+                <!--相纸比较 E-->
+
+                <!--尺寸选择 E-->
+            </div>
+            <!-- Content E -->
+            <!--Footer B-->
+            <footer class="mui-bar mui-bar-tab">
+                <div class="mui-table-cell f14 choiceInfo pl1em" id="choiceInfo"></div>
+                <div class="mui-table-cell mui-col-xs-4 bgc-blue mui-text-center">
+                    <a class="mui-btn mui-btn-primary f20" href="javascript:void(0)" id="index-ok" data-modal="modal-test">确认</a>
+                </div>
+            </footer>
+            <!--Footer E-->
+        </section>
+
+        <!-- page Cart -->
+        <section data-role="cart" id="view-page-cart" class="page page-next">
+            <!-- Header B -->
+            <header class="mui-bar mui-bar-nav">
+                <button class="mui-btn mui-btn-link mui-btn-nav mui-pull-left btn-prev-page" id="btn-cart-back">
+                    <span class="mui-icon mui-icon-left-nav"></span>
+                    返回
+                </button>
+                <button class="mui-btn mui-btn-link mui-btn-nav mui-pull-right btn-next-page" id="btn-cart-next">
+                    下一步
+                    <span class="mui-icon mui-icon-forward"></span>
+                </button>
+                <h1 class="mui-title">选择冲印数量</h1>
+            </header>
+            <!-- Header E -->
+            <!-- Content B -->
+            <div class="mui-content-no-footer cart-view-con">
+                <!-- Top bar info B -->
+                <div class="top-bar-info">
+                    <div class="u-info mui-clearfix p05em">
+                        <div class="c-888 f14 mui-col-xs-7 mui-pull-left">相纸：<b id="cart-paper">富士5寸光面</b></div>
+                        <div class="c-888 f14 mui-col-xs-5 mui-pull-left"><a id="cart-taobao" href="javascript:void(0)">Tabo123</a></div>
+                    </div>
+                    <div class="mui-clearfix p05em">
+                        <div class="mui-col-xs-7 c-888 mui-pull-left">数量：<b class="c-blue" id="sumAmount">0</b> 张</div>
+                        <div class="mui-col-xs-5 c-blue f-blod mui-pull-left needsclick" id="upload-btn">
+                            <span class="mui-icon mui-icon-upload"></span> 上传照片
+                            <input id="file-image" type="file" size="30" name="fileselect[]" accept="image/*" multiple="multiple" />
+                        </div>
+                    </div>
+                    <div class="alert alert-warning pic-tip-top">
+                       请您认真核对每一张照片的裁切区域 <span class="mui-icon mui-icon-info"></span>
+                    </div>
+                </div>
+                <!-- Top bar info E -->
+
+                <!-- Img list B -->
+                <ul class="mui-table-view mui-table-view-slider pic-list-box" id="pic-list-box">
+                    <li id="cart-temp-info"><br><h3 class="mui-text-center c-888">请上传您的相片！</h3><br></li>
+                </ul>
+                <div class="pic-tip alert alert-info f08 c-333">
+                    <b class="c-red">提示：</b>为保证冲印质量，像素不足或像素严重不足的照片，建议更换相片或冲印更小尺寸!
+                </div>
+                <!-- Img list E -->
+            </div>
+            <!-- Content E -->
+        </section>
+
+        <!-- page Order Confirm  -->
+        <section data-role="order" id="view-page-order" class="page page-next">
+            <!-- Header B -->
+            <header class="mui-bar mui-bar-nav">
+                <button class="mui-btn mui-btn-link mui-btn-nav mui-pull-left btn-prev-page" id="btn-order-back">
+                    <span class="mui-icon mui-icon-left-nav"></span>
+                    返回
+                </button>
+                <h1 class="mui-title">确认订单</h1>
+            </header>
+            <!-- Header E -->
+            <!-- Content B -->
+            <div class="mui-content order-view-con">
+                <div class="order-top-user">
+                <div class="mui-pull-left c-888"><span class="mui-icon mui-icon-contact"></span>旺旺：<span class="c-blue taobao-name">''</span></div>
+                    <a class="mui-inline mui-pull-right" id="btn-editTB"><span class="mui-icon mui-icon-compose"></span></a>
+                </div>
+                <ul class="mui-table-view" id="order-list-ul">
+                    <li class="mui-table-view-divider">订单信息</li>
+                </ul>
+            </div>
+            <!-- Content E -->
+            <!-- Footer B 确认订单-->
+            <footer class="mui-bar mui-bar-tab footer-order mui-text-center">
+                <a href="###" class="mui-col-xs-6 mui-pull-left" id="addOrder">加印相片</a>
+                <a href="###" class="mui-col-xs-6 mui-pull-left" id="subOrder">确认订单</a>
+            </footer>
+            <!-- Footer E -->
+        </section>
+
+        <!-- dialog login -->
+        <div class="overlay dialog-login" id="dialog-login">
+            <section class="modal modal-test" style="display:none;">
+                <div class="modal-hd"></div>
+                <div class="modal-bd">
+                    <div>
+                        <h4 class="mb05em">请输入淘宝旺旺名称：</h4>
+                        <input type="text" name="aliUName" id="userName" value=" " placeholder="请输入淘宝旺旺名称" />
+                    </div>
+                    <small class="c-888 f08 alert alert-warning">旺旺名将用于淘宝订单核对，请务必填写正确！</small>
+                </div>
+                <div class="modal-ft">
+                    <span class="btn-modal btn-cancel">返回</span><span class="btn-modal btn-primary">确认</span>
+                </div>
+            </section>
+        </div>
+
+        <!-- dialog editTaobao -->
+        <div class="overlay dialog-login" id="dialog-editTB">
+            <section class="modal" style="display:none;">
+                <div class="modal-hd">修改旺旺名称</div>
+                <div class="modal-bd">
+                    <div>
+                        <h4 class="mb05em">旺旺名：</h4>
+                        <input type="text" name="aliUName" id="txt_editTB" value=""/>
+                    </div>
+                </div>
+                <div class="modal-ft">
+                    <span class="btn-modal btn-cancel">返回</span><span class="btn-modal btn-primary">确认</span>
+                </div>
+            </section>
+        </div>
+
+        <!-- msg-tip -->
+        <div class="ui msg alert animated" id="alert-box" data-isShown="0">
+            <div class="con flash animated">第几页没有图片！！</div>
+            <div class="close">×</div>
+        </div>
+
+        <!-- Loading box -->
+        <div id="loading-box" class="hide">
+            <div>
+                <img src="/images/482.GIF" alt="" class="mb1em">
+                <h4 style="color:#eaeaea">正在上传请稍候····</h4>
+            </div>
+        </div>
+
+        <!-- Page Guide -->
+        <div class="page-guide mui-text-center c-white animated" id="page-guide">
+            <div class="logo-img animated fadeInDown">
+                <img src="/images/infoto_logo.png" alt="" height="104" width="200">
+            </div>
+
+            <div class="f30 txt">
+                <h3 class="first animated fadeInLeft">发现精彩</h3>
+                <h3 class="last mb1em animated fadeInRight">记录感动</h3>
+                <img src="/images/294.GIF" class="animated fadeIn" alt="" width="220" height="20">
+            </div>
+        </div>
+
+        <!-- Page subResult -->
+        <div class="page-subResult" id="page-subResult">
+            <a href="###" class="close">×</a>
+            <div class="res-box">
+                    <p class="mui-text-center f18 c-white">
+                        <img src="/images/iconfont-smail.png" alt="" width="32" height="32">
+                        <br><br>
+                       <span> 亲，您的作品已经提交成功啦！</span><br>
+                       <span> 赶快联系客服制作吧！</span><br><br>
+                       <span class="f12">您可以复制以下地址到PC端打开查看或编辑作品！</span>
+                       <span class="c-888 f12 editeUrl">http://zhigui.inguu.com/TEST/photoDIY/index.html?page=cart</span> <br><br>
+                        <button>返回继续制作</button>
+                    </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var req_Id = 's'; //b: 版画 p:拍立得 s:数码冲印  【小写字母】
+    </script>
+    <script src="lib/Zepto-v1.1.4.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/cart.js"></script>
+</body>
+</html>
